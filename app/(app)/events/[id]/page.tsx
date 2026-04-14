@@ -9,7 +9,6 @@ import { EVENT_GRADIENTS, AVATAR_COLORS } from '@/lib/utils/constants';
 import { formatDateTime, formatCurrency, getEventCountdown } from '@/lib/utils/format';
 import { isToday } from 'date-fns';
 import { toast } from 'sonner';
-import { getEventById } from '@/lib/supabase/queries';
 import { toggleSaveEvent } from '@/lib/supabase/mutations';
 import { useAuthContext } from '@/providers/auth-provider';
 
@@ -44,8 +43,9 @@ export default function EventDetailPage() {
     async function fetchEvent() {
       try {
         setLoading(true);
-        const { data, error } = await getEventById(eventId);
-        if (error || !data) throw new Error('Event not found');
+        const res = await fetch(`/api/public/events/${eventId}`);
+        if (!res.ok) throw new Error('Event not found');
+        const data = await res.json();
         setEvent(data);
         setReactions(data?.reactions || {});
       } catch {
