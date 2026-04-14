@@ -28,10 +28,10 @@ export const createVenueSchema = z.object({
 });
 
 export const checkoutSchema = z.object({
-  eventId: z.string().uuid(),
-  tierId: z.string().uuid(),
+  eventId: z.string().min(1),
+  tierId: z.string().min(1),
   quantity: z.number().int().min(1).max(10),
-  addonIds: z.array(z.string().uuid()).optional(),
+  addonIds: z.array(z.string()).optional(),
   promoCode: z.string().optional(),
 });
 
