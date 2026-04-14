@@ -253,15 +253,15 @@ export default function ArtistDetailPage() {
   };
 
   return (
-    <div className="pb-4">
+    <div className="pb-24">
       {/* Header with gradient */}
       <div
-        className="relative h-44 flex items-end p-4"
+        className="relative h-36 flex items-end p-4"
         style={{ background: `linear-gradient(135deg, ${color}, ${color}66, #0F0F13)` }}
       >
         <button
           onClick={() => router.back()}
-          className="absolute top-4 left-4 p-2 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors"
+          className="absolute top-4 left-4 p-3 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
@@ -297,17 +297,17 @@ export default function ArtistDetailPage() {
       {/* Stats Row */}
       <div className="px-4 mb-4">
         <div className="flex gap-2">
-          <div className="bg-surface border border-border rounded-2xl p-3 flex-1 text-center">
+          <div className="bg-surface border border-border rounded-2xl p-4 flex-1 text-center">
             <div className="font-display font-bold text-lg text-orange">{formatCompactNumber(artist.followers)}</div>
-            <div className="text-[11px] text-text-muted mt-0.5">Followers</div>
+            <div className="text-xs text-text-muted mt-0.5">Followers</div>
           </div>
-          <div className="bg-surface border border-border rounded-2xl p-3 flex-1 text-center">
+          <div className="bg-surface border border-border rounded-2xl p-4 flex-1 text-center">
             <div className="font-display font-bold text-lg text-teal">{formatCurrency(artist.tipsEarned)}</div>
-            <div className="text-[11px] text-text-muted mt-0.5">Tips Earned</div>
+            <div className="text-xs text-text-muted mt-0.5">Tips Earned</div>
           </div>
-          <div className="bg-surface border border-border rounded-2xl p-3 flex-1 text-center">
+          <div className="bg-surface border border-border rounded-2xl p-4 flex-1 text-center">
             <div className="font-display font-bold text-lg">{artist.eventsCount}</div>
-            <div className="text-[11px] text-text-muted mt-0.5">Events</div>
+            <div className="text-xs text-text-muted mt-0.5">Events</div>
           </div>
         </div>
       </div>
@@ -357,7 +357,7 @@ export default function ArtistDetailPage() {
                 key={amount}
                 onClick={() => { setSelectedTip(amount); setCustomTip(''); }}
                 className={`
-                  flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200
+                  flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200
                   ${selectedTip === amount
                     ? 'bg-orange text-white shadow-[0_0_12px_rgba(255,107,53,0.3)]'
                     : 'bg-surface-alt border border-border text-text-secondary hover:border-border-light'

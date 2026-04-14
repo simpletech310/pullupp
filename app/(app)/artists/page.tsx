@@ -32,7 +32,7 @@ export default function ArtistsPage() {
     : MOCK_ARTISTS.filter(a => a.genre === selectedGenre);
 
   return (
-    <div className="pb-4">
+    <div className="pb-24">
       {/* Header */}
       <div className="px-4 pt-4 pb-3">
         <h2 className="font-display font-bold text-xl">Artists</h2>
@@ -46,7 +46,7 @@ export default function ArtistsPage() {
             key={genre}
             onClick={() => setSelectedGenre(genre)}
             className={`
-              px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200
+              px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
               ${selectedGenre === genre
                 ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
                 : 'bg-surface border border-border text-text-secondary hover:border-border-light'
@@ -68,7 +68,7 @@ export default function ArtistsPage() {
             <div
               key={artist.id}
               onClick={() => router.push(`/artists/${artist.id}`)}
-              className="bg-surface border border-border rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer hover:border-border-light hover:-translate-y-0.5 transition-all duration-200"
+              className="bg-surface border border-border rounded-2xl p-4 flex flex-col items-center text-center cursor-pointer hover:border-border-light hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200"
             >
               {/* Avatar */}
               <div className="relative mb-3">
@@ -81,9 +81,9 @@ export default function ArtistsPage() {
                   {getInitials(artist.name)}
                 </div>
                 {artist.is_live && (
-                  <div className="absolute -bottom-1 -right-1 flex items-center gap-1 bg-error px-1.5 py-0.5 rounded-full">
+                  <div className="absolute -bottom-1 -right-1 flex items-center gap-1 bg-error px-2 py-0.5 rounded-full">
                     <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse-dot" />
-                    <span className="text-[9px] font-bold text-white">LIVE</span>
+                    <span className="text-xs font-bold text-white">LIVE</span>
                   </div>
                 )}
               </div>
@@ -92,7 +92,7 @@ export default function ArtistsPage() {
               <h3 className="font-display font-bold text-sm mb-1 truncate w-full">{artist.name}</h3>
 
               {/* Genre Badge */}
-              <Badge variant="default" className="mb-2 text-[10px]">{artist.genre}</Badge>
+              <Badge variant="default" className="mb-2">{artist.genre}</Badge>
 
               {/* Followers */}
               <p className="text-text-muted text-xs mb-2">

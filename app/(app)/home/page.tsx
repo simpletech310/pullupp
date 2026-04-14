@@ -60,7 +60,7 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="pb-4">
+      <div className="pb-24">
         <div className="px-4 pt-4 pb-3">
           <h2 className="font-display font-bold text-xl">
             Hey, {profile?.name?.split(' ')[0] || 'there'}
@@ -73,7 +73,7 @@ export default function HomePage() {
               key={cat}
               onClick={() => setSelectedFilter(cat)}
               className={`
-                px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200
+                px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
                 ${selectedFilter === cat
                   ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
                   : 'bg-surface border border-border text-text-secondary hover:border-border-light'
@@ -101,7 +101,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="pb-4">
+    <div className="pb-24">
       {/* Greeting */}
       <div className="px-4 pt-4 pb-3">
         <h2 className="font-display font-bold text-xl">
@@ -117,7 +117,7 @@ export default function HomePage() {
             key={cat}
             onClick={() => setSelectedFilter(cat)}
             className={`
-              px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200
+              px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
               ${selectedFilter === cat
                 ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
                 : 'bg-surface border border-border text-text-secondary hover:border-border-light'
@@ -155,19 +155,19 @@ export default function HomePage() {
                   <div
                     key={event.id}
                     onClick={() => router.push(`/events/${event.id}`)}
-                    className="relative shrink-0 w-[200px] rounded-2xl overflow-hidden cursor-pointer group"
+                    className="relative shrink-0 w-[180px] rounded-2xl overflow-hidden cursor-pointer group"
                   >
                     <div
-                      className="h-[140px] p-3 flex flex-col justify-end"
+                      className="aspect-[4/3] w-full p-3 flex flex-col justify-end"
                       style={{ background: EVENT_GRADIENTS[(event.gradient ?? i) % EVENT_GRADIENTS.length] }}
                     >
                       <div className="absolute top-2 left-2">
-                        <span className="bg-black/40 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-full">
+                        <span className="bg-black/40 backdrop-blur-sm text-white text-xs font-bold px-2 py-1 rounded-full">
                           #{i + 1}
                         </span>
                       </div>
                       <h4 className="font-semibold text-sm text-white drop-shadow-lg">{event.title}</h4>
-                      <p className="text-white/80 text-[11px] mt-0.5">{formatDate(event.date)}</p>
+                      <p className="text-white/80 text-xs mt-0.5">{formatDate(event.date)}</p>
                     </div>
                   </div>
                 ))}
@@ -186,7 +186,7 @@ export default function HomePage() {
                   onClick={() => router.push(`/events/${event.id}`)}
                 >
                   <div
-                    className="h-[140px] p-4 flex flex-col justify-end relative"
+                    className="aspect-[16/7] w-full p-4 flex flex-col justify-end relative"
                     style={{ background: EVENT_GRADIENTS[(event.gradient ?? i) % EVENT_GRADIENTS.length] }}
                   >
                     <Badge variant="default" className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm border-0 text-white">
@@ -195,7 +195,7 @@ export default function HomePage() {
                     {/* Save button */}
                     <button
                       onClick={(e) => handleSave(e, event.id)}
-                      className="absolute top-3 right-3 p-2 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors"
+                      className="absolute top-3 right-3 p-2 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors w-11 h-11 flex items-center justify-center"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill={savedEvents.has(event.id) ? 'white' : 'none'} stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />

@@ -85,7 +85,7 @@ export default function VenuesPage() {
   });
 
   return (
-    <div className="pb-4">
+    <div className="pb-24">
       {/* Header */}
       <div className="px-4 pt-4 pb-3">
         <h2 className="font-display font-bold text-xl">Venues</h2>
@@ -113,7 +113,7 @@ export default function VenuesPage() {
             key={type}
             onClick={() => setSelectedType(type)}
             className={`
-              px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200
+              px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
               ${selectedType === type
                 ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
                 : 'bg-surface border border-border text-text-secondary hover:border-border-light'
@@ -134,7 +134,7 @@ export default function VenuesPage() {
             onClick={() => router.push(`/venues/${venue.id}`)}
           >
             <div
-              className="h-[130px] p-4 flex flex-col justify-end relative"
+              className="aspect-[16/7] w-full p-4 flex flex-col justify-end relative"
               style={{ background: EVENT_GRADIENTS[venue.gradient] }}
             >
               <Badge variant="default" className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm border-0 text-white">

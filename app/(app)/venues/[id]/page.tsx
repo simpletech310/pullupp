@@ -79,7 +79,7 @@ export default function VenueDetailPage() {
       {/* Gallery */}
       <div className="relative">
         <div
-          className="h-[250px] flex items-center justify-center"
+          className="aspect-[16/9] min-h-[180px] flex items-center justify-center"
           style={{ background: EVENT_GRADIENTS[galleryIndex % EVENT_GRADIENTS.length] }}
         >
           <span className="text-white/60 text-sm font-medium">Gallery Photo {galleryIndex + 1}</span>
@@ -87,7 +87,7 @@ export default function VenueDetailPage() {
         {/* Back button */}
         <button
           onClick={() => router.back()}
-          className="absolute top-4 left-4 p-2 rounded-full bg-black/30 backdrop-blur-sm text-white"
+          className="absolute top-4 left-4 p-3 rounded-full bg-black/30 backdrop-blur-sm text-white"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
@@ -174,7 +174,7 @@ export default function VenueDetailPage() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-teal">
                 {AMENITY_ICONS[amenity.icon] || <circle cx="12" cy="12" r="10" />}
               </svg>
-              <span className="text-[11px] text-text-secondary text-center">{amenity.name}</span>
+              <span className="text-xs text-text-secondary text-center">{amenity.name}</span>
             </Card>
           ))}
         </div>

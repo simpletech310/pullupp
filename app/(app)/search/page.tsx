@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { EVENT_GRADIENTS, EVENT_CATEGORIES, AVATAR_COLORS } from '@/lib/utils/constants';
-import { formatDate, formatCompactNumber } from '@/lib/utils/format';
+import { formatDate, formatCompactNumber, formatCurrency } from '@/lib/utils/format';
 import { toast } from 'sonner';
 import { getPublishedEvents, getVenues, getArtists } from '@/lib/supabase/queries';
 
@@ -99,7 +99,7 @@ export default function SearchPage() {
 
   if (loading) {
     return (
-      <div className="pb-4">
+      <div className="pb-24">
         <div className="px-4 pt-4 pb-3">
           <h2 className="font-display font-bold text-xl">Discover</h2>
           <p className="text-text-secondary text-sm mt-0.5">Find your next experience</p>
@@ -120,7 +120,7 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="pb-4">
+    <div className="pb-24">
       {/* Header */}
       <div className="px-4 pt-4 pb-3">
         <h2 className="font-display font-bold text-xl">Discover</h2>
@@ -161,7 +161,7 @@ export default function SearchPage() {
             key={cat}
             onClick={() => setSelectedCategory(cat)}
             className={`
-              px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200
+              px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
               ${selectedCategory === cat
                 ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
                 : 'bg-surface border border-border text-text-secondary hover:border-border-light'
@@ -188,17 +188,17 @@ export default function SearchPage() {
                   onClick={() => router.push(`/events/${event.id}`)}
                 >
                   <div
-                    className="h-24 p-3 flex flex-col justify-end relative"
+                    className="aspect-[4/3] w-full p-3 flex flex-col justify-end relative"
                     style={{ background: EVENT_GRADIENTS[(event.gradient ?? i) % EVENT_GRADIENTS.length] }}
                   >
-                    <Badge variant="default" className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm border-0 text-white text-[9px]">
+                    <Badge variant="default" className="absolute top-2 left-2 bg-black/40 backdrop-blur-sm border-0 text-white">
                       {event.category}
                     </Badge>
                   </div>
                   <div className="p-3">
                     <h4 className="font-semibold text-xs mb-1 line-clamp-1">{event.title}</h4>
-                    <p className="text-text-muted text-[11px] mb-1">{formatDate(event.date)}</p>
-                    <p className="text-text-muted text-[11px] line-clamp-1">{event.venue?.name || event.venue}</p>
+                    <p className="text-text-muted text-xs mb-1">{formatDate(event.date)}</p>
+                    <p className="text-text-muted text-xs line-clamp-1">{event.venue?.name || event.venue}</p>
                   </div>
                 </Card>
               ))}
@@ -230,19 +230,19 @@ export default function SearchPage() {
                     onClick={() => router.push(`/events/${event.id}`)}
                   >
                     <div
-                      className="h-24 p-3 flex flex-col justify-end relative"
+                      className="aspect-[4/3] w-full p-3 flex flex-col justify-end relative"
                       style={{ background: EVENT_GRADIENTS[(event.gradient ?? i) % EVENT_GRADIENTS.length] }}
                     >
                       <div className="absolute top-2 left-2">
-                        <span className="bg-black/40 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                        <span className="bg-black/40 backdrop-blur-sm text-white text-xs font-bold px-2 py-0.5 rounded-full">
                           #{i + 1}
                         </span>
                       </div>
                     </div>
                     <div className="p-3">
                       <h4 className="font-semibold text-xs mb-1 line-clamp-1">{event.title}</h4>
-                      <p className="text-text-muted text-[11px] mb-0.5">{formatDate(event.date)}</p>
-                      <p className="text-orange text-[11px] font-semibold">${event.price ?? 0}</p>
+                      <p className="text-text-muted text-xs mb-0.5">{formatDate(event.date)}</p>
+                      <p className="text-orange text-xs font-semibold">{formatCurrency(event.price ?? 0)}</p>
                     </div>
                   </Card>
                 ))}
@@ -262,17 +262,17 @@ export default function SearchPage() {
                     className="shrink-0 w-[160px] bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer hover:border-border-light hover:-translate-y-0.5 transition-all duration-200"
                   >
                     <div
-                      className="h-16"
+                      className="h-20"
                       style={{ background: EVENT_GRADIENTS[(i + 3) % EVENT_GRADIENTS.length] }}
                     />
                     <div className="p-3">
                       <h4 className="font-semibold text-xs mb-0.5 line-clamp-1">{venue.name}</h4>
-                      <p className="text-text-muted text-[10px] mb-2">{venue.type}</p>
+                      <p className="text-text-muted text-xs mb-2">{venue.type}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-text-secondary text-[10px]">
+                        <span className="text-text-secondary text-xs">
                           {formatCompactNumber(venue.capacity ?? 0)} cap
                         </span>
-                        <span className="flex items-center gap-0.5 text-warning text-[10px]">
+                        <span className="flex items-center gap-0.5 text-warning text-xs">
                           <StarIcon />
                           {venue.rating ?? 0}
                         </span>
@@ -306,8 +306,8 @@ export default function SearchPage() {
                       </span>
                     </div>
                     <h4 className="font-semibold text-xs text-center line-clamp-1 mb-0.5">{artist.name}</h4>
-                    <p className="text-text-muted text-[10px] text-center mb-0.5">{artist.genre}</p>
-                    <p className="text-text-secondary text-[10px]">
+                    <p className="text-text-muted text-xs text-center mb-0.5">{artist.genre}</p>
+                    <p className="text-text-secondary text-xs">
                       {formatCompactNumber(artist.followers ?? 0)} followers
                     </p>
                   </div>

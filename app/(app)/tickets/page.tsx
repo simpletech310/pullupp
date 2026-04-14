@@ -193,7 +193,7 @@ function TicketCard({ ticket, isPast }: { ticket: Ticket; isPast: boolean }) {
 
           {/* Confirmation code */}
           <div className="text-center mt-3">
-            <p className="text-text-muted text-[10px] uppercase tracking-widest mb-1">Confirmation</p>
+            <p className="text-text-muted text-xs uppercase tracking-widest mb-1">Confirmation</p>
             <p className="font-mono text-sm text-text-primary tracking-wider">{ticket.confirmationCode}</p>
           </div>
         </div>
@@ -226,7 +226,7 @@ export default function TicketsPage() {
   const isPast = activeTab === 'past';
 
   return (
-    <div className="pb-4">
+    <div className="pb-24">
       {/* Header */}
       <div className="px-4 pt-4 pb-2">
         <h2 className="font-display font-bold text-xl">My Tickets</h2>

@@ -208,7 +208,7 @@ export default function PurchasePage() {
       <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-xl border-b border-border px-4 py-3 flex items-center gap-3">
         <button
           onClick={() => router.back()}
-          className="w-9 h-9 rounded-xl bg-surface border border-border flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors"
+          className="w-11 h-11 rounded-xl bg-surface border border-border flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -261,7 +261,7 @@ export default function PurchasePage() {
                       {soldOut ? (
                         <Badge variant="error" className="ml-2">Sold Out</Badge>
                       ) : (
-                        <p className="text-[11px] text-text-muted">{tier.remaining} left</p>
+                        <p className="text-xs text-text-muted">{tier.remaining} left</p>
                       )}
                     </div>
                   </div>
@@ -295,7 +295,7 @@ export default function PurchasePage() {
                   <button
                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
                     disabled={quantity <= 1}
-                    className="w-9 h-9 rounded-xl bg-surface-alt border border-border flex items-center justify-center text-text-primary hover:bg-surface-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-11 h-11 rounded-xl bg-surface-alt border border-border flex items-center justify-center text-text-primary hover:bg-surface-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                       <line x1="5" y1="12" x2="19" y2="12" />
@@ -305,7 +305,7 @@ export default function PurchasePage() {
                   <button
                     onClick={() => setQuantity(q => Math.min(10, selectedTier.remaining, q + 1))}
                     disabled={quantity >= Math.min(10, selectedTier.remaining)}
-                    className="w-9 h-9 rounded-xl bg-orange/10 border border-orange/20 flex items-center justify-center text-orange hover:bg-orange/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-11 h-11 rounded-xl bg-orange/10 border border-orange/20 flex items-center justify-center text-orange hover:bg-orange/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                       <line x1="12" y1="5" x2="12" y2="19" />

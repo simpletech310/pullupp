@@ -103,12 +103,12 @@ export default function EventDetailPage() {
     <div className="pb-24 animate-fade-in">
       {/* Hero Header */}
       <div
-        className="relative h-[260px] flex flex-col justify-end p-5"
+        className="relative aspect-[16/7] min-h-[200px] flex flex-col justify-end p-5"
         style={{ background: EVENT_GRADIENTS[(event.gradient ?? 0) % EVENT_GRADIENTS.length] }}
       >
         <button
           onClick={() => router.back()}
-          className="absolute top-4 left-4 p-2 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors z-10"
+          className="absolute top-4 left-4 p-3 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors z-10"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
@@ -117,7 +117,7 @@ export default function EventDetailPage() {
 
         <button
           onClick={handleShare}
-          className="absolute top-4 right-4 p-2 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors z-10"
+          className="absolute top-4 right-4 p-3 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors z-10"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
@@ -167,7 +167,7 @@ export default function EventDetailPage() {
 
         {/* Description */}
         <div>
-          <h3 className="font-display font-semibold text-sm mb-2">About</h3>
+          <h3 className="font-display font-semibold text-base mb-2">About</h3>
           <p className="text-text-secondary text-sm leading-relaxed">{event.description}</p>
         </div>
 
@@ -189,7 +189,7 @@ export default function EventDetailPage() {
         {event.venue && (
           <Card>
             <div className="p-4">
-              <h3 className="font-display font-semibold text-sm mb-2">Venue</h3>
+              <h3 className="font-display font-semibold text-base mb-2">Venue</h3>
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-xl bg-surface-alt flex items-center justify-center shrink-0">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-orange)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -214,12 +214,12 @@ export default function EventDetailPage() {
         {/* Artist Lineup */}
         {event.artists && event.artists.length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-sm mb-3">Lineup</h3>
+            <h3 className="font-display font-semibold text-base mb-3">Lineup</h3>
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
               {event.artists.map((artist: any, i: number) => (
                 <div
                   key={artist.id || i}
-                  className="shrink-0 w-[100px] flex flex-col items-center gap-2"
+                  className="shrink-0 w-[110px] flex flex-col items-center gap-2"
                 >
                   <div
                     className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-lg"
@@ -229,7 +229,7 @@ export default function EventDetailPage() {
                   </div>
                   <div className="text-center">
                     <p className="text-xs font-semibold truncate w-full">{artist.name}</p>
-                    <p className="text-[10px] text-text-muted">{artist.genre}</p>
+                    <p className="text-xs text-text-muted">{artist.genre}</p>
                   </div>
                 </div>
               ))}
@@ -240,7 +240,7 @@ export default function EventDetailPage() {
         {/* Ticket Tiers */}
         {event.tiers && event.tiers.length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-sm mb-3">Tickets</h3>
+            <h3 className="font-display font-semibold text-base mb-3">Tickets</h3>
             <div className="flex flex-col gap-3">
               {event.tiers.map((tier: any, i: number) => (
                 <Card key={tier.id || i} hoverable onClick={() => router.push(`/events/${event.id}/purchase?tier=${tier.id}`)}>
@@ -262,11 +262,11 @@ export default function EventDetailPage() {
                       </ul>
                     )}
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] text-text-muted">
+                      <span className="text-xs text-text-muted">
                         {tier.remaining ?? '?'} of {tier.total ?? '?'} left
                       </span>
                       {tier.remaining != null && tier.remaining <= 10 && (
-                        <Badge variant="warning" className="text-[9px]">Almost Sold Out</Badge>
+                        <Badge variant="warning">Almost Sold Out</Badge>
                       )}
                     </div>
                     {tier.total && (
@@ -287,10 +287,10 @@ export default function EventDetailPage() {
         {/* Add-ons */}
         {event.addons && event.addons.length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-sm mb-3">Add-ons</h3>
+            <h3 className="font-display font-semibold text-base mb-3">Add-ons</h3>
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
               {event.addons.map((addon: any) => (
-                <Card key={addon.id} className="shrink-0 w-[140px]">
+                <Card key={addon.id} className="shrink-0 w-[150px]">
                   <div className="p-3">
                     <div className="w-8 h-8 rounded-lg bg-surface-alt flex items-center justify-center mb-2">
                       {addon.type === 'merch' ? (
@@ -311,7 +311,7 @@ export default function EventDetailPage() {
         {/* Social Links */}
         {event.socialLinks && Object.keys(event.socialLinks).length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-sm mb-3">Follow</h3>
+            <h3 className="font-display font-semibold text-base mb-3">Follow</h3>
             <div className="flex gap-3">
               {Object.entries(event.socialLinks).map(([platform, url]) => {
                 const icon = SOCIAL_ICONS[platform];
