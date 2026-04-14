@@ -1,12 +1,24 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+// Fully public — no auth needed at all
 const PUBLIC_ROUTES = [
   '/',
   '/login',
   '/register',
   '/callback',
   '/api/webhooks',
+];
+
+// Guests (unauthenticated) can browse these — auth users get richer views
+const GUEST_BROWSABLE = [
+  '/home',
+  '/search',
+  '/events',
+  '/venues',
+  '/artists',
+  '/category',
+  '/live',
 ];
 
 const ROLE_ROUTES: Record<string, string[]> = {
@@ -66,6 +78,15 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
     return supabaseResponse;
+  }
+
+  // Guest-browsable routes — allow unauthenticated read-only access
+  // But block role-specific sub-routes (checkin, create, dashboard, go-live, broadcasting)
+  const BLOCKED_GUEST_SUBROUTES = ['/checkin', '/create', '/dashboard', '/go-live', '/broadcasting'];
+  if (GUEST_BROWSABLE.some(route => pathname === route || pathname.startsWith(route + '/'))) {
+    if (!user && !BLOCKED_GUEST_SUBROUTES.some(sub => pathname.includes(sub))) {
+      return supabaseResponse;
+    }
   }
 
   // Protected routes - redirect to login if not authenticated
