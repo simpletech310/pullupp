@@ -9,6 +9,8 @@ const PUBLIC_ROUTES = [
   '/callback',
   '/api/webhooks',
   '/api/public',
+  '/api/stripe/create-checkout',
+  '/api/stripe/validate-promo',
 ];
 
 // Guests (unauthenticated) can browse these — auth users get richer views
