@@ -24,9 +24,11 @@ export default function HomePage() {
     async function fetchEvents() {
       try {
         setLoading(true);
-        const filter = selectedFilter === 'All' ? {} : { category: selectedFilter };
-        const { data } = await getPublishedEvents(filter);
-        setEvents(data || []);
+        const params = new URLSearchParams({ limit: '20' });
+        if (selectedFilter !== 'All') params.set('category', selectedFilter);
+        const res = await fetch(`/api/public/events?${params}`);
+        const data = await res.json();
+        setEvents(Array.isArray(data) ? data : []);
       } catch (err) {
         toast.error('Failed to load events');
       } finally {
