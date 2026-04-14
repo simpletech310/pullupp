@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@/lib/supabase/server';
+import { createClient as createServiceClient } from '@supabase/supabase-js';
 import { SERVICE_FEE_PERCENT } from '@/lib/utils/constants';
 import { checkoutSchema } from '@/lib/validation/schemas';
 
@@ -24,6 +25,12 @@ export async function POST(request: NextRequest) {
     // Auth is optional — guests can checkout without an account
     const { data: { user } } = await supabase.auth.getUser();
 
+    // Use service role for all DB reads to bypass anon GRANT restrictions
+    const db = createServiceClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    );
+
     const body = await request.json();
     const parseResult = checkoutSchema.safeParse(body);
     if (!parseResult.success) {
@@ -32,7 +39,7 @@ export async function POST(request: NextRequest) {
     const { eventId, tierId, quantity, addonIds = [], promoCode } = parseResult.data;
 
     // Fetch the event
-    const { data: event, error: eventError } = await supabase
+    const { data: event, error: eventError } = await db
       .from('events')
       .select('id, title, organizer_id, status')
       .eq('id', eventId)
@@ -47,7 +54,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch the tier
-    const { data: tier, error: tierError } = await supabase
+    const { data: tier, error: tierError } = await db
       .from('ticket_tiers')
       .select('id, name, price, remaining')
       .eq('id', tierId)
@@ -83,7 +90,7 @@ export async function POST(request: NextRequest) {
     // Fetch and add addons
     let addonTotal = 0;
     if (addonIds.length > 0) {
-      const { data: addons } = await supabase
+      const { data: addons } = await db
         .from('event_addons')
         .select('id, name, price')
         .in('id', addonIds)
@@ -110,7 +117,7 @@ export async function POST(request: NextRequest) {
     // Apply promo code discount (if provided)
     let discounts: Array<{coupon?: string; promotion_code?: string}> = [];
     if (promoCode) {
-      const { data: promo } = await supabase
+      const { data: promo } = await db
         .from('promo_codes')
         .select('*')
         .eq('code', promoCode.toUpperCase())
@@ -132,7 +139,7 @@ export async function POST(request: NextRequest) {
     const applicationFeeAmount = Math.round(subtotal * SERVICE_FEE_PERCENT * 100);
 
     // Get organizer's Stripe Connect account
-    const { data: organizer } = await supabase
+    const { data: organizer } = await db
       .from('profiles')
       .select('stripe_connect_id')
       .eq('id', event.organizer_id)
