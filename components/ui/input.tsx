@@ -1,56 +1,58 @@
-import { forwardRef, useId, type InputHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   icon?: React.ReactNode;
+  suffix?: React.ReactNode;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, icon, className = '', id: propId, ...props }, ref) => {
-    const generatedId = useId();
-    const inputId = propId || generatedId;
-    const errorId = error ? `${inputId}-error` : undefined;
-
-    return (
-      <div className="flex flex-col gap-1.5">
-        {label && (
-          <label htmlFor={inputId} className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
-            {label}
-          </label>
+export const Input = forwardRef<HTMLInputElement, InputProps>(({
+  label,
+  error,
+  icon,
+  suffix,
+  className = '',
+  ...props
+}, ref) => {
+  return (
+    <div className="flex flex-col gap-1.5 w-full">
+      {label && (
+        <label className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant font-body">
+          {label}
+        </label>
+      )}
+      <div className="relative flex items-center">
+        {icon && (
+          <span className="absolute left-4 text-on-surface-variant pointer-events-none flex items-center">
+            {icon}
+          </span>
         )}
-        <div className="relative">
-          {icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">
-              {icon}
-            </div>
-          )}
-          <input
-            ref={ref}
-            id={inputId}
-            aria-invalid={error ? true : undefined}
-            aria-describedby={errorId}
-            className={`
-              w-full bg-surface border border-border rounded-xl px-4 py-3
-              text-sm text-text-primary font-body
-              placeholder:text-text-muted
-              focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30
-              transition-colors duration-200
-              disabled:opacity-50 disabled:cursor-not-allowed
-              ${icon ? 'pl-10' : ''}
-              ${error ? 'border-error' : ''}
-              ${className}
-            `}
-            {...props}
-          />
-        </div>
-        {error && (
-          <p id={errorId} className="text-xs text-error" role="alert">{error}</p>
+        <input
+          ref={ref}
+          className={[
+            'w-full bg-surface-container-lowest border border-outline-variant/30',
+            'rounded-xl py-3.5 text-sm text-on-surface placeholder:text-outline',
+            'focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/30',
+            'transition-colors duration-150 font-body',
+            icon ? 'pl-11 pr-4' : 'px-4',
+            suffix ? 'pr-12' : '',
+            error ? 'border-error focus:border-error focus:ring-error/30' : '',
+            className,
+          ].join(' ')}
+          {...props}
+        />
+        {suffix && (
+          <span className="absolute right-4 text-on-surface-variant pointer-events-none flex items-center">
+            {suffix}
+          </span>
         )}
       </div>
-    );
-  },
-);
+      {error && (
+        <p className="text-xs text-error font-body">{error}</p>
+      )}
+    </div>
+  );
+});
 
 Input.displayName = 'Input';
-export { Input };

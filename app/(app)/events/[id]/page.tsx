@@ -2,14 +2,10 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { EVENT_GRADIENTS, AVATAR_COLORS } from '@/lib/utils/constants';
 import { formatDateTime, formatCurrency, getEventCountdown } from '@/lib/utils/format';
 import { isToday } from 'date-fns';
 import { toast } from 'sonner';
-import { toggleSaveEvent } from '@/lib/supabase/mutations';
 import { useAuthContext } from '@/providers/auth-provider';
 
 const REACTION_EMOJIS: Record<string, string> = {
@@ -38,6 +34,7 @@ export default function EventDetailPage() {
   const [event, setEvent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [reactions, setReactions] = useState<Record<string, number>>({});
+  const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchEvent() {
@@ -48,6 +45,9 @@ export default function EventDetailPage() {
         const data = await res.json();
         setEvent(data);
         setReactions(data?.reactions || {});
+        if (data?.ticket_tiers?.length > 0) {
+          setSelectedTierId(data.ticket_tiers[0].id);
+        }
       } catch {
         toast.error('Failed to load event');
       } finally {
@@ -59,12 +59,17 @@ export default function EventDetailPage() {
 
   if (loading) {
     return (
-      <div className="pb-24 animate-fade-in">
-        <div className="h-[260px] bg-surface-alt animate-pulse" />
-        <div className="px-4 mt-4 space-y-4">
-          <div className="h-6 bg-surface-alt rounded w-3/4 animate-pulse" />
-          <div className="h-4 bg-surface-alt rounded w-1/2 animate-pulse" />
-          <div className="h-20 bg-surface-alt rounded animate-pulse" />
+      <div className="pb-32 animate-fade-in">
+        {/* Ambient orbs */}
+        <div className="fixed -top-40 -right-40 w-[500px] h-[500px] bg-primary-container/5 blur-[120px] -z-10 rounded-full" />
+        <div className="fixed -bottom-40 -left-40 w-[400px] h-[400px] bg-secondary-container/5 blur-[120px] -z-10 rounded-full" />
+        {/* Hero skeleton */}
+        <div className="aspect-[4/3] min-h-[280px] bg-surface-container-high animate-shimmer rounded-b-3xl" />
+        <div className="px-4 mt-5 space-y-4">
+          <div className="h-8 bg-surface-container-high animate-shimmer rounded-xl w-3/4" />
+          <div className="h-4 bg-surface-container-high animate-shimmer rounded-lg w-1/2" />
+          <div className="h-28 bg-surface-container-high animate-shimmer rounded-2xl" />
+          <div className="h-20 bg-surface-container-high animate-shimmer rounded-2xl" />
         </div>
       </div>
     );
@@ -72,15 +77,26 @@ export default function EventDetailPage() {
 
   if (!event) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
-        <p className="text-text-secondary text-lg mb-4">Event not found</p>
-        <Button variant="outline" onClick={() => router.push('/home')}>Back to Home</Button>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 gap-4">
+        <div className="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-outline)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <p className="text-on-surface-variant text-base font-body">Event not found</p>
+        <button
+          onClick={() => router.push('/home')}
+          className="px-6 py-3 rounded-2xl border border-white/10 text-on-surface-variant font-body text-sm hover:bg-surface-container transition-colors"
+        >
+          Back to Home
+        </button>
       </div>
     );
   }
 
   const eventIsToday = isToday(new Date(event.date));
   const countdown = getEventCountdown(event.date);
+  const selectedTier = event.ticket_tiers?.find((t: any) => t.id === selectedTierId) || event.ticket_tiers?.[0];
 
   const handleReaction = (type: string) => {
     setReactions(prev => ({ ...prev, [type]: (prev[type] || 0) + 1 }));
@@ -100,75 +116,100 @@ export default function EventDetailPage() {
   };
 
   return (
-    <div className="pb-24 animate-fade-in">
-      {/* Hero Header */}
+    <div className="pb-36 animate-fade-in">
+      {/* Ambient background orbs */}
+      <div className="fixed -top-40 -right-40 w-[500px] h-[500px] bg-primary-container/5 blur-[120px] -z-10 rounded-full pointer-events-none" />
+      <div className="fixed -bottom-60 -left-40 w-[400px] h-[400px] bg-secondary-container/5 blur-[120px] -z-10 rounded-full pointer-events-none" />
+
+      {/* ── Hero ── */}
       <div
-        className="relative aspect-[16/7] min-h-[200px] flex flex-col justify-end p-5"
+        className="relative overflow-hidden aspect-[4/3] min-h-[280px] flex flex-col justify-end"
         style={{ background: EVENT_GRADIENTS[(event.gradient ?? 0) % EVENT_GRADIENTS.length] }}
       >
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+        {/* Back button */}
         <button
           onClick={() => router.back()}
-          className="absolute top-4 left-4 p-3 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors z-10"
+          className="glass-panel rounded-full w-11 h-11 flex items-center justify-center absolute top-4 left-4 z-10 border border-white/10 hover:bg-white/10 transition-colors active:scale-95"
+          aria-label="Go back"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
 
+        {/* Share button */}
         <button
           onClick={handleShare}
-          className="absolute top-4 right-4 p-3 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors z-10"
+          className="glass-panel rounded-full w-11 h-11 flex items-center justify-center absolute top-4 right-4 z-10 border border-white/10 hover:bg-white/10 transition-colors active:scale-95"
+          aria-label="Share event"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
             <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
           </svg>
         </button>
 
-        <div className="flex flex-wrap gap-2 mb-2 relative z-10">
-          {eventIsToday && (
-            <Badge variant="error" className="gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse-dot" />
-              Happening Now
-            </Badge>
-          )}
-          {event.visibility && event.visibility !== 'public' && (
-            <Badge variant="default" className="gap-1 bg-black/40 backdrop-blur-sm border-0 text-white">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              {event.visibility === 'private' ? 'Private' : 'Invite Only'}
-            </Badge>
-          )}
-          <Badge variant="default" className="bg-black/40 backdrop-blur-sm border-0 text-white">
-            {event.category}
-          </Badge>
+        {/* Hero content */}
+        <div className="relative z-10 p-5 pb-6">
+          {/* Badges row */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {eventIsToday && (
+              <span className="flex items-center gap-1.5 bg-red-500/80 backdrop-blur-sm text-white px-3 py-1 rounded-full font-body text-[10px] font-black uppercase tracking-wide">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse-dot" />
+                Happening Now
+              </span>
+            )}
+            {event.visibility && event.visibility !== 'public' && (
+              <span className="flex items-center gap-1 glass-panel text-white px-3 py-1 rounded-full font-body text-[10px] font-black uppercase tracking-wide border border-white/10">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                {event.visibility === 'private' ? 'Private' : 'Invite Only'}
+              </span>
+            )}
+            {event.category && (
+              <span className="bg-secondary-container text-white px-3 py-1 rounded-full font-body text-[10px] font-black uppercase tracking-wide">
+                {event.category}
+              </span>
+            )}
+          </div>
+
+          {/* Title */}
+          <h1 className="font-headline font-extrabold tracking-tighter text-4xl text-white leading-tight drop-shadow-lg">
+            {event.title}
+          </h1>
+
+          {/* Date line */}
+          <p className="text-white/70 text-sm mt-2 font-body">
+            {formatDateTime(event.date, event.startTime || event.start_time)}
+            {(event.endTime || event.end_time) ? ` – ${event.endTime || event.end_time}` : ''}
+          </p>
         </div>
-
-        <h1 className="font-display font-bold text-2xl text-white drop-shadow-lg relative z-10">
-          {event.title}
-        </h1>
-        <p className="text-white/80 text-sm mt-1 relative z-10">
-          {formatDateTime(event.date, event.startTime || event.start_time)} {event.endTime || event.end_time ? `- ${event.endTime || event.end_time}` : ''}
-        </p>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
       </div>
 
-      {/* Content */}
-      <div className="px-4 mt-4 space-y-5">
-        <div className="flex flex-wrap gap-2">
-          {event.ageRestriction && <Badge variant="warning">{event.ageRestriction}</Badge>}
-          {event.age_restriction && <Badge variant="warning">{event.age_restriction}</Badge>}
-          {event.dressCode && <Badge variant="purple">{event.dressCode}</Badge>}
-          {event.dress_code && <Badge variant="purple">{event.dress_code}</Badge>}
-          <Badge variant="teal">{countdown}</Badge>
-          <Badge variant="default">{event.attendees ?? 0} / {event.capacity ?? '?'} attending</Badge>
-        </div>
+      {/* ── Content ── */}
+      <div className="px-4 mt-5 space-y-5">
 
-        {/* Description */}
-        <div>
-          <h3 className="font-display font-semibold text-base mb-2">About</h3>
-          <p className="text-text-secondary text-sm leading-relaxed">{event.description}</p>
+        {/* Attribute pills */}
+        <div className="flex flex-wrap gap-2">
+          {(event.ageRestriction || event.age_restriction) && (
+            <span className="bg-surface-container-high text-on-surface-variant px-3 py-1.5 rounded-full font-body text-xs font-semibold border border-white/5">
+              {event.ageRestriction || event.age_restriction}
+            </span>
+          )}
+          {(event.dressCode || event.dress_code) && (
+            <span className="bg-surface-container-high text-on-surface-variant px-3 py-1.5 rounded-full font-body text-xs font-semibold border border-white/5">
+              {event.dressCode || event.dress_code}
+            </span>
+          )}
+          <span className="bg-secondary-container/20 text-secondary px-3 py-1.5 rounded-full font-body text-xs font-semibold">
+            {countdown}
+          </span>
+          <span className="bg-secondary-container/20 text-secondary px-3 py-1.5 rounded-full font-body text-xs font-semibold">
+            {event.attendees ?? 0} / {event.capacity ?? '?'} attending
+          </span>
         </div>
 
         {/* Reactions */}
@@ -177,83 +218,115 @@ export default function EventDetailPage() {
             <button
               key={key}
               onClick={() => handleReaction(key)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface border border-border hover:border-border-light transition-all duration-200 active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-surface-container border border-white/5 hover:border-white/15 transition-all duration-200 active:scale-95"
             >
-              <span className="text-base">{emoji}</span>
-              <span className="text-xs text-text-secondary font-semibold">{reactions[key] || 0}</span>
+              <span className="text-sm">{emoji}</span>
+              <span className="text-xs text-on-surface-variant font-body font-semibold">{reactions[key] || 0}</span>
             </button>
           ))}
         </div>
 
+        {/* About */}
+        <div className="glass-card rounded-2xl border border-white/5 p-5">
+          <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-3 font-body">About</p>
+          <p className="text-on-surface text-sm leading-relaxed font-body">{event.description}</p>
+        </div>
+
         {/* Venue */}
         {event.venue && (
-          <Card>
-            <div className="p-4">
-              <h3 className="font-display font-semibold text-base mb-2">Venue</h3>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-surface-alt flex items-center justify-center shrink-0">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-orange)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-semibold text-sm">{typeof event.venue === 'string' ? event.venue : event.venue.name}</p>
-                  {typeof event.venue === 'object' && (
-                    <>
-                      <p className="text-text-secondary text-xs mt-0.5">{event.venue.address}</p>
-                      <p className="text-text-secondary text-xs">{event.venue.city}, {event.venue.state}</p>
-                      {event.venue.type && <Badge variant="default" className="mt-2">{event.venue.type}</Badge>}
-                    </>
-                  )}
-                </div>
+          <div className="glass-card rounded-2xl border border-white/5 p-5">
+            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-3 font-body">Venue</p>
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-container)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-headline font-semibold text-sm text-on-surface">
+                  {typeof event.venue === 'string' ? event.venue : event.venue.name}
+                </p>
+                {typeof event.venue === 'object' && (
+                  <>
+                    <p className="text-on-surface-variant text-xs mt-0.5 font-body">{event.venue.address}</p>
+                    <p className="text-on-surface-variant text-xs font-body">{event.venue.city}, {event.venue.state}</p>
+                    {event.venue.type && (
+                      <span className="inline-block mt-2 bg-surface-container-highest text-on-surface-variant px-2.5 py-1 rounded-full text-[10px] font-body font-semibold">
+                        {event.venue.type}
+                      </span>
+                    )}
+                  </>
+                )}
               </div>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Artist Lineup */}
-        {event.artists && event.artists.length > 0 && (
+        {event.event_artists && event.event_artists.length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-base mb-3">Lineup</h3>
+            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Lineup</p>
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
-              {event.artists.map((artist: any, i: number) => (
-                <div
-                  key={artist.id || i}
-                  className="shrink-0 w-[110px] flex flex-col items-center gap-2"
-                >
+              {event.event_artists.map((ea: any, i: number) => {
+                const artist = ea.artist || ea;
+                return (
                   <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-lg"
-                    style={{ backgroundColor: AVATAR_COLORS[(artist.colorIndex ?? i) % AVATAR_COLORS.length] }}
+                    key={artist.id || i}
+                    className="shrink-0 bg-surface-container-high rounded-2xl p-4 border border-white/5 hover:border-white/15 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col items-center gap-2 w-[100px]"
                   >
-                    {artist.name?.charAt(0) || '?'}
+                    <div
+                      className="w-14 h-14 rounded-full flex items-center justify-center text-white font-headline font-bold text-lg shrink-0"
+                      style={{ backgroundColor: AVATAR_COLORS[(artist.colorIndex ?? artist.gradient_index ?? i) % AVATAR_COLORS.length] }}
+                    >
+                      {artist.name?.charAt(0) || '?'}
+                    </div>
+                    <div className="text-center w-full">
+                      <p className="text-xs font-semibold font-headline truncate">{artist.name}</p>
+                      <p className="text-[10px] text-on-surface-variant font-body mt-0.5 truncate">{artist.genre}</p>
+                    </div>
                   </div>
-                  <div className="text-center">
-                    <p className="text-xs font-semibold truncate w-full">{artist.name}</p>
-                    <p className="text-xs text-text-muted">{artist.genre}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
 
         {/* Ticket Tiers */}
-        {event.tiers && event.tiers.length > 0 && (
+        {event.ticket_tiers && event.ticket_tiers.length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-base mb-3">Tickets</h3>
+            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Tickets</p>
             <div className="flex flex-col gap-3">
-              {event.tiers.map((tier: any, i: number) => (
-                <Card key={tier.id || i} hoverable onClick={() => router.push(`/events/${event.id}/purchase?tier=${tier.id}`)}>
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold text-sm">{tier.name}</h4>
-                      <span className="text-orange font-bold text-base">{formatCurrency(tier.price)}</span>
+              {event.ticket_tiers.map((tier: any, i: number) => {
+                const isSelected = tier.id === selectedTierId;
+                const soldPct = tier.total ? ((tier.total - (tier.remaining ?? 0)) / tier.total) * 100 : 0;
+                return (
+                  <div
+                    key={tier.id || i}
+                    onClick={() => setSelectedTierId(tier.id)}
+                    className={`glass-card rounded-xl border p-6 cursor-pointer transition-all duration-200 active:scale-[0.99] ${
+                      isSelected
+                        ? 'border-primary-container/30 shadow-[0_0_16px_rgba(255,107,53,0.2)]'
+                        : 'border-white/5 hover:border-white/15'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h4 className="font-headline font-bold text-sm text-on-surface">{tier.name}</h4>
+                        {tier.remaining != null && tier.remaining <= 10 && (
+                          <span className="inline-block mt-1 bg-primary-container/20 text-primary-container px-2 py-0.5 rounded-full text-[10px] font-body font-bold">
+                            Almost Sold Out
+                          </span>
+                        )}
+                      </div>
+                      <span className="font-headline font-extrabold text-lg text-primary-container">
+                        {formatCurrency(tier.price)}
+                      </span>
                     </div>
-                    {tier.perks && (
-                      <ul className="space-y-1 mb-3">
+                    {tier.perks && tier.perks.length > 0 && (
+                      <ul className="space-y-1.5 mb-4">
                         {tier.perks.map((perk: string, j: number) => (
-                          <li key={j} className="flex items-center gap-2 text-xs text-text-secondary">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <li key={j} className="flex items-center gap-2 text-xs text-on-surface-variant font-body">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="20 6 9 17 4 12" />
                             </svg>
                             {perk}
@@ -261,48 +334,49 @@ export default function EventDetailPage() {
                         ))}
                       </ul>
                     )}
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-text-muted">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs text-on-surface-variant font-body">
                         {tier.remaining ?? '?'} of {tier.total ?? '?'} left
                       </span>
-                      {tier.remaining != null && tier.remaining <= 10 && (
-                        <Badge variant="warning">Almost Sold Out</Badge>
+                      {isSelected && (
+                        <span className="text-[10px] text-primary-container font-body font-bold uppercase tracking-wide">Selected</span>
                       )}
                     </div>
                     {tier.total && (
-                      <div className="mt-2 h-1 bg-surface-alt rounded-full overflow-hidden">
+                      <div className="h-1 bg-surface-container-highest rounded-full overflow-hidden">
                         <div
-                          className="h-full rounded-full bg-orange transition-all"
-                          style={{ width: `${((tier.total - (tier.remaining ?? 0)) / tier.total) * 100}%` }}
+                          className="h-full rounded-full bg-primary-container transition-all duration-500"
+                          style={{ width: `${soldPct}%` }}
                         />
                       </div>
                     )}
                   </div>
-                </Card>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
 
         {/* Add-ons */}
-        {event.addons && event.addons.length > 0 && (
+        {event.event_addons && event.event_addons.length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-base mb-3">Add-ons</h3>
+            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Add-ons</p>
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
-              {event.addons.map((addon: any) => (
-                <Card key={addon.id} className="shrink-0 w-[150px]">
-                  <div className="p-3">
-                    <div className="w-8 h-8 rounded-lg bg-surface-alt flex items-center justify-center mb-2">
-                      {addon.type === 'merch' ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-teal)" strokeWidth="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-                      ) : (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" strokeWidth="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-                      )}
-                    </div>
-                    <p className="text-xs font-semibold truncate">{addon.name}</p>
-                    <p className="text-orange text-xs font-bold mt-1">+{formatCurrency(addon.price)}</p>
+              {event.event_addons.map((addon: any) => (
+                <div
+                  key={addon.id}
+                  className="flex-none w-44 bg-surface-container-high rounded-xl p-4 border border-white/5 hover:border-white/15 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                >
+                  <div className="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center mb-3">
+                    {addon.type === 'merch' ? (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" strokeWidth="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    ) : (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" strokeWidth="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                    )}
                   </div>
-                </Card>
+                  <p className="text-sm font-headline font-semibold truncate text-on-surface">{addon.name}</p>
+                  <p className="text-primary-container text-sm font-body font-bold mt-1">+{formatCurrency(addon.price)}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -311,8 +385,8 @@ export default function EventDetailPage() {
         {/* Social Links */}
         {event.socialLinks && Object.keys(event.socialLinks).length > 0 && (
           <div>
-            <h3 className="font-display font-semibold text-base mb-3">Follow</h3>
-            <div className="flex gap-3">
+            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Follow</p>
+            <div className="flex gap-3 flex-wrap">
               {Object.entries(event.socialLinks).map(([platform, url]) => {
                 const icon = SOCIAL_ICONS[platform];
                 if (!icon) return null;
@@ -322,10 +396,10 @@ export default function EventDetailPage() {
                     href={url as string}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center hover:border-border-light transition-colors"
+                    className="w-11 h-11 rounded-xl glass-card border border-white/5 flex items-center justify-center hover:border-white/15 hover:-translate-y-0.5 transition-all duration-200"
                     title={icon.label}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-text-secondary)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--color-on-surface-variant)">
                       <path d={icon.path} />
                     </svg>
                   </a>
@@ -336,19 +410,25 @@ export default function EventDetailPage() {
         )}
       </div>
 
-      {/* Fixed CTA */}
-      <div className="fixed bottom-16 left-0 right-0 z-30">
-        <div className="max-w-[480px] mx-auto px-4 pb-3 pt-3 bg-gradient-to-t from-bg via-bg to-transparent">
-          <Button
-            fullWidth
-            size="lg"
-            onClick={() => router.push(`/events/${event.id}/purchase`)}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" /><line x1="7" y1="7" x2="7.01" y2="7" />
-            </svg>
-            Get Tickets from {formatCurrency(event.tiers?.[0]?.price || 0)}
-          </Button>
+      {/* ── Fixed CTA Bar ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 p-6 pointer-events-none">
+        <div className="max-w-[480px] mx-auto pointer-events-auto">
+          <div className="glass-panel rounded-[32px] flex items-center justify-between border border-white/5 px-5 py-4">
+            {/* Price */}
+            <div>
+              <p className="text-on-surface-variant text-[10px] font-body uppercase tracking-wide mb-0.5">From</p>
+              <p className="font-headline font-extrabold text-xl text-primary-container">
+                {formatCurrency(selectedTier?.price ?? event.ticket_tiers?.[0]?.price ?? 0)}
+              </p>
+            </div>
+            {/* Button */}
+            <button
+              onClick={() => router.push(`/events/${event.id}/purchase${selectedTierId ? `?tier=${selectedTierId}` : ''}`)}
+              className="kinetic-gradient text-white px-8 py-4 rounded-2xl font-body font-bold uppercase tracking-widest text-sm active:scale-95 transition-transform duration-150 shadow-[0_0_20px_rgba(255,107,53,0.35)]"
+            >
+              Get Tickets
+            </button>
+          </div>
         </div>
       </div>
     </div>

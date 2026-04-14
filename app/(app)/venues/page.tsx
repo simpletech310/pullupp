@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { EVENT_GRADIENTS } from '@/lib/utils/constants';
 import { formatCurrency } from '@/lib/utils/format';
@@ -20,6 +18,8 @@ const MOCK_VENUES = [
     rating: 4.8,
     reviews: 124,
     gradient: 0,
+    address: 'Downtown Arts District',
+    amenities: ['Sound System', 'Bar', 'Parking'],
   },
   {
     id: 'v2',
@@ -30,6 +30,8 @@ const MOCK_VENUES = [
     rating: 4.9,
     reviews: 89,
     gradient: 1,
+    address: 'Midtown, 12th Floor',
+    amenities: ['City Views', 'Bar', 'Heaters'],
   },
   {
     id: 'v3',
@@ -40,6 +42,8 @@ const MOCK_VENUES = [
     rating: 4.6,
     reviews: 67,
     gradient: 2,
+    address: 'West End Gallery Row',
+    amenities: ['Projector', 'Natural Light', 'AV'],
   },
   {
     id: 'v4',
@@ -50,6 +54,8 @@ const MOCK_VENUES = [
     rating: 4.7,
     reviews: 201,
     gradient: 3,
+    address: 'Industrial Quarter',
+    amenities: ['Stage', 'Loading Dock', 'HVAC'],
   },
   {
     id: 'v5',
@@ -60,6 +66,8 @@ const MOCK_VENUES = [
     rating: 4.5,
     reviews: 45,
     gradient: 4,
+    address: 'Buckhead Creative Hub',
+    amenities: ['Recording Booth', 'Green Room'],
   },
   {
     id: 'v6',
@@ -70,6 +78,8 @@ const MOCK_VENUES = [
     rating: 4.8,
     reviews: 156,
     gradient: 5,
+    address: 'Piedmont Park Area',
+    amenities: ['Tent', 'Catering Kitchen', 'Parking'],
   },
 ];
 
@@ -87,9 +97,9 @@ export default function VenuesPage() {
   return (
     <div className="pb-24">
       {/* Header */}
-      <div className="px-4 pt-4 pb-3">
-        <h2 className="font-display font-bold text-xl">Venues</h2>
-        <p className="text-text-secondary text-sm">Find the perfect space</p>
+      <div className="px-4 pt-6 pb-4">
+        <h2 className="font-headline font-bold text-3xl tracking-tight text-on-surface">Venues</h2>
+        <p className="text-on-surface-variant text-sm mt-1">Find the perfect space</p>
       </div>
 
       {/* Search */}
@@ -106,17 +116,17 @@ export default function VenuesPage() {
         />
       </div>
 
-      {/* Filter Chips */}
+      {/* Filter Pills */}
       <div className="flex gap-2 px-4 pb-4 overflow-x-auto scrollbar-hide">
         {VENUE_TYPES.map(type => (
           <button
             key={type}
             onClick={() => setSelectedType(type)}
             className={`
-              px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200
+              px-4 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all duration-200
               ${selectedType === type
-                ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
-                : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                ? 'bg-primary-container text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
+                : 'bg-surface-container text-on-surface-variant'
               }
             `}
           >
@@ -125,48 +135,85 @@ export default function VenuesPage() {
         ))}
       </div>
 
-      {/* Venue Grid */}
-      <div className="px-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* Venue List */}
+      <div className="px-4 flex flex-col gap-3">
         {filtered.map(venue => (
-          <Card
+          <div
             key={venue.id}
-            hoverable
             onClick={() => router.push(`/venues/${venue.id}`)}
+            className="glass-card rounded-2xl overflow-hidden border border-white/5 cursor-pointer active:scale-[0.98] transition-transform"
           >
+            {/* Image / gradient area */}
             <div
-              className="aspect-[16/7] w-full p-4 flex flex-col justify-end relative"
+              className="aspect-[16/7] relative w-full"
               style={{ background: EVENT_GRADIENTS[venue.gradient] }}
             >
-              <Badge variant="default" className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm border-0 text-white">
+              {/* Overlay gradient for legibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+              {/* Category badge */}
+              <span className="absolute top-3 left-3 bg-secondary-container text-white rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide">
                 {venue.type}
-              </Badge>
-            </div>
-            <div className="p-4">
-              <h4 className="font-semibold text-sm mb-1">{venue.name}</h4>
-              <div className="flex items-center gap-1 text-xs text-text-secondary mb-2">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-                <span className="font-medium">{venue.rating}</span>
-                <span className="text-text-muted">({venue.reviews})</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-text-secondary text-xs mb-3">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                Up to {venue.capacity} guests
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-orange font-semibold text-sm">
-                  {formatCurrency(venue.hourlyRate)}/hr
+              </span>
+
+              {/* Rating + capacity bottom-right */}
+              <div className="absolute bottom-3 right-3 flex items-center gap-2">
+                <span className="flex items-center gap-1 bg-black/40 backdrop-blur-sm rounded-full px-2 py-0.5">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <span className="text-white text-[10px] font-bold">{venue.rating}</span>
+                  <span className="text-white/60 text-[10px]">({venue.reviews})</span>
+                </span>
+                <span className="flex items-center gap-1 bg-black/40 backdrop-blur-sm rounded-full px-2 py-0.5">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span className="text-white text-[10px] font-bold">{venue.capacity}</span>
                 </span>
               </div>
             </div>
-          </Card>
+
+            {/* Content */}
+            <div className="p-4">
+              <h4 className="font-headline font-bold text-base text-on-surface mb-0.5">
+                {venue.name}
+              </h4>
+              <p className="text-xs text-on-surface-variant mb-3 flex items-center gap-1">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                {venue.address}
+              </p>
+
+              <div className="flex items-center justify-between">
+                <span className="text-primary-container font-semibold text-sm">
+                  {formatCurrency(venue.hourlyRate)}/hr
+                </span>
+                {/* Amenity chips */}
+                <div className="flex gap-1.5 flex-wrap justify-end">
+                  {venue.amenities.slice(0, 2).map(amenity => (
+                    <span
+                      key={amenity}
+                      className="bg-surface-container-highest text-on-surface-variant rounded-full px-2.5 py-1 text-[10px] font-medium"
+                    >
+                      {amenity}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
 
       {filtered.length === 0 && (
         <div className="px-4 py-12 text-center">
-          <p className="text-text-muted text-sm">No venues found</p>
+          <p className="text-on-surface-variant text-sm">No venues found</p>
         </div>
       )}
     </div>

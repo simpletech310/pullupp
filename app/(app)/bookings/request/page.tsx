@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
 import { useAuthContext } from '@/providers/auth-provider';
 import { formatCurrency } from '@/lib/utils/format';
+import { createClient } from '@/lib/supabase/client';
 import {
   format,
   startOfMonth,
@@ -22,30 +21,25 @@ import {
   isBefore,
 } from 'date-fns';
 
-// Mock providers for search
-const MOCK_VENUES = [
-  { id: 'v1', name: 'The Velvet Room', hourlyRate: 150 },
-  { id: 'v2', name: 'Skyline Rooftop', hourlyRate: 250 },
-  { id: 'v3', name: 'Creative Co-Op', hourlyRate: 100 },
-  { id: 'v4', name: 'Garden Pavilion', hourlyRate: 200 },
-  { id: 'v5', name: 'The Grand Hall', hourlyRate: 350 },
-];
-
-const MOCK_ARTISTS = [
-  { id: 'a1', name: 'DJ Nova', hourlyRate: 200 },
-  { id: 'a2', name: 'Sarah Keys (Piano)', hourlyRate: 150 },
-  { id: 'a3', name: 'The Groove Collective', hourlyRate: 500 },
-  { id: 'a4', name: 'Marcus Cole (Comedy)', hourlyRate: 175 },
-  { id: 'a5', name: 'Luna Strings Quartet', hourlyRate: 400 },
-];
+interface ProviderOption {
+  id: string;
+  name: string;
+  hourly_rate: number | null;
+  flat_rate?: number | null;
+  genre?: string | null;
+  type?: string | null;
+  user_id?: string | null;
+}
 
 type BookingType = 'venue' | 'artist';
 
 export default function BookingRequestPage() {
   const router = useRouter();
-  const { profile } = useAuthContext();
+  const { user, profile } = useAuthContext();
 
   const [bookingType, setBookingType] = useState<BookingType>('venue');
+  const [providers, setProviders] = useState<ProviderOption[]>([]);
+  const [providersLoading, setProvidersLoading] = useState(true);
   const [selectedProvider, setSelectedProvider] = useState<string>('');
   const [providerDropdownOpen, setProviderDropdownOpen] = useState(false);
   const [eventName, setEventName] = useState('');
@@ -56,8 +50,55 @@ export default function BookingRequestPage() {
   const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const providers = bookingType === 'venue' ? MOCK_VENUES : MOCK_ARTISTS;
-  const selectedProviderData = providers.find((p) => p.id === selectedProvider);
+  // Fetch providers when booking type changes
+  useEffect(() => {
+    setProvidersLoading(true);
+    setSelectedProvider('');
+
+    const supabase = createClient();
+
+    if (bookingType === 'venue') {
+      supabase
+        .from('venues')
+        .select('id, name, hourly_rate, type')
+        .eq('is_verified', true)
+        .order('name')
+        .limit(50)
+        .then(({ data }) => {
+          setProviders(
+            (data || []).map(v => ({
+              id: v.id,
+              name: v.name,
+              hourly_rate: v.hourly_rate,
+              type: v.type,
+            })),
+          );
+          setProvidersLoading(false);
+        });
+    } else {
+      supabase
+        .from('artists')
+        .select('id, name, hourly_rate, flat_rate, genre, user_id')
+        .eq('is_active', true)
+        .order('name')
+        .limit(50)
+        .then(({ data }) => {
+          setProviders(
+            (data || []).map(a => ({
+              id: a.id,
+              name: a.name,
+              hourly_rate: a.hourly_rate,
+              flat_rate: a.flat_rate,
+              genre: a.genre,
+              user_id: a.user_id,
+            })),
+          );
+          setProvidersLoading(false);
+        });
+    }
+  }, [bookingType]);
+
+  const selectedProviderData = providers.find(p => p.id === selectedProvider);
 
   // Calendar grid
   const calendarDays = useMemo(() => {
@@ -71,7 +112,7 @@ export default function BookingRequestPage() {
   // Estimated total
   const estimatedTotal = useMemo(() => {
     if (budgetAmount > 0) return budgetAmount;
-    if (selectedProviderData) return selectedProviderData.hourlyRate * hours;
+    if (selectedProviderData?.hourly_rate) return selectedProviderData.hourly_rate * hours;
     return 0;
   }, [budgetAmount, selectedProviderData, hours]);
 
@@ -81,9 +122,35 @@ export default function BookingRequestPage() {
     if (!eventName || !selectedProvider || !selectedDate) return;
 
     setSubmitting(true);
-    // TODO: POST to /api/bookings endpoint
-    // For now, simulate a delay and redirect
-    await new Promise((r) => setTimeout(r, 1000));
+
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: bookingType,
+          requester_id: profile?.id || user?.id,
+          provider_id: selectedProviderData?.user_id || selectedProvider,
+          venue_id: bookingType === 'venue' ? selectedProvider : null,
+          artist_id: bookingType === 'artist' ? selectedProvider : null,
+          event_name: eventName,
+          date: format(selectedDate, 'yyyy-MM-dd'),
+          hours,
+          hourly_rate: selectedProviderData?.hourly_rate || 0,
+          proposed_amount: estimatedTotal,
+          deposit_amount: depositAmount,
+          notes: notes || null,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        console.error('Booking creation failed:', err);
+      }
+    } catch (err) {
+      console.error('Booking request error:', err);
+    }
+
     setSubmitting(false);
     router.push('/bookings');
   };
@@ -96,35 +163,35 @@ export default function BookingRequestPage() {
       <div className="px-4 pt-4 pb-3 flex items-center gap-3">
         <button
           onClick={() => router.back()}
-          className="p-2 rounded-xl hover:bg-surface-hover transition-colors"
+          className="p-2 rounded-xl hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-on-surface"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
-        <h1 className="font-display font-bold text-xl">Request Booking</h1>
+        <h1 className="font-headline font-bold text-xl text-on-surface">Request Booking</h1>
       </div>
 
       <div className="px-4 space-y-5">
         {/* Booking Type Toggle */}
         <div>
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-2 block">
+          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Type
           </label>
-          <div className="flex gap-2">
-            {(['venue', 'artist'] as const).map((type) => (
+          <div className="flex bg-surface-container rounded-xl p-1">
+            {(['venue', 'artist'] as const).map(type => (
               <button
                 key={type}
                 onClick={() => {
                   setBookingType(type);
-                  setSelectedProvider('');
                   setProviderDropdownOpen(false);
+                  setBudgetAmount(0);
                 }}
                 className={`
-                  flex-1 py-3 rounded-xl text-sm font-semibold transition-all duration-200
+                  flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200
                   ${bookingType === type
-                    ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
-                    : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                    ? 'bg-primary-container text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
+                    : 'text-on-surface-variant'
                   }
                 `}
               >
@@ -138,7 +205,9 @@ export default function BookingRequestPage() {
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" />
+                      <path d="M9 18V5l12-2v13" />
+                      <circle cx="6" cy="18" r="3" />
+                      <circle cx="18" cy="16" r="3" />
                     </svg>
                     Artist
                   </span>
@@ -150,82 +219,115 @@ export default function BookingRequestPage() {
 
         {/* Provider Select */}
         <div>
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-2 block">
+          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Select {bookingType === 'venue' ? 'Venue' : 'Artist'}
           </label>
           <div className="relative">
             <button
-              onClick={() => setProviderDropdownOpen(!providerDropdownOpen)}
+              onClick={() => !providersLoading && setProviderDropdownOpen(!providerDropdownOpen)}
+              disabled={providersLoading}
               className={`
-                w-full bg-surface border border-border rounded-xl px-4 py-3
-                text-sm text-left transition-colors duration-200
-                focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30
-                flex items-center justify-between
-                ${!selectedProvider ? 'text-text-muted' : 'text-text-primary'}
+                w-full rounded-xl px-4 py-3 text-sm text-left transition-all duration-200
+                focus:outline-none flex items-center justify-between
+                glass-card border
+                ${selectedProvider
+                  ? 'border-primary-container/40 shadow-[0_0_12px_rgba(255,107,53,0.2)]'
+                  : 'border-white/5'
+                }
+                ${!selectedProvider ? 'text-outline' : 'text-on-surface'}
+                ${providersLoading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
               `}
             >
-              {selectedProviderData?.name || `Choose a ${bookingType}...`}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform ${providerDropdownOpen ? 'rotate-180' : ''}`}>
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
+              {providersLoading
+                ? `Loading ${bookingType === 'venue' ? 'venues' : 'artists'}...`
+                : selectedProviderData?.name || `Choose a ${bookingType}...`
+              }
+              {providersLoading ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="animate-spin text-outline">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform text-outline ${providerDropdownOpen ? 'rotate-180' : ''}`}>
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              )}
             </button>
-            {providerDropdownOpen && (
-              <div className="absolute z-20 mt-1 w-full bg-bg-elevated border border-border rounded-xl shadow-lg overflow-hidden">
-                {providers.map((provider) => (
+
+            {providerDropdownOpen && providers.length > 0 && (
+              <div className="absolute z-20 mt-1 w-full glass-card border border-white/5 rounded-xl shadow-lg overflow-hidden max-h-64 overflow-y-auto">
+                {providers.map(provider => (
                   <button
                     key={provider.id}
                     onClick={() => {
                       setSelectedProvider(provider.id);
                       setProviderDropdownOpen(false);
-                      if (!budgetAmount) {
-                        setBudgetAmount(provider.hourlyRate * hours);
+                      if (!budgetAmount && provider.hourly_rate) {
+                        setBudgetAmount(provider.hourly_rate * hours);
                       }
                     }}
                     className={`
-                      w-full px-4 py-3 text-sm text-left hover:bg-surface-hover transition-colors
+                      w-full px-4 py-3 text-sm text-left hover:bg-surface-container-high transition-colors
                       flex items-center justify-between
-                      ${selectedProvider === provider.id ? 'text-orange font-semibold' : 'text-text-primary'}
+                      ${selectedProvider === provider.id ? 'text-primary-container font-semibold' : 'text-on-surface'}
                     `}
                   >
-                    <span>{provider.name}</span>
-                    <span className="text-text-muted text-xs">{formatCurrency(provider.hourlyRate)}/hr</span>
+                    <div>
+                      <span>{provider.name}</span>
+                      {(provider.genre || provider.type) && (
+                        <span className="block text-xs text-outline mt-0.5">
+                          {provider.genre || provider.type}
+                        </span>
+                      )}
+                    </div>
+                    {provider.hourly_rate ? (
+                      <span className="text-outline text-xs">{formatCurrency(provider.hourly_rate)}/hr</span>
+                    ) : null}
                   </button>
                 ))}
+                {providers.length === 0 && (
+                  <div className="px-4 py-3 text-sm text-outline text-center">
+                    No {bookingType === 'venue' ? 'venues' : 'artists'} available
+                  </div>
+                )}
               </div>
             )}
           </div>
         </div>
 
         {/* Event Name */}
-        <Input
-          label="Event Name"
-          placeholder="e.g. Summer Rooftop Party"
-          value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
-        />
+        <div>
+          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+            Event Name
+          </label>
+          <Input
+            placeholder="e.g. Summer Rooftop Party"
+            value={eventName}
+            onChange={e => setEventName(e.target.value)}
+          />
+        </div>
 
         {/* Date Picker Calendar */}
         <div>
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-2 block">
+          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Date
           </label>
-          <Card className="p-4">
+          <div className="glass-card rounded-xl border border-white/5 p-4">
             {/* Month Navigation */}
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={() => setCalendarMonth(subMonths(calendarMonth, 1))}
-                className="p-1.5 rounded-lg hover:bg-surface-hover transition-colors"
+                className="p-1.5 rounded-lg hover:bg-surface-container-high transition-colors text-on-surface-variant"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6" />
                 </svg>
               </button>
-              <span className="font-semibold text-sm">
+              <span className="font-headline font-semibold text-sm text-on-surface">
                 {format(calendarMonth, 'MMMM yyyy')}
               </span>
               <button
                 onClick={() => setCalendarMonth(addMonths(calendarMonth, 1))}
-                className="p-1.5 rounded-lg hover:bg-surface-hover transition-colors"
+                className="p-1.5 rounded-lg hover:bg-surface-container-high transition-colors text-on-surface-variant"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6" />
@@ -235,8 +337,8 @@ export default function BookingRequestPage() {
 
             {/* Day of Week Headers */}
             <div className="grid grid-cols-7 gap-1 mb-1">
-              {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((day) => (
-                <div key={day} className="text-center text-[10px] font-semibold text-text-muted py-1">
+              {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
+                <div key={day} className="text-center text-[10px] font-semibold text-outline py-1">
                   {day}
                 </div>
               ))}
@@ -257,11 +359,11 @@ export default function BookingRequestPage() {
                     onClick={() => setSelectedDate(day)}
                     className={`
                       aspect-square flex items-center justify-center rounded-lg text-xs font-medium transition-all duration-150
-                      ${!isCurrentMonth ? 'text-text-muted/30' : ''}
-                      ${isPast ? 'text-text-muted/40 cursor-not-allowed' : ''}
-                      ${isCurrentMonth && !isPast && !isSelected ? 'hover:bg-surface-hover text-text-primary' : ''}
-                      ${isSelected ? 'bg-orange text-white shadow-[0_0_12px_rgba(255,107,53,0.3)]' : ''}
-                      ${isCurrentDay && !isSelected ? 'border border-orange/50 text-orange' : ''}
+                      ${!isCurrentMonth ? 'text-outline/30' : ''}
+                      ${isPast ? 'text-outline/40 cursor-not-allowed' : ''}
+                      ${isCurrentMonth && !isPast && !isSelected ? 'hover:bg-surface-container-high text-on-surface' : ''}
+                      ${isSelected ? 'bg-primary-container text-white shadow-[0_0_12px_rgba(255,107,53,0.3)]' : ''}
+                      ${isCurrentDay && !isSelected ? 'border border-primary-container/50 text-primary-container' : ''}
                     `}
                   >
                     {format(day, 'd')}
@@ -271,51 +373,59 @@ export default function BookingRequestPage() {
             </div>
 
             {selectedDate && (
-              <div className="mt-3 pt-3 border-t border-border text-sm text-text-secondary text-center">
-                Selected: <span className="text-text-primary font-semibold">{format(selectedDate, 'EEEE, MMMM d, yyyy')}</span>
+              <div className="mt-3 pt-3 border-t border-white/5 text-sm text-on-surface-variant text-center font-body">
+                Selected: <span className="text-on-surface font-semibold">{format(selectedDate, 'EEEE, MMMM d, yyyy')}</span>
               </div>
             )}
-          </Card>
+          </div>
         </div>
 
         {/* Hours */}
-        <Input
-          label="Hours"
-          type="number"
-          min={1}
-          max={24}
-          value={hours}
-          onChange={(e) => setHours(parseInt(e.target.value) || 1)}
-        />
+        <div>
+          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+            Hours
+          </label>
+          <Input
+            type="number"
+            min={1}
+            max={24}
+            value={hours}
+            onChange={e => setHours(parseInt(e.target.value) || 1)}
+          />
+        </div>
 
         {/* Budget / Offer Amount */}
         <div>
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-2 block">
+          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Budget / Offer Amount
           </label>
           <div className="relative">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-semibold">$</div>
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-outline font-semibold">$</div>
             <input
               type="number"
               min={0}
               step={25}
               value={budgetAmount || ''}
-              onChange={(e) => setBudgetAmount(parseFloat(e.target.value) || 0)}
-              placeholder={selectedProviderData ? `${selectedProviderData.hourlyRate * hours}` : '0'}
+              onChange={e => setBudgetAmount(parseFloat(e.target.value) || 0)}
+              placeholder={
+                selectedProviderData?.hourly_rate
+                  ? `${selectedProviderData.hourly_rate * hours}`
+                  : '0'
+              }
               className="
-                w-full bg-surface border border-border rounded-xl pl-8 pr-4 py-3
-                text-sm text-text-primary font-body
-                placeholder:text-text-muted
-                focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30
+                w-full glass-card border border-white/5 rounded-xl pl-8 pr-4 py-3
+                text-sm text-on-surface font-body
+                placeholder:text-outline
+                focus:outline-none focus:border-primary-container/40 focus:ring-1 focus:ring-primary-container/20
                 transition-colors duration-200
               "
             />
           </div>
           {estimatedTotal > 0 && (
-            <p className="text-xs text-text-secondary mt-1.5">
-              Offer: <span className="text-orange font-semibold">{formatCurrency(estimatedTotal)}</span>
-              {selectedProviderData && budgetAmount === 0 && (
-                <span className="text-text-muted"> (based on {formatCurrency(selectedProviderData.hourlyRate)}/hr x {hours}hrs)</span>
+            <p className="text-xs text-on-surface-variant mt-1.5 font-body">
+              Offer: <span className="text-primary-container font-semibold">{formatCurrency(estimatedTotal)}</span>
+              {selectedProviderData?.hourly_rate && budgetAmount === 0 && (
+                <span className="text-outline"> (based on {formatCurrency(selectedProviderData.hourly_rate)}/hr x {hours}hrs)</span>
               )}
             </p>
           )}
@@ -323,19 +433,19 @@ export default function BookingRequestPage() {
 
         {/* Notes */}
         <div>
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide mb-2 block">
+          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Notes
           </label>
           <textarea
             value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            onChange={e => setNotes(e.target.value)}
             placeholder="Any special requests or details..."
             rows={3}
             className="
-              w-full bg-surface border border-border rounded-xl px-4 py-3
-              text-sm text-text-primary font-body
-              placeholder:text-text-muted
-              focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30
+              w-full glass-card border border-white/5 rounded-xl px-4 py-3
+              text-sm text-on-surface font-body
+              placeholder:text-outline
+              focus:outline-none focus:border-primary-container/40 focus:ring-1 focus:ring-primary-container/20
               transition-colors duration-200 resize-none
             "
           />
@@ -343,41 +453,43 @@ export default function BookingRequestPage() {
 
         {/* Estimated Total Card */}
         {estimatedTotal > 0 && (
-          <Card className="p-4">
-            <h3 className="font-semibold text-sm mb-3">Estimate</h3>
-            <div className="space-y-2 text-sm">
+          <div className="glass-card rounded-xl border border-white/5 p-4">
+            <h3 className="font-body font-semibold text-xs mb-3 text-on-surface-variant uppercase tracking-wide">Estimate</h3>
+            <div className="space-y-2 text-sm font-body">
               <div className="flex justify-between">
-                <span className="text-text-secondary">
+                <span className="text-on-surface-variant">
                   {selectedProviderData?.name || 'Provider'} ({hours} hrs)
                 </span>
-                <span className="text-text-primary">{formatCurrency(estimatedTotal)}</span>
+                <span className="text-on-surface">{formatCurrency(estimatedTotal)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-secondary">Platform fee (5%)</span>
-                <span className="text-text-primary">{formatCurrency(estimatedTotal * 0.05)}</span>
+                <span className="text-on-surface-variant">Platform fee (5%)</span>
+                <span className="text-on-surface">{formatCurrency(estimatedTotal * 0.05)}</span>
               </div>
-              <div className="border-t border-border pt-2 flex justify-between font-semibold">
-                <span>Total</span>
-                <span className="text-orange">{formatCurrency(estimatedTotal * 1.05)}</span>
+              <div className="border-t border-white/5 pt-2 flex justify-between font-semibold">
+                <span className="text-on-surface">Total</span>
+                <span className="text-primary-container">{formatCurrency(estimatedTotal * 1.05)}</span>
               </div>
-              <div className="flex justify-between text-xs text-text-muted pt-1">
+              <div className="flex justify-between text-xs text-outline pt-1">
                 <span>Deposit due on acceptance</span>
                 <span>{formatCurrency(depositAmount)}</span>
               </div>
             </div>
-          </Card>
+          </div>
         )}
 
         {/* Submit */}
-        <Button
-          fullWidth
-          size="lg"
-          disabled={!canSubmit}
-          loading={submitting}
+        <button
+          disabled={!canSubmit || submitting}
           onClick={handleSubmit}
+          className={`
+            w-full kinetic-gradient text-white font-bold py-4 rounded-2xl uppercase tracking-widest
+            shadow-[0_0_16px_rgba(255,107,53,0.3)] transition-opacity duration-200
+            ${(!canSubmit || submitting) ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 active:scale-[0.98]'}
+          `}
         >
-          Send Request
-        </Button>
+          {submitting ? 'Sending...' : 'Send Request'}
+        </button>
       </div>
     </div>
   );

@@ -1,75 +1,131 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors */
-  --color-orange: #FF6B35;
+  /* === MATERIAL DESIGN 3 COLOR TOKENS === */
+  /* Primary (Orange #FF6B35) */
+  --color-primary: #ffb59d;
+  --color-primary-container: #ff6b35;
+  --color-on-primary: #5d1900;
+  --color-on-primary-container: #5f1900;
+  --color-primary-fixed: #ffdbd0;
+  --color-primary-fixed-dim: #ffb59d;
+  --color-on-primary-fixed: #390c00;
+  --color-on-primary-fixed-variant: #832600;
+  --color-inverse-primary: #ab3500;
+
+  /* Secondary (Teal #04B4A2) */
+  --color-secondary: #4fdbc8;
+  --color-secondary-container: #04b4a2;
+  --color-on-secondary: #003731;
+  --color-on-secondary-container: #003f38;
+  --color-secondary-fixed: #71f8e4;
+  --color-secondary-fixed-dim: #4fdbc8;
+  --color-on-secondary-fixed: #00201c;
+  --color-on-secondary-fixed-variant: #005048;
+
+  /* Tertiary (Cyan) */
+  --color-tertiary: #59d5fb;
+  --color-tertiary-container: #00a7cb;
+  --color-on-tertiary: #003543;
+  --color-on-tertiary-container: #003744;
+  --color-tertiary-fixed: #b5ebff;
+  --color-tertiary-fixed-dim: #59d5fb;
+  --color-on-tertiary-fixed: #001f28;
+  --color-on-tertiary-fixed-variant: #004e60;
+
+  /* Background & Surface */
+  --color-background: #131317;
+  --color-on-background: #e4e1e7;
+  --color-surface: #131317;
+  --color-on-surface: #e4e1e7;
+  --color-surface-dim: #131317;
+  --color-surface-bright: #39393d;
+  --color-surface-variant: #353439;
+  --color-on-surface-variant: #e1bfb5;
+  --color-surface-tint: #ffb59d;
+  --color-inverse-surface: #e4e1e7;
+  --color-inverse-on-surface: #303034;
+
+  /* Surface Containers (elevation layers) */
+  --color-surface-container-lowest: #0e0e12;
+  --color-surface-container-low: #1b1b1f;
+  --color-surface-container: #1f1f23;
+  --color-surface-container-high: #2a292e;
+  --color-surface-container-highest: #353439;
+
+  /* Error */
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --color-on-error: #690005;
+  --color-on-error-container: #ffdad6;
+
+  /* Outline */
+  --color-outline: #a98a80;
+  --color-outline-variant: #594139;
+
+  /* === LEGACY ALIASES (keep existing pages working) === */
+  --color-orange: #ff6b35;
   --color-orange-light: #FF8F5E;
   --color-orange-dark: #E55A28;
   --color-orange-glow: rgba(255, 107, 53, 0.35);
-
-  --color-teal: #14B8A6;
-  --color-teal-light: #2DD4BF;
+  --color-teal: #04b4a2;
+  --color-teal-light: #4fdbc8;
   --color-teal-dark: #0D9488;
-  --color-teal-glow: rgba(20, 184, 166, 0.25);
+  --color-teal-glow: rgba(4, 180, 162, 0.25);
+  --color-bg: #131317;
+  --color-bg-elevated: #1b1b1f;
+  --color-surface-alt: #2a292e;
+  --color-surface-hover: #353439;
+  --color-border: #594139;
+  --color-border-light: #353439;
+  --color-text-primary: #e4e1e7;
+  --color-text-secondary: #e1bfb5;
+  --color-text-muted: #a98a80;
+  --color-success: #4fdbc8;
+  --color-warning: #ffb59d;
 
-  /* Backgrounds & Surfaces */
-  --color-bg: #0F0F13;
-  --color-bg-elevated: #16161D;
-  --color-surface: #1A1A23;
-  --color-surface-alt: #22222E;
-  --color-surface-hover: #2A2A38;
+  /* === TYPOGRAPHY === */
+  --font-display: 'Syne', 'Space Grotesk', sans-serif;
+  --font-headline: 'Syne', 'Space Grotesk', sans-serif;
+  --font-body: 'Outfit', 'Be Vietnam Pro', sans-serif;
+  --font-label: 'Outfit', 'Be Vietnam Pro', sans-serif;
 
-  /* Borders */
-  --color-border: #2D2D3A;
-  --color-border-light: #3A3A4A;
-
-  /* Text */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #9CA3AF;
-  --color-text-muted: #6B7280;
-
-  /* Status */
-  --color-success: #22C55E;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
-
-  /* Typography */
-  --font-display: 'Syne', sans-serif;
-  --font-body: 'Outfit', sans-serif;
-
-  /* Radius */
+  /* === BORDER RADIUS === */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+  --radius-2xl: 32px;
   --radius-full: 9999px;
+  --default-border-radius: 4px;
 
-  /* Shadows */
+  /* === SHADOWS === */
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
-  --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.35);
+  --shadow-glow-orange: 0 0 20px rgba(255, 107, 53, 0.35);
+  --shadow-glow-teal: 0 0 16px rgba(4, 180, 162, 0.3);
 
-  /* Layout */
+  /* === LAYOUT === */
   --spacing-nav-height: 64px;
-  --spacing-top-bar: 56px;
+  --spacing-top-bar: 64px;
 }
 
-/* Reset */
+/* === RESET === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 
 body {
   font-family: var(--font-body);
-  background: var(--color-bg);
-  color: var(--color-text-primary);
+  background: var(--color-background);
+  color: var(--color-on-surface);
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* App Container */
+/* === APP CONTAINER === */
 #app-container {
   max-width: 480px;
   margin: 0 auto;
@@ -79,27 +135,70 @@ body {
 
 @media (min-width: 1024px) {
   #app-container {
-    border-left: 1px solid var(--color-border);
-    border-right: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-outline-variant);
+    border-right: 1px solid var(--color-outline-variant);
   }
 }
 
-/* Scrollbar */
+/* === SCROLLBAR === */
 ::-webkit-scrollbar { width: 0; height: 0; }
 
-/* Selection */
+/* === SELECTION === */
 ::selection {
-  background: var(--color-orange);
+  background: var(--color-primary-container);
   color: white;
 }
 
-/* Focus visible */
+/* === FOCUS === */
 :focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-primary-container);
   outline-offset: 2px;
 }
 
-/* Animations */
+/* === GLASS MORPHISM === */
+.glass-card {
+  background: rgba(53, 52, 57, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-panel {
+  background: rgba(31, 31, 35, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* === GRADIENTS === */
+.kinetic-gradient {
+  background: linear-gradient(135deg, #FF6B35 0%, #04B4A2 100%);
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8F5E 100%);
+}
+
+/* === MATERIAL SYMBOLS === */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+}
+
+.material-symbols-filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* === HIDE SCROLLBAR UTILITY === */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* === ANIMATIONS === */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
@@ -120,29 +219,35 @@ body {
   100% { top: 100%; }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.4s ease-out;
-}
-
-.animate-pulse-dot {
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
+@keyframes scanner-sweep {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(240px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fade-in 0.3s ease-out; }
+.animate-slide-up { animation: slide-up 0.4s ease-out; }
+.animate-pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+.animate-scanner { animation: scanner-sweep 2.5s ease-in-out infinite; }
+
 .animate-shimmer {
-  background: linear-gradient(90deg, var(--color-surface-alt) 25%, var(--color-surface-hover) 50%, var(--color-surface-alt) 75%);
+  background: linear-gradient(90deg, var(--color-surface-container-high) 25%, var(--color-surface-container-highest) 50%, var(--color-surface-container-high) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
+/* Scanner line glow */
+.scanner-line {
+  background: linear-gradient(to right, transparent, #ff6b35, transparent);
+  box-shadow: 0 0 8px #ff6b35;
+}
+
+/* === ACCESSIBILITY === */
 .sr-only {
   position: absolute;
   width: 1px;

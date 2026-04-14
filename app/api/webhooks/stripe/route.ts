@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         const quantity = parseInt(metadata.quantity || '1', 10);
         const addonIds: string[] = metadata.addon_ids ? JSON.parse(metadata.addon_ids) : [];
 
-        if (!eventId || !userId || !tierId) {
+        if (!eventId || !tierId) {
           console.error('Missing metadata in checkout session:', metadata);
           break;
         }
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
         const { data: order, error: orderError } = await supabase
           .from('orders')
           .insert({
-            user_id: userId,
+            user_id: userId || null,
             event_id: eventId,
             stripe_checkout_session_id: session.id,
             stripe_payment_intent_id: typeof session.payment_intent === 'string'
@@ -65,6 +65,9 @@ export async function POST(request: NextRequest) {
             subtotal,
             service_fee: serviceFee,
             total,
+            tier_id: tierId,
+            quantity,
+            customer_email: session.customer_details?.email || null,
           })
           .select('id')
           .single();
@@ -78,7 +81,7 @@ export async function POST(request: NextRequest) {
         const tickets = Array.from({ length: quantity }, () => ({
           order_id: order.id,
           event_id: eventId,
-          user_id: userId,
+          user_id: userId || null,
           tier_id: tierId,
           qr_code: crypto.randomUUID(),
           status: 'active' as const,
