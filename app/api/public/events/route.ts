@@ -20,7 +20,6 @@ export async function GET(request: NextRequest) {
       id, title, description, category, date, start_time,
       cover_images, gradient_index, visibility,
       manual_venue_name,
-      organizer:profiles!organizer_id(id, name, avatar_url, avatar_color_index),
       venue:venues(id, name, address, city),
       ticket_tiers(id, name, price, remaining, quantity)
     `)

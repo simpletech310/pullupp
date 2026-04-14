@@ -8,6 +8,7 @@ const PUBLIC_ROUTES = [
   '/register',
   '/callback',
   '/api/webhooks',
+  '/api/public',
 ];
 
 // Guests (unauthenticated) can browse these — auth users get richer views
