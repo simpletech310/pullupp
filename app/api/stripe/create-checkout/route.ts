@@ -21,11 +21,8 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
 
-    // Check auth
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // Auth is optional — guests can checkout without an account
+    const { data: { user } } = await supabase.auth.getUser();
 
     const body = await request.json();
     const parseResult = checkoutSchema.safeParse(body);
@@ -149,12 +146,12 @@ export async function POST(request: NextRequest) {
       cancel_url: `${request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_URL}/events/${eventId}`,
       metadata: {
         event_id: eventId,
-        user_id: user.id,
+        user_id: user?.id ?? '',
         tier_id: tierId,
         quantity: quantity.toString(),
         addon_ids: JSON.stringify(addonIds),
       },
-      customer_email: user.email,
+      ...(user?.email ? { customer_email: user.email } : {}),
     };
 
     // Add Connect destination if organizer has a connected account
