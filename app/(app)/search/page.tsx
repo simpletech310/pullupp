@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { EVENT_GRADIENTS, EVENT_CATEGORIES, AVATAR_COLORS } from '@/lib/utils/constants';
 import { formatDate, formatCompactNumber, formatCurrency } from '@/lib/utils/format';
 import { toast } from 'sonner';
-import { getPublishedEvents, getVenues, getArtists } from '@/lib/supabase/queries';
 
 function getInitials(name: string): string {
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
@@ -42,14 +41,14 @@ export default function SearchPage() {
     async function fetchInitialData() {
       try {
         setLoading(true);
-        const [eventsData, venuesData, artistsData] = await Promise.all([
-          getPublishedEvents({}),
-          getVenues(),
-          getArtists(),
+        const [eventsRes, venuesRes, artistsRes] = await Promise.all([
+          fetch('/api/public/events?limit=20'),
+          fetch('/api/public/venues'),
+          fetch('/api/public/artists'),
         ]);
-        setEvents(eventsData?.data || []);
-        setVenues(venuesData?.data || []);
-        setArtists(artistsData?.data || []);
+        setEvents(eventsRes.ok ? await eventsRes.json() : []);
+        setVenues(venuesRes.ok ? await venuesRes.json() : []);
+        setArtists(artistsRes.ok ? await artistsRes.json() : []);
       } catch {
         toast.error('Failed to load data');
       } finally {
@@ -64,10 +63,10 @@ export default function SearchPage() {
     if (!query.trim()) return;
     const timer = setTimeout(async () => {
       try {
-        const filter: any = { search: query };
-        if (selectedCategory !== 'All') filter.category = selectedCategory;
-        const { data } = await getPublishedEvents(filter);
-        setEvents(data || []);
+        const params = new URLSearchParams({ search: query });
+        if (selectedCategory !== 'All') params.set('category', selectedCategory);
+        const res = await fetch(`/api/public/events?${params}`);
+        setEvents(res.ok ? await res.json() : []);
       } catch {
         toast.error('Search failed');
       }
@@ -80,9 +79,10 @@ export default function SearchPage() {
     if (query.trim()) return;
     async function fetchFiltered() {
       try {
-        const filter = selectedCategory === 'All' ? {} : { category: selectedCategory };
-        const { data } = await getPublishedEvents(filter);
-        setEvents(data || []);
+        const params = new URLSearchParams({ limit: '20' });
+        if (selectedCategory !== 'All') params.set('category', selectedCategory);
+        const res = await fetch(`/api/public/events?${params}`);
+        setEvents(res.ok ? await res.json() : []);
       } catch {
         toast.error('Failed to filter events');
       }

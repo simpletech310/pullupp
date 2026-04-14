@@ -17,7 +17,7 @@ export default function AppLayout({
         Skip to content
       </a>
       <TopBar />
-      <main id="main-content" className={`${isAuthenticated ? 'pb-24' : 'pb-6'} min-h-[calc(100dvh-64px)]`}>
+      <main id="main-content" className={`pt-16 ${isAuthenticated ? 'pb-24' : 'pb-6'} min-h-[calc(100dvh-64px)]`}>
         {children}
       </main>
       {isAuthenticated && <BottomNav />}
