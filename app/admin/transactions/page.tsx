@@ -76,7 +76,7 @@ export default function AdminTransactionsPage() {
   return (
     <div className="p-8 max-w-7xl">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-display font-bold text-2xl">Transactions</h1>
+        <h1 className="font-headline font-bold text-2xl">Transactions</h1>
         <Button size="sm" variant="secondary" onClick={handleExport}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
@@ -88,29 +88,29 @@ export default function AdminTransactionsPage() {
       {/* Revenue Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <Card className="p-4">
-          <div className="text-xs text-text-muted uppercase tracking-wide mb-1">Total Volume</div>
-          <div className="font-display font-bold text-xl text-text-primary">${totalRevenue.toLocaleString()}</div>
+          <div className="text-xs text-outline uppercase tracking-wide mb-1">Total Volume</div>
+          <div className="font-headline font-bold text-xl text-on-surface">${totalRevenue.toLocaleString()}</div>
         </Card>
         <Card className="p-4">
-          <div className="text-xs text-text-muted uppercase tracking-wide mb-1">Platform Fees</div>
-          <div className="font-display font-bold text-xl text-teal">${totalFees.toFixed(2)}</div>
+          <div className="text-xs text-outline uppercase tracking-wide mb-1">Platform Fees</div>
+          <div className="font-headline font-bold text-xl text-secondary-container">${totalFees.toFixed(2)}</div>
         </Card>
         <Card className="p-4">
-          <div className="text-xs text-text-muted uppercase tracking-wide mb-1">Transactions</div>
-          <div className="font-display font-bold text-xl text-orange">{MOCK_TRANSACTIONS.length}</div>
+          <div className="text-xs text-outline uppercase tracking-wide mb-1">Transactions</div>
+          <div className="font-headline font-bold text-xl text-primary-container">{MOCK_TRANSACTIONS.length}</div>
         </Card>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 bg-surface border border-border rounded-xl p-1 w-fit">
+      <div className="flex gap-1 mb-6 bg-surface-container border border-white/5 rounded-xl p-1 w-fit">
         {TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
               activeTab === tab.key
-                ? 'bg-orange text-white'
-                : 'text-text-secondary hover:text-text-primary hover:bg-surface-hover'
+                ? 'bg-primary-container text-white'
+                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
             }`}
           >
             {tab.label}
@@ -123,34 +123,34 @@ export default function AdminTransactionsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">ID</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Type</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">From</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">To</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Amount</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Fee</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Date</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Status</th>
+              <tr className="border-b border-white/5">
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">ID</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Type</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">From</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">To</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Amount</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Fee</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Date</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Status</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((tx, i) => (
                 <tr
                   key={tx.id}
-                  className={`border-b border-border last:border-0 hover:bg-surface-hover transition-colors ${
-                    i % 2 === 1 ? 'bg-surface-alt/30' : ''
+                  className={`border-b border-white/5 last:border-0 hover:bg-surface-container-high transition-colors ${
+                    i % 2 === 1 ? 'bg-surface-container-high/30' : ''
                   }`}
                 >
-                  <td className="px-5 py-3.5 text-text-muted font-mono text-xs">{tx.id}</td>
+                  <td className="px-5 py-3.5 text-outline font-mono text-xs">{tx.id}</td>
                   <td className="px-5 py-3.5">
                     <Badge variant={TYPE_BADGE[tx.type].variant}>{TYPE_BADGE[tx.type].label}</Badge>
                   </td>
-                  <td className="px-5 py-3.5 text-text-primary">{tx.from}</td>
-                  <td className="px-5 py-3.5 text-text-secondary">{tx.to}</td>
-                  <td className="px-5 py-3.5 text-right text-text-primary font-medium">${tx.amount.toFixed(2)}</td>
-                  <td className="px-5 py-3.5 text-right text-text-muted">${tx.fee.toFixed(2)}</td>
-                  <td className="px-5 py-3.5 text-text-secondary">{tx.date}</td>
+                  <td className="px-5 py-3.5 text-on-surface">{tx.from}</td>
+                  <td className="px-5 py-3.5 text-on-surface-variant">{tx.to}</td>
+                  <td className="px-5 py-3.5 text-right text-on-surface font-medium">${tx.amount.toFixed(2)}</td>
+                  <td className="px-5 py-3.5 text-right text-outline">${tx.fee.toFixed(2)}</td>
+                  <td className="px-5 py-3.5 text-on-surface-variant">{tx.date}</td>
                   <td className="px-5 py-3.5">
                     <Badge variant={STATUS_BADGE[tx.status].variant}>{STATUS_BADGE[tx.status].label}</Badge>
                   </td>
@@ -163,13 +163,13 @@ export default function AdminTransactionsPage() {
 
       {/* Toast */}
       {toastVisible && (
-        <div className="fixed bottom-6 right-6 bg-surface border border-border rounded-xl px-5 py-3 shadow-lg flex items-center gap-3 animate-slide-up z-50">
+        <div className="fixed bottom-6 right-6 bg-surface-container border border-white/5 rounded-xl px-5 py-3 shadow-lg flex items-center gap-3 animate-slide-up z-50">
           <span className="w-5 h-5 rounded-full bg-success/15 text-success flex items-center justify-center text-xs">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </span>
-          <span className="text-sm text-text-primary">CSV export started (mock)</span>
+          <span className="text-sm text-on-surface">CSV export started (mock)</span>
         </div>
       )}
     </div>

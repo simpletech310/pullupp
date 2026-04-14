@@ -76,7 +76,7 @@ export default function AdminUsersPage() {
 
   return (
     <div className="p-8 max-w-7xl">
-      <h1 className="font-display font-bold text-2xl mb-6">User Management</h1>
+      <h1 className="font-headline font-bold text-2xl mb-6">User Management</h1>
 
       {/* Filters */}
       <div className="flex flex-wrap items-end gap-4 mb-6">
@@ -93,11 +93,11 @@ export default function AdminUsersPage() {
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Role</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Role</label>
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-body focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors"
+            className="bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface font-body focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/30 transition-colors"
           >
             <option value="all">All Roles</option>
             <option value="guest">Guest</option>
@@ -113,40 +113,40 @@ export default function AdminUsersPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">User</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Email</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Role</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Joined</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Status</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Actions</th>
+              <tr className="border-b border-white/5">
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">User</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Email</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Role</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Joined</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Status</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((user, i) => (
                 <tr
                   key={user.id}
-                  className={`border-b border-border last:border-0 hover:bg-surface-hover transition-colors ${
-                    i % 2 === 1 ? 'bg-surface-alt/30' : ''
+                  className={`border-b border-white/5 last:border-0 hover:bg-surface-container-high transition-colors ${
+                    i % 2 === 1 ? 'bg-surface-container-high/30' : ''
                   }`}
                 >
                   <td className="px-5 py-3.5">
-                    <a href={`/admin/users/${user.id}`} className="flex items-center gap-3 hover:text-orange transition-colors">
-                      <span className="w-8 h-8 rounded-full bg-orange/15 text-orange flex items-center justify-center text-xs font-bold shrink-0">
+                    <a href={`/admin/users/${user.id}`} className="flex items-center gap-3 hover:text-primary-container transition-colors">
+                      <span className="w-8 h-8 rounded-full bg-primary-container/15 text-primary-container flex items-center justify-center text-xs font-bold shrink-0">
                         {user.avatar}
                       </span>
-                      <span className="font-medium text-text-primary">{user.name}</span>
+                      <span className="font-medium text-on-surface">{user.name}</span>
                     </a>
                   </td>
-                  <td className="px-5 py-3.5 text-text-secondary">{user.email}</td>
+                  <td className="px-5 py-3.5 text-on-surface-variant">{user.email}</td>
                   <td className="px-5 py-3.5">
                     <Badge variant={ROLE_BADGE_VARIANT[user.role]}>{ROLE_LABELS[user.role]}</Badge>
                   </td>
-                  <td className="px-5 py-3.5 text-text-secondary">{user.joined}</td>
+                  <td className="px-5 py-3.5 text-on-surface-variant">{user.joined}</td>
                   <td className="px-5 py-3.5">
                     <span className="flex items-center gap-2">
                       <span className={`w-2 h-2 rounded-full ${user.status === 'active' ? 'bg-success' : 'bg-error'}`} />
-                      <span className="text-text-secondary capitalize">{user.status}</span>
+                      <span className="text-on-surface-variant capitalize">{user.status}</span>
                     </span>
                   </td>
                   <td className="px-5 py-3.5">
@@ -161,7 +161,7 @@ export default function AdminUsersPage() {
                       <select
                         value={user.role}
                         onChange={(e) => changeRole(user.id, e.target.value as Role)}
-                        className="bg-surface border border-border rounded-lg px-2 py-1.5 text-xs text-text-primary font-body focus:outline-none focus:border-orange transition-colors"
+                        className="bg-surface-container border border-white/5 rounded-lg px-2 py-1.5 text-xs text-on-surface font-body focus:outline-none focus:border-primary-container transition-colors"
                       >
                         <option value="guest">Guest</option>
                         <option value="organizer">Organizer</option>
@@ -177,13 +177,13 @@ export default function AdminUsersPage() {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between px-5 py-4 border-t border-border">
-          <span className="text-sm text-text-muted">
+        <div className="flex items-center justify-between px-5 py-4 border-t border-white/5">
+          <span className="text-sm text-outline">
             Showing {Math.min(filtered.length, (page - 1) * 10 + 1)}-{Math.min(filtered.length, page * 10)} of 50 users
           </span>
           <div className="flex items-center gap-2">
             <Button size="sm" variant="ghost" disabled>Previous</Button>
-            <Button size="sm" variant="secondary" className="!bg-orange/15 !text-orange">1</Button>
+            <Button size="sm" variant="secondary" className="!bg-primary-container/15 !text-primary-container">1</Button>
             <Button size="sm" variant="ghost">2</Button>
             <Button size="sm" variant="ghost">3</Button>
             <Button size="sm" variant="ghost">4</Button>

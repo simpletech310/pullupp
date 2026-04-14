@@ -285,15 +285,15 @@ export default function CheckInPage() {
         <div className="w-full grid grid-cols-3 gap-3">
           <div className="bg-surface-container-high rounded-2xl p-4 flex flex-col items-center">
             <div className="text-2xl font-bold text-primary-container font-headline">{checkedInCount}</div>
-            <div className="text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">Checked In</div>
+            <div className="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Checked In</div>
           </div>
           <div className="bg-surface-container-high rounded-2xl p-4 flex flex-col items-center">
             <div className="text-2xl font-bold text-on-surface font-headline">{totalCount}</div>
-            <div className="text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">Total</div>
+            <div className="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Total</div>
           </div>
           <div className="bg-surface-container-high rounded-2xl p-4 flex flex-col items-center">
             <div className="text-2xl font-bold text-secondary-container font-headline">{totalCount - checkedInCount}</div>
-            <div className="text-[10px] text-on-surface-variant mt-1 uppercase tracking-widest">Remaining</div>
+            <div className="text-xs text-on-surface-variant mt-1 uppercase tracking-widest">Remaining</div>
           </div>
         </div>
 
@@ -469,8 +469,8 @@ export default function CheckInPage() {
                     </svg>
                   )}
                 </div>
-                <p className="text-on-surface-variant text-[11px] truncate">{attendee.email}</p>
-                <p className="text-outline text-[10px] font-mono mt-0.5">{attendee.confirmationCode}</p>
+                <p className="text-on-surface-variant text-xs truncate">{attendee.email}</p>
+                <p className="text-outline text-xs font-mono mt-0.5">{attendee.confirmationCode}</p>
               </div>
 
               {/* Tier badge */}

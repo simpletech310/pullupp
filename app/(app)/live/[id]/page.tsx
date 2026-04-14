@@ -142,16 +142,16 @@ export default function LiveStreamViewerPage() {
   if (!artist.isLive) {
     return (
       <div className="flex flex-col items-center justify-center px-6 pt-20 text-center">
-        <div className="w-20 h-20 rounded-full bg-surface border border-border flex items-center justify-center mb-4">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
+        <div className="w-20 h-20 rounded-full bg-surface-container border border-white/5 flex items-center justify-center mb-4">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-outline">
             <path d="M23 7l-7 5 7 5V7z" />
             <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
             <line x1="1" y1="1" x2="23" y2="23" strokeLinecap="round" />
           </svg>
         </div>
-        <h3 className="font-display font-bold text-lg mb-1">Stream Ended</h3>
-        <p className="text-text-secondary text-sm mb-1">{artist.name}</p>
-        <p className="text-text-muted text-xs">This stream is no longer live. Check back later!</p>
+        <h3 className="font-headline font-bold text-lg mb-1">Stream Ended</h3>
+        <p className="text-on-surface-variant text-sm mb-1 font-body">{artist.name}</p>
+        <p className="text-outline text-xs font-body">This stream is no longer live. Check back later!</p>
       </div>
     );
   }
@@ -167,7 +167,7 @@ export default function LiveStreamViewerPage() {
             allowFullScreen
           />
         ) : (
-          <div className="flex flex-col items-center gap-2 text-text-muted">
+          <div className="flex flex-col items-center gap-2 text-outline">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
@@ -177,17 +177,17 @@ export default function LiveStreamViewerPage() {
         {/* LIVE badge */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-red-600 text-white px-2.5 py-1 rounded-full">
           <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <span className="text-[11px] font-bold uppercase">Live</span>
+          <span className="text-xs font-bold uppercase">Live</span>
         </div>
         {/* Viewer count */}
         <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
-          <span className="text-[11px] text-white font-semibold">{artist.viewers}</span>
+          <span className="text-xs text-white font-semibold">{artist.viewers}</span>
         </div>
       </div>
 
       {/* Artist info bar */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-border/50">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5">
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
           style={{ backgroundColor: avatarColor }}
@@ -195,20 +195,20 @@ export default function LiveStreamViewerPage() {
           {getInitials(artist.name)}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="font-display font-bold text-sm truncate">{artist.name}</h3>
-          <p className="text-[11px] text-text-muted">{artist.genre}</p>
+          <h3 className="font-headline font-bold text-sm truncate">{artist.name}</h3>
+          <p className="text-xs text-outline">{artist.genre}</p>
         </div>
         <button
           onClick={() => setIsFollowing(!isFollowing)}
           className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
             isFollowing
-              ? 'bg-surface border border-border text-text-secondary'
+              ? 'bg-surface-container border border-white/5 text-on-surface-variant'
               : 'bg-teal text-white shadow-[0_0_12px_rgba(20,184,166,0.3)]'
           }`}
         >
           {isFollowing ? 'Following' : 'Follow'}
         </button>
-        <span className="text-text-muted text-[11px] shrink-0">
+        <span className="text-outline text-xs shrink-0">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-0.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
           {artist.viewers}
         </span>
@@ -224,14 +224,14 @@ export default function LiveStreamViewerPage() {
             >
               {msg.username}
             </span>
-            <span className="text-xs text-text-secondary">{msg.text}</span>
+            <span className="text-xs text-on-surface-variant">{msg.text}</span>
           </div>
         ))}
         <div ref={chatEndRef} />
       </div>
 
       {/* Chat input */}
-      <div className="border-t border-border/50 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+      <div className="border-t border-white/5 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
         <div className="flex items-center gap-2">
           <input
             type="text"
@@ -239,12 +239,12 @@ export default function LiveStreamViewerPage() {
             onChange={(e) => setChatInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === 'Enter') handleSendChat(); }}
             placeholder="Say something..."
-            className="flex-1 bg-surface border border-border rounded-full px-4 py-2.5 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors font-body"
+            className="flex-1 bg-surface-container border border-white/5 rounded-full px-4 py-2.5 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors font-body"
           />
           <button
             onClick={handleSendChat}
             disabled={!chatInput.trim()}
-            className="w-10 h-10 rounded-full bg-orange text-white flex items-center justify-center shrink-0 disabled:opacity-40"
+            className="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center shrink-0 disabled:opacity-40"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg>
           </button>
@@ -254,14 +254,14 @@ export default function LiveStreamViewerPage() {
       {/* Floating tip button */}
       <button
         onClick={() => setShowTipModal(true)}
-        className="fixed bottom-24 right-4 w-14 h-14 rounded-full bg-orange text-white shadow-lg shadow-orange/30 flex items-center justify-center text-xl font-bold z-30 hover:bg-orange-light transition-colors"
+        className="fixed bottom-24 right-4 w-14 h-14 rounded-full bg-primary-container text-white shadow-lg shadow-orange/30 flex items-center justify-center text-xl font-bold z-30 hover:bg-orange-light transition-colors"
       >
         $
       </button>
 
       {/* Tip modal */}
       <Modal open={showTipModal} onClose={() => setShowTipModal(false)} title={`Tip ${artist.name}`}>
-        <p className="text-sm text-text-secondary mb-4">Show your appreciation with a tip!</p>
+        <p className="text-sm text-on-surface-variant mb-4 font-body">Show your appreciation with a tip!</p>
         <div className="grid grid-cols-4 gap-2 mb-4">
           {TIP_PRESETS.map((amount) => (
             <button
@@ -269,8 +269,8 @@ export default function LiveStreamViewerPage() {
               onClick={() => { setSelectedTip(amount); setCustomTip(''); }}
               className={`py-3 rounded-xl text-sm font-bold transition-all ${
                 selectedTip === amount
-                  ? 'bg-orange text-white shadow-[0_0_12px_rgba(255,107,53,0.3)]'
-                  : 'bg-surface border border-border text-text-primary hover:border-border-light'
+                  ? 'bg-primary-container text-white shadow-[0_0_12px_rgba(255,107,53,0.3)]'
+                  : 'bg-surface-container border border-white/5 text-on-surface hover:border-white/10'
               }`}
             >
               {formatCurrency(amount)}
@@ -283,7 +283,7 @@ export default function LiveStreamViewerPage() {
             placeholder="Custom amount"
             value={customTip}
             onChange={(e) => { setCustomTip(e.target.value); setSelectedTip(null); }}
-            className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors font-body"
+            className="w-full bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors font-body"
           />
         </div>
         <Button fullWidth onClick={handleSendTip} disabled={!selectedTip && !customTip}>

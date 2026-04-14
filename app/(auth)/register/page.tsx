@@ -59,15 +59,15 @@ export default function RegisterPage() {
       <div className="min-h-dvh flex flex-col px-6 pt-16 pb-8">
         <button
           onClick={() => setStep('info')}
-          className="self-start p-2 -ml-2 mb-6 rounded-lg hover:bg-surface-hover transition-colors"
+          className="self-start p-2 -ml-2 mb-6 rounded-lg hover:bg-surface-container-high transition-colors"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
 
-        <h1 className="font-display font-bold text-3xl mb-2">How will you use PullUpp?</h1>
-        <p className="text-text-secondary text-sm mb-6">Choose your primary role. You can change this later.</p>
+        <h1 className="font-headline font-bold text-3xl mb-2">How will you use PullUpp?</h1>
+        <p className="font-body text-on-surface-variant text-sm mb-6">Choose your primary role. You can change this later.</p>
 
         <div className="flex flex-col gap-3 mb-8">
           {SELECTABLE_ROLES.map((role) => {
@@ -81,7 +81,7 @@ export default function RegisterPage() {
                   flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-all duration-200
                   ${isSelected
                     ? 'border-orange bg-orange/8 shadow-[0_0_20px_rgba(255,107,53,0.15)]'
-                    : 'border-border hover:border-border-light bg-surface'
+                    : 'border-white/5 hover:border-white/10 bg-surface-container'
                   }
                 `}
               >
@@ -93,7 +93,7 @@ export default function RegisterPage() {
                 </div>
                 <div>
                   <div className="font-semibold text-sm">{config.label}</div>
-                  <div className="text-xs text-text-secondary mt-0.5">{config.description}</div>
+                  <div className="font-body text-xs text-on-surface-variant mt-0.5">{config.description}</div>
                 </div>
                 {isSelected && (
                   <div className="ml-auto shrink-0">
@@ -124,15 +124,15 @@ export default function RegisterPage() {
     <div className="min-h-dvh flex flex-col px-6 pt-16 pb-8">
       <button
         onClick={() => router.back()}
-        className="self-start p-2 -ml-2 mb-6 rounded-lg hover:bg-surface-hover transition-colors"
+        className="self-start p-2 -ml-2 mb-6 rounded-lg hover:bg-surface-container-high transition-colors"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="15 18 9 12 15 6" />
         </svg>
       </button>
 
-      <h1 className="font-display font-bold text-3xl mb-2">Create account</h1>
-      <p className="text-text-secondary text-sm mb-8">Join PullUpp and discover amazing events</p>
+      <h1 className="font-headline font-bold text-3xl mb-2">Create account</h1>
+      <p className="font-body text-on-surface-variant text-sm mb-8">Join PullUpp and discover amazing events</p>
 
       <form onSubmit={handleInfoSubmit} className="flex flex-col gap-4">
         <Input
@@ -168,9 +168,9 @@ export default function RegisterPage() {
         </Button>
       </form>
 
-      <p className="text-center text-sm text-text-secondary mt-8">
+      <p className="text-center text-sm text-on-surface-variant mt-8">
         Already have an account?{' '}
-        <Link href="/login" className="text-orange font-semibold hover:text-orange-light">
+        <Link href="/login" className="text-primary-container font-semibold hover:text-orange-light">
           Sign In
         </Link>
       </p>

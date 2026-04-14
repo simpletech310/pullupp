@@ -225,7 +225,7 @@ function EarningsChart({ tips }: { tips: Tip[] }) {
           return (
             <div key={bar.label} className="flex-1 flex flex-col items-center gap-1.5">
               {bar.value > 0 && (
-                <span className="text-[9px] text-primary-container font-semibold leading-none font-body">
+                <span className="text-xs text-primary-container font-semibold leading-none font-body">
                   ${bar.value}
                 </span>
               )}
@@ -239,7 +239,7 @@ function EarningsChart({ tips }: { tips: Tip[] }) {
                   style={{ height: `${heightPx}px` }}
                 />
               </div>
-              <span className="text-[10px] text-outline font-body">{bar.label}</span>
+              <span className="text-xs text-outline font-body">{bar.label}</span>
             </div>
           );
         })}
@@ -281,7 +281,7 @@ function GigCard({ gig }: { gig: Gig }) {
       </div>
 
       <div className="ml-3 shrink-0">
-        <span className="bg-secondary-container/20 text-secondary text-[10px] font-bold rounded-lg px-2 py-1 font-body uppercase tracking-wide">
+        <span className="bg-secondary-container/20 text-secondary text-xs font-bold rounded-lg px-2 py-1 font-body uppercase tracking-wide">
           {gig.category}
         </span>
       </div>
@@ -437,7 +437,7 @@ export default function ArtistDashboardPage() {
             <div className="mt-4 w-full h-1 bg-surface-container-lowest rounded-full overflow-hidden">
               <div className="h-full bg-primary-container rounded-full" style={{ width: '72%' }} />
             </div>
-            <p className="text-secondary text-[10px] font-bold font-body mt-1">+12% this week</p>
+            <p className="text-secondary text-xs font-bold font-body mt-1">+12% this week</p>
           </div>
 
           {/* Followers */}
@@ -448,7 +448,7 @@ export default function ArtistDashboardPage() {
             <div className="mt-4 w-full h-1 bg-surface-container-lowest rounded-full overflow-hidden">
               <div className="h-full bg-secondary-container rounded-full" style={{ width: '58%' }} />
             </div>
-            <p className="text-secondary text-[10px] font-bold font-body mt-1">+8% this month</p>
+            <p className="text-secondary text-xs font-bold font-body mt-1">+8% this month</p>
           </div>
 
           {/* Upcoming Gigs */}
@@ -462,7 +462,7 @@ export default function ArtistDashboardPage() {
                 style={{ width: `${Math.min((upcomingGigs.length / 10) * 100, 100)}%` }}
               />
             </div>
-            <p className="text-secondary text-[10px] font-bold font-body mt-1">Next 30 days</p>
+            <p className="text-secondary text-xs font-bold font-body mt-1">Next 30 days</p>
           </div>
 
           {/* Pending Bookings */}
@@ -476,7 +476,7 @@ export default function ArtistDashboardPage() {
                 style={{ width: `${Math.min((pendingCount / 5) * 100, 100)}%` }}
               />
             </div>
-            <p className="text-secondary text-[10px] font-bold font-body mt-1">Needs review</p>
+            <p className="text-secondary text-xs font-bold font-body mt-1">Needs review</p>
           </div>
         </div>
       </div>
@@ -668,7 +668,7 @@ export default function ArtistDashboardPage() {
               <p className="font-headline font-bold text-2xl text-primary-container">
                 {formatCurrency(tipsEarned)}
               </p>
-              <p className="text-outline text-[11px] font-body mt-1">Placeholder — live balance via Stripe</p>
+              <p className="text-outline text-xs font-body mt-1">Placeholder — live balance via Stripe</p>
             </div>
             <Badge variant="teal">Stripe Connected</Badge>
           </div>
@@ -691,7 +691,7 @@ export default function ArtistDashboardPage() {
               <rect x="3" y="14" width="7" height="7" rx="1" />
               <rect x="14" y="14" width="7" height="7" rx="1" />
             </svg>
-            <span className="text-[10px] font-body font-bold uppercase tracking-wide">Dashboard</span>
+            <span className="text-xs font-body font-bold uppercase tracking-wide">Dashboard</span>
           </button>
           <button
             onClick={() => router.push('/bookings')}
@@ -703,7 +703,7 @@ export default function ArtistDashboardPage() {
               <line x1="8" y1="2" x2="8" y2="6" />
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
-            <span className="text-[10px] font-body font-bold uppercase tracking-wide">Bookings</span>
+            <span className="text-xs font-body font-bold uppercase tracking-wide">Bookings</span>
           </button>
           <button
             onClick={() => router.push('/profile')}
@@ -713,7 +713,7 @@ export default function ArtistDashboardPage() {
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
-            <span className="text-[10px] font-body font-bold uppercase tracking-wide">Profile</span>
+            <span className="text-xs font-body font-bold uppercase tracking-wide">Profile</span>
           </button>
           <button
             onClick={() => router.push('/analytics')}
@@ -724,7 +724,7 @@ export default function ArtistDashboardPage() {
               <line x1="12" y1="20" x2="12" y2="4" />
               <line x1="6" y1="20" x2="6" y2="14" />
             </svg>
-            <span className="text-[10px] font-body font-bold uppercase tracking-wide">Analytics</span>
+            <span className="text-xs font-body font-bold uppercase tracking-wide">Analytics</span>
           </button>
         </div>
       </div>

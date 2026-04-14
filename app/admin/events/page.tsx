@@ -56,7 +56,7 @@ export default function AdminEventsPage() {
 
   return (
     <div className="p-8 max-w-7xl">
-      <h1 className="font-display font-bold text-2xl mb-6">Event Management</h1>
+      <h1 className="font-headline font-bold text-2xl mb-6">Event Management</h1>
 
       {/* Filters */}
       <div className="flex flex-wrap items-end gap-4 mb-6">
@@ -73,11 +73,11 @@ export default function AdminEventsPage() {
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Status</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Status</label>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-body focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors"
+            className="bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface font-body focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/30 transition-colors"
           >
             <option value="all">All Statuses</option>
             <option value="published">Published</option>
@@ -93,35 +93,35 @@ export default function AdminEventsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Event</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Organizer</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Date</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Category</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Tickets</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Revenue</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Status</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Actions</th>
+              <tr className="border-b border-white/5">
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Event</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Organizer</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Date</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Category</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Tickets</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Revenue</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Status</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((event, i) => (
                 <tr
                   key={event.id}
-                  className={`border-b border-border last:border-0 hover:bg-surface-hover transition-colors ${
-                    i % 2 === 1 ? 'bg-surface-alt/30' : ''
-                  } ${event.status === 'flagged' ? 'border-l-2 border-l-orange' : ''}`}
+                  className={`border-b border-white/5 last:border-0 hover:bg-surface-container-high transition-colors ${
+                    i % 2 === 1 ? 'bg-surface-container-high/30' : ''
+                  } ${event.status === 'flagged' ? 'border-l-2 border-l-primary-container' : ''}`}
                 >
                   <td className="px-5 py-3.5">
-                    <span className="font-medium text-text-primary">{event.name}</span>
+                    <span className="font-medium text-on-surface">{event.name}</span>
                   </td>
-                  <td className="px-5 py-3.5 text-text-secondary">{event.organizer}</td>
-                  <td className="px-5 py-3.5 text-text-secondary">{event.date}</td>
+                  <td className="px-5 py-3.5 text-on-surface-variant">{event.organizer}</td>
+                  <td className="px-5 py-3.5 text-on-surface-variant">{event.date}</td>
                   <td className="px-5 py-3.5">
                     <Badge variant="default">{event.category}</Badge>
                   </td>
-                  <td className="px-5 py-3.5 text-right text-text-primary font-medium">{event.ticketsSold}</td>
-                  <td className="px-5 py-3.5 text-right text-text-primary font-medium">${event.revenue.toLocaleString()}</td>
+                  <td className="px-5 py-3.5 text-right text-on-surface font-medium">{event.ticketsSold}</td>
+                  <td className="px-5 py-3.5 text-right text-on-surface font-medium">${event.revenue.toLocaleString()}</td>
                   <td className="px-5 py-3.5">
                     <Badge variant={STATUS_BADGE[event.status].variant}>{STATUS_BADGE[event.status].label}</Badge>
                   </td>

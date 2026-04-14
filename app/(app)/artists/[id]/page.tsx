@@ -510,19 +510,19 @@ export default function ArtistDetailPage() {
         <div className="glass-card rounded-2xl p-6 shadow-2xl border border-white/5 flex justify-between items-center">
           <div className="flex flex-col items-center gap-1">
             <span className="text-xl font-bold text-white font-headline">{formatCompactNumber(followerCount)}</span>
-            <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold font-body">Followers</span>
+            <span className="text-xs uppercase tracking-widest text-on-surface-variant font-semibold font-body">Followers</span>
           </div>
           <div className="h-8 w-[1px] bg-white/10" />
           <div className="flex flex-col items-center gap-1">
             <span className="text-xl font-bold text-white font-headline">{formatCurrency(tipsEarned)}</span>
-            <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold font-body">Tips Earned</span>
+            <span className="text-xs uppercase tracking-widest text-on-surface-variant font-semibold font-body">Tips Earned</span>
           </div>
           <div className="h-8 w-[1px] bg-white/10" />
           <div className="flex flex-col items-center gap-1">
             <span className="text-xl font-bold text-white font-headline">
               {upcomingEvents.length > 0 ? upcomingEvents.length : (artist.eventsCount ?? '—')}
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold font-body">Events</span>
+            <span className="text-xs uppercase tracking-widest text-on-surface-variant font-semibold font-body">Events</span>
           </div>
         </div>
       </div>
@@ -535,11 +535,11 @@ export default function ArtistDetailPage() {
             <p className="text-on-surface leading-relaxed text-sm font-body">{bio}</p>
             {genre && (
               <div className="flex flex-wrap gap-2 mt-4">
-                <span className="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary text-[10px] font-bold tracking-widest uppercase border border-secondary/20 font-body">
+                <span className="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary text-xs font-bold tracking-widest uppercase border border-secondary/20 font-body">
                   {genre}
                 </span>
                 {artist.type && artist.type !== genre.toLowerCase() && (
-                  <span className="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary text-[10px] font-bold tracking-widest uppercase border border-secondary/20 font-body">
+                  <span className="px-3 py-1 rounded-full bg-secondary-container/20 text-secondary text-xs font-bold tracking-widest uppercase border border-secondary/20 font-body">
                     {artist.type}
                   </span>
                 )}
@@ -598,7 +598,7 @@ export default function ArtistDetailPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     {dayLabel && (
                       <div className="absolute top-3 left-3">
-                        <span className="px-2 py-1 bg-primary-container text-white text-[10px] font-black uppercase rounded font-body">
+                        <span className="px-2 py-1 bg-primary-container text-white text-xs font-black uppercase rounded font-body">
                           {dayLabel}
                         </span>
                       </div>
@@ -607,12 +607,12 @@ export default function ArtistDetailPage() {
                   <div className="p-3">
                     <p className="font-headline font-bold text-sm text-white truncate">{event.title}</p>
                     {event.venue && (
-                      <p className="text-on-surface-variant text-[10px] font-body mt-0.5 truncate">
+                      <p className="text-on-surface-variant text-xs font-body mt-0.5 truncate">
                         {event.venue.name} · {event.venue.city}
                       </p>
                     )}
                     {event.start_time && (
-                      <p className="text-outline text-[10px] font-body mt-0.5">{event.start_time}</p>
+                      <p className="text-outline text-xs font-body mt-0.5">{event.start_time}</p>
                     )}
                   </div>
                 </div>
@@ -646,9 +646,9 @@ export default function ArtistDetailPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-white font-bold text-sm font-body truncate">{song.title}</p>
-                <p className="text-on-surface-variant text-[10px] font-body mt-0.5">{artistName}</p>
+                <p className="text-on-surface-variant text-xs font-body mt-0.5">{artistName}</p>
               </div>
-              <span className="text-on-surface-variant text-[10px] font-mono shrink-0">{song.duration}</span>
+              <span className="text-on-surface-variant text-xs font-mono shrink-0">{song.duration}</span>
             </div>
           ))}
         </div>

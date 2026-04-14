@@ -124,8 +124,16 @@ export default function EventDetailPage() {
       {/* ── Hero ── */}
       <div
         className="relative overflow-hidden aspect-[4/3] min-h-[280px] flex flex-col justify-end"
-        style={{ background: EVENT_GRADIENTS[(event.gradient ?? 0) % EVENT_GRADIENTS.length] }}
+        style={{ background: EVENT_GRADIENTS[(event.gradient_index ?? 0) % EVENT_GRADIENTS.length] }}
       >
+        {/* Cover image */}
+        {event.cover_images?.[0] && (
+          <img
+            src={event.cover_images[0]}
+            alt={event.title}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
@@ -158,19 +166,19 @@ export default function EventDetailPage() {
           {/* Badges row */}
           <div className="flex flex-wrap gap-2 mb-3">
             {eventIsToday && (
-              <span className="flex items-center gap-1.5 bg-red-500/80 backdrop-blur-sm text-white px-3 py-1 rounded-full font-body text-[10px] font-black uppercase tracking-wide">
+              <span className="flex items-center gap-1.5 bg-red-500/80 backdrop-blur-sm text-white px-3 py-1 rounded-full font-body text-xs font-black uppercase tracking-wide">
                 <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse-dot" />
                 Happening Now
               </span>
             )}
             {event.visibility && event.visibility !== 'public' && (
-              <span className="flex items-center gap-1 glass-panel text-white px-3 py-1 rounded-full font-body text-[10px] font-black uppercase tracking-wide border border-white/10">
+              <span className="flex items-center gap-1 glass-panel text-white px-3 py-1 rounded-full font-body text-xs font-black uppercase tracking-wide border border-white/10">
                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 {event.visibility === 'private' ? 'Private' : 'Invite Only'}
               </span>
             )}
             {event.category && (
-              <span className="bg-secondary-container text-white px-3 py-1 rounded-full font-body text-[10px] font-black uppercase tracking-wide">
+              <span className="bg-secondary-container text-white px-3 py-1 rounded-full font-body text-xs font-black uppercase tracking-wide">
                 {event.category}
               </span>
             )}
@@ -228,14 +236,14 @@ export default function EventDetailPage() {
 
         {/* About */}
         <div className="glass-card rounded-2xl border border-white/5 p-5">
-          <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-3 font-body">About</p>
+          <p className="text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-3 font-body">About</p>
           <p className="text-on-surface text-sm leading-relaxed font-body">{event.description}</p>
         </div>
 
         {/* Venue */}
         {event.venue && (
           <div className="glass-card rounded-2xl border border-white/5 p-5">
-            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-3 font-body">Venue</p>
+            <p className="text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-3 font-body">Venue</p>
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center shrink-0">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-container)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -251,7 +259,7 @@ export default function EventDetailPage() {
                     <p className="text-on-surface-variant text-xs mt-0.5 font-body">{event.venue.address}</p>
                     <p className="text-on-surface-variant text-xs font-body">{event.venue.city}, {event.venue.state}</p>
                     {event.venue.type && (
-                      <span className="inline-block mt-2 bg-surface-container-highest text-on-surface-variant px-2.5 py-1 rounded-full text-[10px] font-body font-semibold">
+                      <span className="inline-block mt-2 bg-surface-container-highest text-on-surface-variant px-2.5 py-1 rounded-full text-xs font-body font-semibold">
                         {event.venue.type}
                       </span>
                     )}
@@ -265,7 +273,7 @@ export default function EventDetailPage() {
         {/* Artist Lineup */}
         {event.event_artists && event.event_artists.length > 0 && (
           <div>
-            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Lineup</p>
+            <p className="text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-4 font-body">Lineup</p>
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
               {event.event_artists.map((ea: any, i: number) => {
                 const artist = ea.artist || ea;
@@ -282,7 +290,7 @@ export default function EventDetailPage() {
                     </div>
                     <div className="text-center w-full">
                       <p className="text-xs font-semibold font-headline truncate">{artist.name}</p>
-                      <p className="text-[10px] text-on-surface-variant font-body mt-0.5 truncate">{artist.genre}</p>
+                      <p className="text-xs text-on-surface-variant font-body mt-0.5 truncate">{artist.genre}</p>
                     </div>
                   </div>
                 );
@@ -294,7 +302,7 @@ export default function EventDetailPage() {
         {/* Ticket Tiers */}
         {event.ticket_tiers && event.ticket_tiers.length > 0 && (
           <div>
-            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Tickets</p>
+            <p className="text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-4 font-body">Tickets</p>
             <div className="flex flex-col gap-3">
               {event.ticket_tiers.map((tier: any, i: number) => {
                 const isSelected = tier.id === selectedTierId;
@@ -313,7 +321,7 @@ export default function EventDetailPage() {
                       <div>
                         <h4 className="font-headline font-bold text-sm text-on-surface">{tier.name}</h4>
                         {tier.remaining != null && tier.remaining <= 10 && (
-                          <span className="inline-block mt-1 bg-primary-container/20 text-primary-container px-2 py-0.5 rounded-full text-[10px] font-body font-bold">
+                          <span className="inline-block mt-1 bg-primary-container/20 text-primary-container px-2 py-0.5 rounded-full text-xs font-body font-bold">
                             Almost Sold Out
                           </span>
                         )}
@@ -339,7 +347,7 @@ export default function EventDetailPage() {
                         {tier.remaining ?? '?'} of {tier.total ?? '?'} left
                       </span>
                       {isSelected && (
-                        <span className="text-[10px] text-primary-container font-body font-bold uppercase tracking-wide">Selected</span>
+                        <span className="text-xs text-primary-container font-body font-bold uppercase tracking-wide">Selected</span>
                       )}
                     </div>
                     {tier.total && (
@@ -360,7 +368,7 @@ export default function EventDetailPage() {
         {/* Add-ons */}
         {event.event_addons && event.event_addons.length > 0 && (
           <div>
-            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Add-ons</p>
+            <p className="text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-4 font-body">Add-ons</p>
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
               {event.event_addons.map((addon: any) => (
                 <div
@@ -385,7 +393,7 @@ export default function EventDetailPage() {
         {/* Social Links */}
         {event.socialLinks && Object.keys(event.socialLinks).length > 0 && (
           <div>
-            <p className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-bold mb-4 font-body">Follow</p>
+            <p className="text-on-surface-variant text-xs uppercase tracking-[0.2em] font-bold mb-4 font-body">Follow</p>
             <div className="flex gap-3 flex-wrap">
               {Object.entries(event.socialLinks).map(([platform, url]) => {
                 const icon = SOCIAL_ICONS[platform];
@@ -416,7 +424,7 @@ export default function EventDetailPage() {
           <div className="glass-panel rounded-[32px] flex items-center justify-between border border-white/5 px-5 py-4">
             {/* Price */}
             <div>
-              <p className="text-on-surface-variant text-[10px] font-body uppercase tracking-wide mb-0.5">From</p>
+              <p className="text-on-surface-variant text-xs font-body uppercase tracking-wide mb-0.5">From</p>
               <p className="font-headline font-extrabold text-xl text-primary-container">
                 {formatCurrency(selectedTier?.price ?? event.ticket_tiers?.[0]?.price ?? 0)}
               </p>

@@ -1,7 +1,12 @@
 import { NextRequest } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return Response.json({ valid: false, reason: 'Unauthorized' }, { status: 401 });
+
   const { id: eventId } = await params;
   const body = await request.json();
   const { qrCode } = body;

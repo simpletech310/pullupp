@@ -136,7 +136,7 @@ function ConfirmationContent() {
 
   const { event, tier, quantity, total, customerEmail, confirmationCode } = data;
   const code = confirmationCode || data.sessionId.slice(-8).toUpperCase();
-  const gradient = event ? EVENT_GRADIENTS[(event.gradient ?? 0) % EVENT_GRADIENTS.length] : EVENT_GRADIENTS[0];
+  const gradient = event ? EVENT_GRADIENTS[(event.gradient_index ?? 0) % EVENT_GRADIENTS.length] : EVENT_GRADIENTS[0];
   const isGuest = !user;
 
   return (
@@ -187,7 +187,7 @@ function ConfirmationContent() {
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="relative z-10 p-5 w-full">
-                <span className="text-[9px] uppercase tracking-widest text-white/60 font-bold block mb-1">
+                <span className="text-xs uppercase tracking-widest text-white/60 font-bold block mb-1">
                   {tier?.name || 'General Admission'}
                 </span>
                 <h2 className="font-headline font-extrabold text-xl text-primary-container leading-tight line-clamp-2">
@@ -201,18 +201,18 @@ function ConfirmationContent() {
               {/* Date / Venue row */}
               <div className="grid grid-cols-2 gap-4 mb-5">
                 <div>
-                  <p className="text-[9px] uppercase tracking-widest text-outline mb-1">Date &amp; Time</p>
+                  <p className="text-xs uppercase tracking-widest text-outline mb-1">Date &amp; Time</p>
                   <p className="font-headline font-bold text-sm text-on-surface">
                     {event ? formatDateTime(event.date, event.start_time) : '—'}
                   </p>
                 </div>
                 {event?.venue && (
                   <div>
-                    <p className="text-[9px] uppercase tracking-widest text-outline mb-1">Venue</p>
+                    <p className="text-xs uppercase tracking-widest text-outline mb-1">Venue</p>
                     <p className="font-headline font-bold text-sm text-on-surface">
                       {event.venue.name}
                     </p>
-                    <p className="text-[10px] text-on-surface-variant">{event.venue.city}</p>
+                    <p className="text-xs text-on-surface-variant">{event.venue.city}</p>
                   </div>
                 )}
               </div>
@@ -220,15 +220,15 @@ function ConfirmationContent() {
               {/* Details grid: zone / qty / total */}
               <div className="grid grid-cols-3 gap-3 mb-5">
                 <div className="bg-surface-container rounded-xl p-3 text-center">
-                  <p className="text-[9px] uppercase tracking-widest text-outline mb-1">Zone</p>
+                  <p className="text-xs uppercase tracking-widest text-outline mb-1">Zone</p>
                   <p className="font-headline font-bold text-lg text-on-surface truncate">{tier?.name?.split(' ')[0] || 'GA'}</p>
                 </div>
                 <div className="bg-surface-container rounded-xl p-3 text-center">
-                  <p className="text-[9px] uppercase tracking-widest text-outline mb-1">Qty</p>
+                  <p className="text-xs uppercase tracking-widest text-outline mb-1">Qty</p>
                   <p className="font-headline font-bold text-lg text-on-surface">{quantity}</p>
                 </div>
                 <div className="bg-surface-container rounded-xl p-3 text-center">
-                  <p className="text-[9px] uppercase tracking-widest text-outline mb-1">Total</p>
+                  <p className="text-xs uppercase tracking-widest text-outline mb-1">Total</p>
                   <p className="font-headline font-bold text-lg text-primary-container">{formatCurrency(total)}</p>
                 </div>
               </div>
@@ -274,7 +274,7 @@ function ConfirmationContent() {
 
               {/* Confirmation Code */}
               <div className="mt-5 bg-surface-container rounded-xl px-4 py-3 text-center">
-                <p className="text-[9px] uppercase tracking-widest text-outline mb-1">Confirmation Code</p>
+                <p className="text-xs uppercase tracking-widest text-outline mb-1">Confirmation Code</p>
                 <p className="font-mono font-bold text-xl text-on-surface tracking-widest">{code}</p>
                 <button
                   onClick={() => { navigator.clipboard.writeText(code); toast.success('Code copied!'); }}
@@ -297,7 +297,7 @@ function ConfirmationContent() {
                 </svg>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[9px] uppercase tracking-widest text-outline mb-0.5">Location</p>
+                <p className="text-xs uppercase tracking-widest text-outline mb-0.5">Location</p>
                 <p className="text-sm font-bold text-on-surface truncate">{event.venue.name}</p>
                 {event.venue.city && <p className="text-xs text-on-surface-variant">{event.venue.city}</p>}
               </div>
@@ -314,7 +314,7 @@ function ConfirmationContent() {
               </svg>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[9px] uppercase tracking-widest text-outline mb-0.5">Event Guidelines</p>
+              <p className="text-xs uppercase tracking-widest text-outline mb-0.5">Event Guidelines</p>
               <p className="text-sm font-bold text-on-surface">View Entry Rules</p>
             </div>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-outline shrink-0">

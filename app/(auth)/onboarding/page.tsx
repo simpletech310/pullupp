@@ -72,8 +72,8 @@ export default function OnboardingPage() {
     <div className="min-h-dvh flex flex-col">
       <div className={`flex-1 flex flex-col items-center justify-center px-8 bg-gradient-to-b ${slide.gradient}`}>
         <div className="mb-8">{slide.icon}</div>
-        <h2 className="font-display font-bold text-2xl text-center mb-3">{slide.headline}</h2>
-        <p className="text-text-secondary text-sm text-center max-w-[280px]">{slide.subtitle}</p>
+        <h2 className="font-headline font-bold text-2xl text-center mb-3">{slide.headline}</h2>
+        <p className="font-body text-on-surface-variant text-sm text-center max-w-[280px]">{slide.subtitle}</p>
       </div>
 
       <div className="px-6 pb-8 pt-6">
@@ -83,7 +83,7 @@ export default function OnboardingPage() {
             <div
               key={i}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === currentSlide ? 'w-6 bg-orange' : 'w-1.5 bg-border-light'
+                i === currentSlide ? 'w-6 bg-primary-container' : 'w-1.5 bg-white/10'
               }`}
             />
           ))}
@@ -106,7 +106,7 @@ export default function OnboardingPage() {
         {!isLast && (
           <button
             onClick={handleComplete}
-            className="w-full text-center text-sm text-text-muted mt-3 py-2 hover:text-text-secondary transition-colors"
+            className="w-full text-center text-sm text-outline mt-3 py-2 hover:text-on-surface-variant transition-colors"
           >
             Skip
           </button>

@@ -4,7 +4,7 @@ export default function AppLoading() {
       {[...Array(4)].map((_, i) => (
         <div
           key={i}
-          className="bg-surface-alt animate-pulse rounded-lg h-32"
+          className="bg-surface-container-high animate-pulse rounded-lg h-32"
         />
       ))}
     </div>

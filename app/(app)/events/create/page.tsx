@@ -265,19 +265,19 @@ export default function CreateEventPage() {
                 <div
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     i <= step
-                      ? 'bg-orange shadow-[0_0_8px_rgba(255,107,53,0.4)]'
-                      : 'bg-surface-alt border border-border'
+                      ? 'bg-primary-container shadow-[0_0_8px_rgba(255,107,53,0.4)]'
+                      : 'bg-surface-container-high border border-white/5'
                   }`}
                 />
-                <span className={`text-[9px] mt-1 whitespace-nowrap ${
-                  i <= step ? 'text-orange font-semibold' : 'text-text-muted'
+                <span className={`text-xs mt-1 whitespace-nowrap ${
+                  i <= step ? 'text-primary-container font-semibold' : 'text-outline'
                 }`}>
                   {s.label}
                 </span>
               </div>
               {i < STEPS.length - 1 && (
                 <div className={`flex-1 h-[2px] mx-1 mt-[-10px] transition-colors duration-300 ${
-                  i < step ? 'bg-orange' : 'bg-border'
+                  i < step ? 'bg-primary-container' : 'bg-background'
                 }`} />
               )}
             </div>
@@ -294,22 +294,22 @@ export default function CreateEventPage() {
         <Input label="Event Title" placeholder="e.g. Midnight Groove" value={title} onChange={e => setTitle(e.target.value)} />
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Description</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Description</label>
           <textarea
             value={description}
             onChange={e => setDescription(e.target.value)}
             placeholder="Tell guests what to expect..."
             rows={3}
-            className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-body placeholder:text-text-muted focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 resize-none"
+            className="w-full bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface font-body placeholder:text-outline focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 resize-none"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Category</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Category</label>
           <select
             value={category}
             onChange={e => setCategory(e.target.value)}
-            className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-body focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 appearance-none"
+            className="w-full bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface font-body focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 appearance-none"
           >
             {EVENT_CATEGORIES.filter(c => c !== 'All').map(cat => (
               <option key={cat} value={cat}>{cat}</option>
@@ -326,7 +326,7 @@ export default function CreateEventPage() {
 
         {/* Cover Photos */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Cover Photo</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Cover Photo</label>
           <div className="grid grid-cols-4 gap-2">
             {COVER_GRADIENTS.map(gIdx => (
               <button
@@ -347,7 +347,7 @@ export default function CreateEventPage() {
 
         {/* Visibility */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Visibility</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Visibility</label>
           <div className="flex gap-2">
             {(['Public', 'Private', 'Invite-Only'] as const).map(v => (
               <button
@@ -355,8 +355,8 @@ export default function CreateEventPage() {
                 onClick={() => setVisibility(v)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
                   visibility === v
-                    ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
-                    : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                    ? 'bg-primary-container text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
+                    : 'bg-surface-container border border-white/5 text-on-surface-variant hover:border-white/10'
                 }`}
               >
                 {v}
@@ -368,11 +368,11 @@ export default function CreateEventPage() {
         {/* Recurring */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Recurring Event</label>
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Recurring Event</label>
             <button
               onClick={() => setIsRecurring(!isRecurring)}
               className={`w-11 h-6 rounded-full transition-colors duration-200 relative ${
-                isRecurring ? 'bg-orange' : 'bg-surface-alt border border-border'
+                isRecurring ? 'bg-primary-container' : 'bg-surface-container-high border border-white/5'
               }`}
             >
               <div className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform duration-200 ${
@@ -389,7 +389,7 @@ export default function CreateEventPage() {
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                     recurringPattern === p
                       ? 'bg-teal text-white'
-                      : 'bg-surface border border-border text-text-secondary'
+                      : 'bg-surface-container border border-white/5 text-on-surface-variant'
                   }`}
                 >
                   {p}
@@ -408,7 +408,7 @@ export default function CreateEventPage() {
       <div className="px-4 flex flex-col gap-4 animate-fade-in">
         {/* Promo Codes */}
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Promo Codes</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Promo Codes</label>
           <div className="grid grid-cols-3 gap-2">
             <Input placeholder="CODE" value={newPromoCode} onChange={e => setNewPromoCode(e.target.value)} />
             <Input placeholder="% off" type="number" value={newPromoDiscount} onChange={e => setNewPromoDiscount(e.target.value)} />
@@ -421,13 +421,13 @@ export default function CreateEventPage() {
           {promoCodes.length > 0 && (
             <div className="flex flex-col gap-1.5 mt-1">
               {promoCodes.map(pc => (
-                <div key={pc.id} className="flex items-center justify-between bg-surface-alt rounded-xl px-3 py-2">
+                <div key={pc.id} className="flex items-center justify-between bg-surface-container-high rounded-xl px-3 py-2">
                   <div className="flex items-center gap-2">
                     <Badge variant="orange">{pc.code}</Badge>
-                    <span className="text-xs text-text-secondary">{pc.discount}% off</span>
-                    <span className="text-xs text-text-muted">({pc.maxUses} uses)</span>
+                    <span className="text-xs text-on-surface-variant">{pc.discount}% off</span>
+                    <span className="text-xs text-outline">({pc.maxUses} uses)</span>
                   </div>
-                  <button onClick={() => removePromoCode(pc.id)} className="text-text-muted hover:text-error transition-colors">
+                  <button onClick={() => removePromoCode(pc.id)} className="text-outline hover:text-error transition-colors">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                   </button>
                 </div>
@@ -439,11 +439,11 @@ export default function CreateEventPage() {
         {/* Early Bird */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Early Bird Pricing</label>
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Early Bird Pricing</label>
             <button
               onClick={() => setEarlyBird(!earlyBird)}
               className={`w-11 h-6 rounded-full transition-colors duration-200 relative ${
-                earlyBird ? 'bg-orange' : 'bg-surface-alt border border-border'
+                earlyBird ? 'bg-primary-container' : 'bg-surface-container-high border border-white/5'
               }`}
             >
               <div className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform duration-200 ${
@@ -462,11 +462,11 @@ export default function CreateEventPage() {
             <Input label="Capacity" type="number" placeholder="e.g. 500" value={capacity} onChange={e => setCapacity(e.target.value)} />
           </div>
           <div className="flex flex-col items-center gap-1 pb-1">
-            <span className="text-[10px] text-text-muted">Waitlist</span>
+            <span className="text-xs text-outline">Waitlist</span>
             <button
               onClick={() => setWaitlist(!waitlist)}
               className={`w-11 h-6 rounded-full transition-colors duration-200 relative ${
-                waitlist ? 'bg-teal' : 'bg-surface-alt border border-border'
+                waitlist ? 'bg-teal' : 'bg-surface-container-high border border-white/5'
               }`}
             >
               <div className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform duration-200 ${
@@ -478,7 +478,7 @@ export default function CreateEventPage() {
 
         {/* Age Restriction */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Age Restriction</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Age Restriction</label>
           <div className="flex gap-2">
             {(['None', '18+', '21+'] as const).map(age => (
               <button
@@ -486,8 +486,8 @@ export default function CreateEventPage() {
                 onClick={() => setAgeRestriction(age)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${
                   ageRestriction === age
-                    ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
-                    : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                    ? 'bg-primary-container text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
+                    : 'bg-surface-container border border-white/5 text-on-surface-variant hover:border-white/10'
                 }`}
               >
                 {age}
@@ -500,7 +500,7 @@ export default function CreateEventPage() {
 
         {/* Social Links */}
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Social Links</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Social Links</label>
           <Input placeholder="Instagram handle" value={instagram} onChange={e => setInstagram(e.target.value)}
             icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>}
           />
@@ -520,7 +520,7 @@ export default function CreateEventPage() {
     return (
       <div className="px-4 flex flex-col gap-4 animate-fade-in">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Ticket Tiers</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Ticket Tiers</label>
           <Button variant="outline" size="sm" onClick={() => openTicketForm()}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
             Add Tier
@@ -528,12 +528,12 @@ export default function CreateEventPage() {
         </div>
 
         {tickets.length === 0 && (
-          <div className="bg-surface-alt rounded-2xl p-8 flex flex-col items-center gap-2 text-center">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
+          <div className="bg-surface-container-high rounded-2xl p-8 flex flex-col items-center gap-2 text-center">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-outline">
               <path d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
             </svg>
-            <p className="text-text-muted text-sm">No ticket tiers yet</p>
-            <p className="text-text-muted text-xs">Add your first tier to get started</p>
+            <p className="text-outline text-sm">No ticket tiers yet</p>
+            <p className="text-outline text-xs">Add your first tier to get started</p>
           </div>
         )}
 
@@ -543,20 +543,20 @@ export default function CreateEventPage() {
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <h4 className="font-semibold text-sm">{t.name}</h4>
-                  <p className="text-orange font-bold text-lg">{formatCurrency(t.price)}</p>
+                  <p className="text-primary-container font-bold text-lg">{formatCurrency(t.price)}</p>
                 </div>
                 <div className="flex gap-1">
-                  <button onClick={() => openTicketForm(t)} className="p-1.5 rounded-lg hover:bg-surface-hover transition-colors text-text-muted">
+                  <button onClick={() => openTicketForm(t)} className="p-1.5 rounded-lg hover:bg-surface-container-high transition-colors text-outline">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                   </button>
-                  <button onClick={() => removeTicket(t.id)} className="p-1.5 rounded-lg hover:bg-surface-hover transition-colors text-text-muted hover:text-error">
+                  <button onClick={() => removeTicket(t.id)} className="p-1.5 rounded-lg hover:bg-surface-container-high transition-colors text-outline hover:text-error">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                   </button>
                 </div>
               </div>
-              <div className="flex items-center gap-3 text-xs text-text-secondary">
+              <div className="flex items-center gap-3 text-xs text-on-surface-variant">
                 <span>{t.quantity} available</span>
-                {t.perks && <span className="text-text-muted">| {t.perks}</span>}
+                {t.perks && <span className="text-outline">| {t.perks}</span>}
               </div>
             </div>
           </Card>
@@ -585,7 +585,7 @@ export default function CreateEventPage() {
     return (
       <div className="px-4 flex flex-col gap-4 animate-fade-in">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Add-ons</label>
+          <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Add-ons</label>
           <Button variant="outline" size="sm" onClick={() => { setAddOnName(''); setAddOnPrice(''); setShowAddOnForm(true); }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
             Add Item
@@ -593,12 +593,12 @@ export default function CreateEventPage() {
         </div>
 
         {addOns.length === 0 && (
-          <div className="bg-surface-alt rounded-2xl p-8 flex flex-col items-center gap-2 text-center">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
+          <div className="bg-surface-container-high rounded-2xl p-8 flex flex-col items-center gap-2 text-center">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-outline">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
             </svg>
-            <p className="text-text-muted text-sm">No add-ons yet</p>
-            <p className="text-text-muted text-xs">Sell merch or food alongside tickets</p>
+            <p className="text-outline text-sm">No add-ons yet</p>
+            <p className="text-outline text-xs">Sell merch or food alongside tickets</p>
           </div>
         )}
 
@@ -608,12 +608,12 @@ export default function CreateEventPage() {
               <div className="p-3">
                 <div className="flex items-start justify-between mb-1">
                   <Badge variant={a.type === 'merch' ? 'purple' : 'teal'}>{a.type}</Badge>
-                  <button onClick={() => removeAddOn(a.id)} className="text-text-muted hover:text-error transition-colors">
+                  <button onClick={() => removeAddOn(a.id)} className="text-outline hover:text-error transition-colors">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                   </button>
                 </div>
                 <h4 className="font-semibold text-sm mt-2">{a.name}</h4>
-                <p className="text-orange font-bold text-sm mt-1">{formatCurrency(a.price)}</p>
+                <p className="text-primary-container font-bold text-sm mt-1">{formatCurrency(a.price)}</p>
               </div>
             </Card>
           ))}
@@ -625,7 +625,7 @@ export default function CreateEventPage() {
             <Input label="Item Name" placeholder="e.g. Event T-Shirt" value={addOnName} onChange={e => setAddOnName(e.target.value)} />
             <Input label="Price ($)" type="number" placeholder="0" value={addOnPrice} onChange={e => setAddOnPrice(e.target.value)} />
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Type</label>
+              <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Type</label>
               <div className="flex gap-2">
                 {(['merch', 'food'] as const).map(t => (
                   <button
@@ -633,8 +633,8 @@ export default function CreateEventPage() {
                     onClick={() => setAddOnType(t)}
                     className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-semibold capitalize transition-all duration-200 ${
                       addOnType === t
-                        ? t === 'merch' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' : 'bg-teal/15 text-teal border border-teal/30'
-                        : 'bg-surface border border-border text-text-secondary'
+                        ? t === 'merch' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' : 'bg-teal/15 text-secondary-container border border-teal/30'
+                        : 'bg-surface-container border border-white/5 text-on-surface-variant'
                     }`}
                   >
                     {t === 'merch' ? 'Merch' : 'Food & Drink'}
@@ -661,8 +661,8 @@ export default function CreateEventPage() {
               onClick={() => setVenueMode(mode)}
               className={`flex-1 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
                 venueMode === mode
-                  ? 'bg-orange text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
-                  : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                  ? 'bg-primary-container text-white shadow-[0_0_16px_rgba(255,107,53,0.3)]'
+                  : 'bg-surface-container border border-white/5 text-on-surface-variant hover:border-white/10'
               }`}
             >
               {mode === 'browse' ? 'Browse Venues' : 'Enter Manually'}
@@ -672,8 +672,8 @@ export default function CreateEventPage() {
 
         {venueMode === 'browse' ? (
           <div className="flex flex-col gap-3">
-            {loadingVenues && <p className="text-text-muted text-sm text-center py-4">Loading venues...</p>}
-            {!loadingVenues && dbVenues.length === 0 && <p className="text-text-muted text-sm text-center py-4">No venues available</p>}
+            {loadingVenues && <p className="text-outline text-sm text-center py-4">Loading venues...</p>}
+            {!loadingVenues && dbVenues.length === 0 && <p className="text-outline text-sm text-center py-4">No venues available</p>}
             {dbVenues.map(venue => (
               <Card
                 key={venue.id}
@@ -686,20 +686,20 @@ export default function CreateEventPage() {
                   style={{ background: EVENT_GRADIENTS[venue.gradient_index ?? 0] }}
                 >
                   {selectedVenue === venue.id && (
-                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-orange flex items-center justify-center">
+                    <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-primary-container flex items-center justify-center">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                     </div>
                   )}
                 </div>
                 <div className="p-3">
                   <h4 className="font-semibold text-sm">{venue.name}</h4>
-                  <div className="flex items-center gap-1 text-text-secondary text-xs mt-1">
+                  <div className="flex items-center gap-1 text-on-surface-variant text-xs mt-1">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     {venue.city}, {venue.state}
                   </div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-text-muted">Cap: {venue.capacity}</span>
-                    <span className="text-orange font-semibold text-xs">{formatCurrency(venue.hourly_rate)}/hr</span>
+                    <span className="text-xs text-outline">Cap: {venue.capacity}</span>
+                    <span className="text-primary-container font-semibold text-xs">{formatCurrency(venue.hourly_rate)}/hr</span>
                   </div>
                 </div>
               </Card>
@@ -719,10 +719,10 @@ export default function CreateEventPage() {
   function StepEntertainment() {
     return (
       <div className="px-4 flex flex-col gap-4 animate-fade-in">
-        <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">Select Artists</label>
+        <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">Select Artists</label>
         <div className="grid grid-cols-2 gap-3">
-          {loadingArtists && <p className="text-text-muted text-sm text-center py-4 col-span-2">Loading artists...</p>}
-          {!loadingArtists && dbArtists.length === 0 && <p className="text-text-muted text-sm text-center py-4 col-span-2">No artists available</p>}
+          {loadingArtists && <p className="text-outline text-sm text-center py-4 col-span-2">Loading artists...</p>}
+          {!loadingArtists && dbArtists.length === 0 && <p className="text-outline text-sm text-center py-4 col-span-2">No artists available</p>}
           {dbArtists.map(artist => {
             const isSelected = selectedArtists.includes(artist.id);
             return (
@@ -737,12 +737,12 @@ export default function CreateEventPage() {
                   style={{ background: EVENT_GRADIENTS[artist.gradient_index ?? 0] }}
                 >
                   {/* Avatar initial */}
-                  <span className="text-white font-display font-bold text-2xl drop-shadow-lg">
+                  <span className="text-white font-headline font-bold text-2xl drop-shadow-lg">
                     {artist.name.split(' ').map(n => n[0]).join('')}
                   </span>
                   {isSelected && (
-                    <div className="absolute inset-0 bg-orange/40 flex items-center justify-center">
-                      <div className="w-10 h-10 rounded-full bg-orange flex items-center justify-center">
+                    <div className="absolute inset-0 bg-primary-container/40 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
                       </div>
                     </div>
@@ -750,8 +750,8 @@ export default function CreateEventPage() {
                 </div>
                 <div className="p-3">
                   <h4 className="font-semibold text-sm">{artist.name}</h4>
-                  <p className="text-text-muted text-xs mt-0.5">{artist.genre}</p>
-                  <p className="text-orange font-semibold text-xs mt-1">{formatCurrency(artist.hourly_rate)}</p>
+                  <p className="text-outline text-xs mt-0.5">{artist.genre}</p>
+                  <p className="text-primary-container font-semibold text-xs mt-1">{formatCurrency(artist.hourly_rate)}</p>
                 </div>
               </Card>
             );
@@ -780,13 +780,13 @@ export default function CreateEventPage() {
       <div className="flex items-center gap-3 px-4 pt-4 pb-2">
         <button
           onClick={() => router.back()}
-          className="p-2 rounded-xl hover:bg-surface-hover transition-colors"
+          className="p-2 rounded-xl hover:bg-surface-container-high transition-colors"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
-        <h2 className="font-display font-bold text-xl">Create Event</h2>
+        <h2 className="font-headline font-bold text-xl">Create Event</h2>
       </div>
 
       <ProgressBar />
@@ -797,7 +797,7 @@ export default function CreateEventPage() {
       </div>
 
       {/* Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 bg-bg-elevated border-t border-border">
+      <div className="fixed bottom-0 left-0 right-0 z-20 bg-bg-elevated border-t border-white/5">
         <div className="max-w-[480px] mx-auto flex gap-3 px-4 py-3">
           {step > 0 && (
             <Button variant="secondary" fullWidth onClick={() => setStep(s => s - 1)}>
@@ -829,14 +829,14 @@ export default function CreateEventPage() {
       {showSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-          <div className="relative bg-bg-elevated rounded-2xl p-8 flex flex-col items-center gap-3 border border-border animate-slide-up mx-4">
+          <div className="relative bg-bg-elevated rounded-2xl p-8 flex flex-col items-center gap-3 border border-white/5 animate-slide-up mx-4">
             <div className="w-16 h-16 rounded-full bg-success/15 flex items-center justify-center">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h3 className="font-display font-bold text-lg">Event Published!</h3>
-            <p className="text-text-secondary text-sm text-center">Your event is now live and ready for guests.</p>
+            <h3 className="font-headline font-bold text-lg">Event Published!</h3>
+            <p className="text-on-surface-variant text-sm text-center">Your event is now live and ready for guests.</p>
           </div>
         </div>
       )}

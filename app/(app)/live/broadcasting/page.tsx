@@ -78,7 +78,7 @@ export default function BroadcastingPage() {
       {/* Camera preview area */}
       <div className="flex-1 relative bg-[#0a0a0e] flex items-center justify-center">
         {/* Camera placeholder */}
-        <div className="flex flex-col items-center gap-3 text-text-muted">
+        <div className="flex flex-col items-center gap-3 text-outline">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
             <path d="M23 7l-7 5 7 5V7z" />
             <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
@@ -92,25 +92,25 @@ export default function BroadcastingPage() {
             {/* LIVE badge */}
             <div className="flex items-center gap-1.5 bg-red-600 text-white px-2.5 py-1 rounded-full">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              <span className="text-[11px] font-bold uppercase">Live</span>
+              <span className="text-xs font-bold uppercase">Live</span>
             </div>
             {/* Viewer count */}
             <div className="flex items-center gap-1 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
               </svg>
-              <span className="text-[11px] text-white font-semibold">{viewerCount}</span>
+              <span className="text-xs text-white font-semibold">{viewerCount}</span>
             </div>
           </div>
           {/* Elapsed time */}
           <div className="bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full">
-            <span className="text-[11px] text-white font-mono">{formatElapsed(elapsed)}</span>
+            <span className="text-xs text-white font-mono">{formatElapsed(elapsed)}</span>
           </div>
         </div>
 
         {/* Tip toast */}
         <div
-          className={`absolute top-16 left-1/2 -translate-x-1/2 bg-orange/90 backdrop-blur-sm text-white px-4 py-2 rounded-full shadow-lg transition-all duration-500 ${
+          className={`absolute top-16 left-1/2 -translate-x-1/2 bg-primary-container/90 backdrop-blur-sm text-white px-4 py-2 rounded-full shadow-lg transition-all duration-500 ${
             showTipToast ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
           }`}
         >
@@ -160,9 +160,9 @@ export default function BroadcastingPage() {
       </div>
 
       {/* Live chat sidebar */}
-      <div className="h-[260px] bg-bg border-t border-border/50 flex flex-col">
-        <div className="px-4 py-2 border-b border-border/30">
-          <h3 className="font-display font-semibold text-xs text-text-secondary uppercase tracking-wide">Live Chat</h3>
+      <div className="h-[260px] bg-bg border-t border-white/5/50 flex flex-col">
+        <div className="px-4 py-2 border-b border-white/5/30">
+          <h3 className="font-headline font-semibold text-xs text-on-surface-variant uppercase tracking-wide">Live Chat</h3>
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2">
           {MOCK_CHAT.map((msg) => (
@@ -173,7 +173,7 @@ export default function BroadcastingPage() {
               >
                 {msg.username}
               </span>
-              <span className="text-xs text-text-secondary">{msg.text}</span>
+              <span className="text-xs text-on-surface-variant">{msg.text}</span>
             </div>
           ))}
         </div>
@@ -181,7 +181,7 @@ export default function BroadcastingPage() {
 
       {/* End stream modal */}
       <Modal open={showEndModal} onClose={() => setShowEndModal(false)} title="End Stream?">
-        <p className="text-sm text-text-secondary mb-4">
+        <p className="text-sm text-on-surface-variant mb-4 font-body">
           Are you sure you want to end your broadcast? Your {viewerCount} viewers will be disconnected.
         </p>
         <div className="flex gap-3">

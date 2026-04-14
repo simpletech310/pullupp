@@ -128,7 +128,7 @@ export default async function LandingPage() {
 
         <div className="relative z-10 flex flex-col items-center gap-6 max-w-2xl mx-auto">
           {/* Pill badge */}
-          <span className="bg-white/10 backdrop-blur-md px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">
+          <span className="bg-white/10 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white border border-white/10">
             Atlanta&apos;s Premier Event Platform
           </span>
 
@@ -173,7 +173,7 @@ export default async function LandingPage() {
           {/* Section header */}
           <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-primary-container mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-primary-container mb-2">
                 Live Near You
               </p>
               <h2 className="font-headline font-bold text-3xl text-white leading-tight">
@@ -229,7 +229,7 @@ export default async function LandingPage() {
                       {coverImg && (
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                       )}
-                      <span className="relative z-10 px-2.5 py-1 bg-black/40 backdrop-blur-sm rounded-full text-[10px] font-bold uppercase tracking-widest text-white">
+                      <span className="relative z-10 px-2.5 py-1 bg-black/40 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest text-white">
                         {event.category}
                       </span>
                     </div>
@@ -255,7 +255,7 @@ export default async function LandingPage() {
                         <span className="text-primary-container font-bold text-sm">
                           {minPrice ?? 'Tickets Available'}
                         </span>
-                        <span className="px-3 py-1.5 bg-primary-container/10 text-primary-container text-[10px] font-bold rounded-lg uppercase tracking-widest group-hover:bg-primary-container group-hover:text-white transition-all">
+                        <span className="px-3 py-1.5 bg-primary-container/10 text-primary-container text-xs font-bold rounded-lg uppercase tracking-widest group-hover:bg-primary-container group-hover:text-white transition-all">
                           Get Tickets
                         </span>
                       </div>
@@ -281,7 +281,7 @@ export default async function LandingPage() {
       <section className="relative z-10 px-4 py-16 border-t border-white/5">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-secondary-container mb-3">
+            <p className="text-xs font-bold uppercase tracking-widest text-secondary-container mb-3">
               Why PullUpp
             </p>
             <h2 className="font-headline font-bold text-3xl text-white">Everything You Need</h2>
@@ -311,7 +311,7 @@ export default async function LandingPage() {
       <section className="relative z-10 px-4 py-16 border-t border-white/5">
         <div className="max-w-6xl mx-auto">
           <div className="glass-panel rounded-2xl p-8 border border-white/5">
-            <p className="text-center text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-8">
+            <p className="text-center text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-8">
               By the Numbers
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
@@ -334,7 +334,7 @@ export default async function LandingPage() {
       {/* ── Footer CTA ── */}
       <section className="relative z-10 px-4 py-20 border-t border-white/5">
         <div className="kinetic-gradient rounded-3xl p-10 text-center mx-auto max-w-2xl">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-white/70 mb-4">
             Ready to Join?
           </p>
           <h2 className="font-headline font-black text-4xl text-white mb-4 leading-tight">

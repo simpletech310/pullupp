@@ -119,7 +119,7 @@ export default function VenueDetailPage() {
       {/* Venue Info */}
       <div className="px-4 pt-4">
         <div className="flex items-start justify-between mb-1">
-          <h1 className="font-display font-bold text-xl">{venue.name}</h1>
+          <h1 className="font-headline font-bold text-xl">{venue.name}</h1>
           <Badge variant="purple">{venue.type}</Badge>
         </div>
         <div className="flex items-center gap-2 mb-2">
@@ -128,38 +128,38 @@ export default function VenueDetailPage() {
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
             <span className="font-semibold">{venue.rating}</span>
-            <span className="text-text-muted">({venue.reviews} reviews)</span>
+            <span className="text-outline">({venue.reviews} reviews)</span>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 text-text-secondary text-xs mb-3">
+        <div className="flex items-center gap-1.5 text-on-surface-variant text-xs mb-3">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           {venue.address}
         </div>
-        <p className="text-text-secondary text-sm leading-relaxed mb-4">{venue.description}</p>
+        <p className="text-on-surface-variant text-sm leading-relaxed mb-4">{venue.description}</p>
       </div>
 
       {/* Capacity */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Capacity</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Capacity</h3>
         <div className="flex gap-3">
           <Card className="flex-1 p-4">
-            <div className="text-orange font-display font-bold text-2xl">{venue.capacityStanding}</div>
-            <div className="text-xs text-text-secondary mt-1">Standing</div>
+            <div className="text-primary-container font-headline font-bold text-2xl">{venue.capacityStanding}</div>
+            <div className="text-xs text-on-surface-variant mt-1">Standing</div>
           </Card>
           <Card className="flex-1 p-4">
-            <div className="text-teal font-display font-bold text-2xl">{venue.capacitySeated}</div>
-            <div className="text-xs text-text-secondary mt-1">Seated</div>
+            <div className="text-secondary-container font-headline font-bold text-2xl">{venue.capacitySeated}</div>
+            <div className="text-xs text-on-surface-variant mt-1">Seated</div>
           </Card>
         </div>
       </div>
 
       {/* Pricing */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Pricing</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Pricing</h3>
         <Card className="p-4">
           <div className="flex items-baseline gap-1">
-            <span className="text-orange font-display font-bold text-2xl">{formatCurrency(venue.hourlyRate)}</span>
-            <span className="text-text-secondary text-sm">/hour</span>
+            <span className="text-primary-container font-headline font-bold text-2xl">{formatCurrency(venue.hourlyRate)}</span>
+            <span className="text-on-surface-variant text-sm">/hour</span>
           </div>
           <Badge variant="default" className="mt-2">{venue.pricingMode}</Badge>
         </Card>
@@ -167,14 +167,14 @@ export default function VenueDetailPage() {
 
       {/* Amenities */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Amenities</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Amenities</h3>
         <div className="grid grid-cols-3 gap-2">
           {venue.amenities.map(amenity => (
             <Card key={amenity.name} className="p-3 flex flex-col items-center gap-2">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-teal">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-secondary-container">
                 {AMENITY_ICONS[amenity.icon] || <circle cx="12" cy="12" r="10" />}
               </svg>
-              <span className="text-xs text-text-secondary text-center">{amenity.name}</span>
+              <span className="text-xs text-on-surface-variant text-center">{amenity.name}</span>
             </Card>
           ))}
         </div>
@@ -182,15 +182,15 @@ export default function VenueDetailPage() {
 
       {/* Equipment Packages */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Equipment Packages</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Equipment Packages</h3>
         <div className="flex flex-col gap-3">
           {venue.equipmentPackages.map(pkg => (
             <Card key={pkg.name} className="p-4">
               <div className="flex items-center justify-between mb-1">
                 <span className="font-semibold text-sm">{pkg.name}</span>
-                <span className="text-orange font-semibold text-sm">+{formatCurrency(pkg.price)}</span>
+                <span className="text-primary-container font-semibold text-sm">+{formatCurrency(pkg.price)}</span>
               </div>
-              <p className="text-text-secondary text-xs">{pkg.includes}</p>
+              <p className="text-on-surface-variant text-xs">{pkg.includes}</p>
             </Card>
           ))}
         </div>
@@ -198,20 +198,20 @@ export default function VenueDetailPage() {
 
       {/* Floor Plan Placeholder */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Floor Plan</h3>
-        <div className="border-2 border-dashed border-border rounded-2xl h-[180px] flex flex-col items-center justify-center gap-2">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
+        <h3 className="font-headline font-semibold text-base mb-3">Floor Plan</h3>
+        <div className="border-2 border-dashed border-white/5 rounded-2xl h-[180px] flex flex-col items-center justify-center gap-2">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-outline">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="12" y1="3" x2="12" y2="21" />
           </svg>
-          <span className="text-text-muted text-xs">Floor plan coming soon</span>
+          <span className="text-outline text-xs">Floor plan coming soon</span>
         </div>
       </div>
 
       {/* Video Tour Placeholder */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Video Tour</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Video Tour</h3>
         <div
           className="rounded-2xl h-[180px] flex flex-col items-center justify-center gap-2 relative overflow-hidden"
           style={{ background: EVENT_GRADIENTS[8] }}
@@ -227,12 +227,12 @@ export default function VenueDetailPage() {
 
       {/* House Rules */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">House Rules</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">House Rules</h3>
         <Card className="p-4">
           <ul className="flex flex-col gap-2">
             {venue.houseRules.map((rule, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-text-secondary">
-                <span className="text-orange mt-0.5">
+              <li key={i} className="flex items-start gap-2 text-sm text-on-surface-variant">
+                <span className="text-primary-container mt-0.5">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20" /></svg>
                 </span>
                 {rule}
@@ -244,30 +244,30 @@ export default function VenueDetailPage() {
 
       {/* Payment Terms */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Payment Terms</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Payment Terms</h3>
         <Card className="p-4">
-          <p className="text-sm text-text-secondary">{venue.paymentTerms}</p>
+          <p className="text-sm text-on-surface-variant">{venue.paymentTerms}</p>
         </Card>
       </div>
 
       {/* Cancellation Policy */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Cancellation Policy</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Cancellation Policy</h3>
         <Card className="p-4">
-          <p className="text-sm text-text-secondary">{venue.cancellationPolicy}</p>
+          <p className="text-sm text-on-surface-variant">{venue.cancellationPolicy}</p>
         </Card>
       </div>
 
       {/* Insurance */}
       <div className="px-4 mb-4">
-        <h3 className="font-display font-semibold text-base mb-3">Insurance Requirements</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Insurance Requirements</h3>
         <Card className="p-4">
-          <p className="text-sm text-text-secondary">{venue.insuranceRequirements}</p>
+          <p className="text-sm text-on-surface-variant">{venue.insuranceRequirements}</p>
         </Card>
       </div>
 
       {/* Sticky bottom buttons */}
-      <div className="fixed bottom-16 left-0 right-0 px-4 py-3 bg-bg/80 backdrop-blur-md border-t border-border flex gap-3 z-20">
+      <div className="fixed bottom-16 left-0 right-0 px-4 py-3 bg-bg/80 backdrop-blur-md border-t border-white/5 flex gap-3 z-20">
         <Button
           variant={isFollowing ? 'secondary' : 'outline'}
           onClick={() => setIsFollowing(!isFollowing)}

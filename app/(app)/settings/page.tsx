@@ -26,7 +26,7 @@ function ToggleSwitch({ enabled, onChange, disabled }: ToggleSwitchProps) {
       className={`
         relative inline-flex h-7 w-12 shrink-0 rounded-full transition-colors duration-200 ease-in-out
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-        ${enabled ? 'bg-orange' : 'bg-surface-alt border border-border'}
+        ${enabled ? 'bg-primary-container' : 'bg-surface-container-high border border-white/5'}
       `}
     >
       <span
@@ -58,16 +58,16 @@ function SettingRow({ label, value, onClick, children, danger }: SettingRowProps
       className={`
         w-full flex items-center justify-between px-4 py-3.5
         transition-colors duration-150
-        ${isClickable ? 'active:bg-surface-hover cursor-pointer' : ''}
-        ${danger ? 'text-error' : 'text-text-primary'}
+        ${isClickable ? 'active:bg-surface-container-high cursor-pointer' : ''}
+        ${danger ? 'text-error' : 'text-on-surface'}
       `}
     >
       <span className={`text-sm font-medium ${danger ? 'text-error' : ''}`}>{label}</span>
       <div className="flex items-center gap-2">
-        {value && <span className="text-sm text-text-muted truncate max-w-[180px]">{value}</span>}
+        {value && <span className="text-sm text-outline truncate max-w-[180px]">{value}</span>}
         {children}
         {isClickable && !children && (
-          <svg className="w-4 h-4 text-text-muted" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+          <svg className="w-4 h-4 text-outline" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
         )}
@@ -78,7 +78,7 @@ function SettingRow({ label, value, onClick, children, danger }: SettingRowProps
 
 function SectionHeader({ title }: { title: string }) {
   return (
-    <h3 className="px-4 pt-6 pb-2 text-xs font-semibold text-text-muted uppercase tracking-wider">
+    <h3 className="px-4 pt-6 pb-2 text-xs font-semibold text-outline uppercase tracking-wider">
       {title}
     </h3>
   );
@@ -86,7 +86,7 @@ function SectionHeader({ title }: { title: string }) {
 
 function SectionCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-surface border-y border-border divide-y divide-border">
+    <div className="glass-card rounded-2xl border border-white/5 divide-y divide-white/5">
       {children}
     </div>
   );
@@ -140,13 +140,13 @@ export default function SettingsPage() {
       <div className="flex items-center gap-3 px-4 pt-4 pb-2">
         <button
           onClick={() => router.back()}
-          className="w-9 h-9 rounded-full bg-surface border border-border flex items-center justify-center active:bg-surface-hover transition-colors"
+          className="w-9 h-9 rounded-full bg-surface-container border border-white/5 flex items-center justify-center active:bg-surface-container-high transition-colors"
         >
-          <svg className="w-5 h-5 text-text-primary" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+          <svg className="w-5 h-5 text-on-surface" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
         </button>
-        <h1 className="font-display font-bold text-xl">Settings</h1>
+        <h1 className="font-headline font-bold text-xl">Settings</h1>
       </div>
 
       {/* Profile */}
@@ -179,8 +179,8 @@ export default function SettingsPage() {
                   transition-all duration-200
                   ${
                     isSelected
-                      ? 'bg-orange text-white shadow-[0_0_12px_rgba(255,107,53,0.25)]'
-                      : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                      ? 'bg-primary-container text-white shadow-[0_0_12px_rgba(255,107,53,0.25)]'
+                      : 'bg-surface-container border border-white/5 text-on-surface-variant hover:border-white/10'
                   }
                 `}
               >

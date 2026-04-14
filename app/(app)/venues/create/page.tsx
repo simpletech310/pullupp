@@ -93,9 +93,9 @@ export default function CreateVenuePage() {
   return (
     <div className="pb-8">
       {/* Orange progress bar */}
-      <div className="h-1 bg-surface">
+      <div className="h-1 bg-surface-container">
         <div
-          className="h-full bg-orange transition-all duration-500 ease-out"
+          className="h-full bg-primary-container transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -104,15 +104,15 @@ export default function CreateVenuePage() {
       <div className="px-4 pt-4 pb-2">
         <button
           onClick={() => step > 0 ? setStep(step - 1) : router.back()}
-          className="flex items-center gap-1.5 text-text-secondary text-sm mb-3 hover:text-text-primary transition-colors"
+          className="flex items-center gap-1.5 text-on-surface-variant text-sm mb-3 hover:text-on-surface transition-colors"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
           </svg>
           Back
         </button>
-        <h1 className="font-display font-bold text-xl">List Your Venue</h1>
-        <p className="text-text-secondary text-sm mt-1">
+        <h1 className="font-headline font-bold text-xl">List Your Venue</h1>
+        <p className="text-on-surface-variant text-sm mt-1">
           Step {step + 1} of {STEPS.length} &mdash; {STEPS[step]}
         </p>
       </div>
@@ -123,7 +123,7 @@ export default function CreateVenuePage() {
           <div key={s} className="flex items-center gap-2 flex-1">
             <div className={`
               w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-all duration-300
-              ${i <= step ? 'bg-orange text-white' : 'bg-surface border border-border text-text-muted'}
+              ${i <= step ? 'bg-primary-container text-white' : 'bg-surface-container border border-white/5 text-outline'}
             `}>
               {i < step ? (
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -134,7 +134,7 @@ export default function CreateVenuePage() {
               )}
             </div>
             {i < STEPS.length - 1 && (
-              <div className={`h-0.5 flex-1 rounded-full transition-colors duration-300 ${i < step ? 'bg-orange' : 'bg-border'}`} />
+              <div className={`h-0.5 flex-1 rounded-full transition-colors duration-300 ${i < step ? 'bg-primary-container' : 'bg-background'}`} />
             )}
           </div>
         ))}
@@ -151,23 +151,23 @@ export default function CreateVenuePage() {
           />
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
               Venue Type
             </label>
             <select
               value={venueType}
               onChange={e => setVenueType(e.target.value)}
-              className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-body focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 appearance-none"
+              className="w-full bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface font-body focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 appearance-none"
             >
-              <option value="" className="bg-surface">Select type</option>
+              <option value="" className="bg-surface-container">Select type</option>
               {VENUE_TYPES.map(t => (
-                <option key={t} value={t} className="bg-surface">{t}</option>
+                <option key={t} value={t} className="bg-surface-container">{t}</option>
               ))}
             </select>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
               Description
             </label>
             <textarea
@@ -175,7 +175,7 @@ export default function CreateVenuePage() {
               onChange={e => setDescription(e.target.value)}
               placeholder="Describe your venue, its vibe, and what makes it special..."
               rows={4}
-              className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-body placeholder:text-text-muted focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 resize-none"
+              className="w-full bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface font-body placeholder:text-outline focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 resize-none"
             />
           </div>
 
@@ -254,16 +254,16 @@ export default function CreateVenuePage() {
 
           {/* Pricing Mode Toggle */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
               Pricing Mode
             </label>
-            <div className="flex bg-surface border border-border rounded-xl p-1">
+            <div className="flex bg-surface-container border border-white/5 rounded-xl p-1">
               <button
                 onClick={() => setPricingMode('fixed')}
                 className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
                   pricingMode === 'fixed'
-                    ? 'bg-orange text-white shadow-sm'
-                    : 'text-text-secondary hover:text-text-primary'
+                    ? 'bg-primary-container text-white shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface'
                 }`}
               >
                 Fixed
@@ -272,8 +272,8 @@ export default function CreateVenuePage() {
                 onClick={() => setPricingMode('negotiable')}
                 className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
                   pricingMode === 'negotiable'
-                    ? 'bg-orange text-white shadow-sm'
-                    : 'text-text-secondary hover:text-text-primary'
+                    ? 'bg-primary-container text-white shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface'
                 }`}
               >
                 Negotiable
@@ -287,7 +287,7 @@ export default function CreateVenuePage() {
       {step === 2 && (
         <div className="px-4 flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
               Amenities
             </label>
             <div className="flex flex-wrap gap-2">
@@ -299,7 +299,7 @@ export default function CreateVenuePage() {
                     px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-200
                     ${selectedAmenities.includes(amenity)
                       ? 'bg-teal/15 text-teal border border-teal/30'
-                      : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                      : 'bg-surface-container border border-white/5 text-on-surface-variant hover:border-white/10'
                     }
                   `}
                 >
@@ -313,7 +313,7 @@ export default function CreateVenuePage() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
               Cancellation Policy
             </label>
             <textarea
@@ -321,27 +321,27 @@ export default function CreateVenuePage() {
               onChange={e => setCancellationPolicy(e.target.value)}
               placeholder="Describe your cancellation terms (e.g., Full refund if cancelled 7+ days before the event...)"
               rows={4}
-              className="w-full bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-body placeholder:text-text-muted focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 resize-none"
+              className="w-full bg-surface-container border border-white/5 rounded-xl px-4 py-3 text-sm text-on-surface font-body placeholder:text-outline focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 transition-colors duration-200 resize-none"
             />
           </div>
 
           {/* Cover Photos Upload Placeholder */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-text-secondary uppercase tracking-wide">
+            <label className="text-xs font-semibold text-on-surface-variant uppercase tracking-wide">
               Cover Photos
             </label>
-            <Card className="border-dashed !border-border-light">
+            <Card className="border-dashed !border-white/10">
               <div className="flex flex-col items-center justify-center py-10 gap-3">
-                <div className="w-12 h-12 rounded-full bg-surface-alt flex items-center justify-center">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted">
+                <div className="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-outline">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                     <circle cx="8.5" cy="8.5" r="1.5" />
                     <polyline points="21 15 16 10 5 21" />
                   </svg>
                 </div>
                 <div className="text-center">
-                  <p className="text-sm text-text-secondary font-semibold">Upload Photos</p>
-                  <p className="text-xs text-text-muted mt-0.5">JPG, PNG up to 5MB each</p>
+                  <p className="text-sm text-on-surface-variant font-semibold">Upload Photos</p>
+                  <p className="text-xs text-outline mt-0.5">JPG, PNG up to 5MB each</p>
                 </div>
               </div>
             </Card>

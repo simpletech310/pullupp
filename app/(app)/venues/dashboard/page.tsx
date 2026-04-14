@@ -49,15 +49,15 @@ export default function VenueDashboardPage() {
     <div className="pb-8">
       {/* Header */}
       <div className="px-4 pt-4 pb-3">
-        <h1 className="font-display font-bold text-xl">Your Venue</h1>
-        <p className="text-text-secondary text-sm mt-0.5">The Velvet Room</p>
+        <h1 className="font-headline font-bold text-xl">Your Venue</h1>
+        <p className="text-on-surface-variant text-sm mt-0.5">The Velvet Room</p>
       </div>
 
       {/* Stats Cards */}
       <div className="px-4 mb-5">
         <div className="grid grid-cols-2 gap-3">
-          <StatCard value="24" label="Total Bookings" color="text-orange" />
-          <StatCard value="$18.4k" label="Revenue" color="text-teal" />
+          <StatCard value="24" label="Total Bookings" color="text-primary-container" />
+          <StatCard value="$18.4k" label="Revenue" color="text-secondary-container" />
           <StatCard value="4.8" label="Avg Rating" color="text-warning" />
           <StatCard value="6" label="Upcoming" color="text-purple-400" />
         </div>
@@ -66,22 +66,22 @@ export default function VenueDashboardPage() {
       {/* Availability Calendar */}
       <div className="px-4 mb-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-semibold text-base">Availability</h3>
+          <h3 className="font-headline font-semibold text-base">Availability</h3>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setCalendarMonth(m => Math.max(0, m - 1))}
-              className="p-1.5 rounded-lg hover:bg-surface-hover transition-colors text-text-secondary"
+              className="p-1.5 rounded-lg hover:bg-surface-container-high transition-colors text-on-surface-variant"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
-            <span className="text-sm font-semibold text-text-primary min-w-[120px] text-center">
+            <span className="text-sm font-semibold text-on-surface min-w-[120px] text-center">
               {MONTH_NAMES[calendarMonth]} {calendarYear}
             </span>
             <button
               onClick={() => setCalendarMonth(m => Math.min(11, m + 1))}
-              className="p-1.5 rounded-lg hover:bg-surface-hover transition-colors text-text-secondary"
+              className="p-1.5 rounded-lg hover:bg-surface-container-high transition-colors text-on-surface-variant"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="9 18 15 12 9 6" />
@@ -94,7 +94,7 @@ export default function VenueDashboardPage() {
           {/* Day headers */}
           <div className="grid grid-cols-7 gap-1 mb-2">
             {DAY_LABELS.map(d => (
-              <div key={d} className="text-center text-[11px] font-semibold text-text-muted uppercase">
+              <div key={d} className="text-center text-xs font-semibold text-outline uppercase">
                 {d}
               </div>
             ))}
@@ -119,12 +119,12 @@ export default function VenueDashboardPage() {
                   className={`
                     h-9 rounded-lg flex items-center justify-center text-xs font-medium transition-colors
                     ${isBooked
-                      ? 'bg-teal/20 text-teal border border-teal/30'
+                      ? 'bg-teal/20 text-secondary-container border border-teal/30'
                       : isBlocked
                         ? 'bg-error/10 text-error/50 line-through'
                         : isToday
-                          ? 'bg-orange/20 text-orange border border-orange/30'
-                          : 'text-text-secondary hover:bg-surface-hover'
+                          ? 'bg-orange/20 text-primary-container border border-orange/30'
+                          : 'text-on-surface-variant hover:bg-surface-container-high'
                     }
                   `}
                 >
@@ -135,18 +135,18 @@ export default function VenueDashboardPage() {
           </div>
 
           {/* Legend */}
-          <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border">
+          <div className="flex items-center gap-4 mt-3 pt-3 border-t border-white/5">
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-teal/40" />
-              <span className="text-[11px] text-text-muted">Booked</span>
+              <span className="text-xs text-outline">Booked</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-surface-alt border border-border" />
-              <span className="text-[11px] text-text-muted">Available</span>
+              <div className="w-2.5 h-2.5 rounded-full bg-surface-container-high border border-white/5" />
+              <span className="text-xs text-outline">Available</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-error/30" />
-              <span className="text-[11px] text-text-muted">Blocked</span>
+              <span className="text-xs text-outline">Blocked</span>
             </div>
           </div>
         </Card>
@@ -154,7 +154,7 @@ export default function VenueDashboardPage() {
 
       {/* Upcoming Bookings */}
       <div className="px-4 mb-5">
-        <h3 className="font-display font-semibold text-base mb-3">Upcoming Bookings</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Upcoming Bookings</h3>
         <div className="flex flex-col gap-3">
           {MOCK_BOOKINGS.map(booking => (
             <Card
@@ -166,13 +166,13 @@ export default function VenueDashboardPage() {
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <h4 className="font-semibold text-sm">{booking.event}</h4>
-                    <p className="text-xs text-text-secondary mt-0.5">{booking.organizer}</p>
+                    <p className="text-xs text-on-surface-variant mt-0.5">{booking.organizer}</p>
                   </div>
                   <Badge variant={STATUS_BADGE[booking.status].variant}>
                     {STATUS_BADGE[booking.status].label}
                   </Badge>
                 </div>
-                <div className="flex items-center gap-4 text-xs text-text-muted">
+                <div className="flex items-center gap-4 text-xs text-outline">
                   <span className="flex items-center gap-1">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     {new Date(booking.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -181,7 +181,7 @@ export default function VenueDashboardPage() {
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     {booking.hours}
                   </span>
-                  <span className="text-orange font-semibold ml-auto">
+                  <span className="text-primary-container font-semibold ml-auto">
                     {formatCurrency(booking.amount)}
                   </span>
                 </div>
@@ -193,7 +193,7 @@ export default function VenueDashboardPage() {
 
       {/* Quick Actions */}
       <div className="px-4">
-        <h3 className="font-display font-semibold text-base mb-3">Quick Actions</h3>
+        <h3 className="font-headline font-semibold text-base mb-3">Quick Actions</h3>
         <div className="flex flex-col gap-2.5">
           <Button variant="secondary" size="lg" fullWidth onClick={() => router.push('/venues/create')}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

@@ -22,11 +22,11 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-dvh flex">
-      <aside className="w-64 bg-bg-elevated border-r border-border shrink-0 hidden md:flex flex-col">
-        <div className="px-6 py-5 border-b border-border">
-          <Link href="/admin" className="font-display font-bold text-xl tracking-tight">
-            Pull<span className="text-orange">Upp</span>
-            <span className="text-xs text-text-muted ml-2 font-body font-normal">Admin</span>
+      <aside className="w-64 bg-bg-elevated border-r border-white/5 shrink-0 hidden md:flex flex-col">
+        <div className="px-6 py-5 border-b border-white/5">
+          <Link href="/admin" className="font-headline font-bold text-xl tracking-tight">
+            Pull<span className="text-primary-container">Upp</span>
+            <span className="text-xs text-outline ml-2 font-body font-normal">Admin</span>
           </Link>
         </div>
         <nav className="flex-1 py-4 px-3">
@@ -39,8 +39,8 @@ export default function AdminLayout({
                 className={`
                   flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 transition-colors
                   ${isActive
-                    ? 'bg-orange/10 text-orange font-semibold'
-                    : 'text-text-secondary hover:bg-surface-hover hover:text-text-primary'
+                    ? 'bg-primary-container/10 text-primary-container font-semibold'
+                    : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface'
                   }
                 `}
               >
@@ -50,10 +50,10 @@ export default function AdminLayout({
             );
           })}
         </nav>
-        <div className="px-4 py-4 border-t border-border">
+        <div className="px-4 py-4 border-t border-white/5">
           <Link
             href="/home"
-            className="flex items-center gap-2 text-sm text-text-muted hover:text-text-primary transition-colors"
+            className="flex items-center gap-2 text-sm text-outline hover:text-on-surface transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
             Back to App

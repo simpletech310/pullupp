@@ -70,7 +70,7 @@ export function BottomNav() {
             ].join(' ')}
           >
             {item.icon(active)}
-            <span className="font-body text-[10px] uppercase tracking-[0.05em] font-bold">
+            <span className="font-body text-xs uppercase tracking-[0.05em] font-bold">
               {item.label}
             </span>
           </Link>

@@ -107,43 +107,43 @@ export default function AdminUserDetailPage() {
       {/* Back button */}
       <Link
         href="/admin/users"
-        className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-primary transition-colors mb-6"
+        className="inline-flex items-center gap-2 text-sm text-outline hover:text-on-surface transition-colors mb-6"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
         Back to Users
       </Link>
 
-      <h1 className="font-display font-bold text-2xl mb-6">{user.name}</h1>
+      <h1 className="font-headline font-bold text-2xl mb-6">{user.name}</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* User Info Card */}
         <div>
           <Card className="p-5">
             <div className="flex flex-col items-center text-center mb-5">
-              <span className="w-16 h-16 rounded-full bg-orange/15 text-orange flex items-center justify-center text-xl font-bold mb-3">
+              <span className="w-16 h-16 rounded-full bg-primary-container/15 text-primary-container flex items-center justify-center text-xl font-bold mb-3">
                 {user.avatar}
               </span>
-              <h2 className="font-display font-bold text-lg">{user.name}</h2>
-              <p className="text-sm text-text-muted">{user.email}</p>
+              <h2 className="font-headline font-bold text-lg">{user.name}</h2>
+              <p className="text-sm text-outline">{user.email}</p>
               <div className="mt-2">
                 <Badge variant={ROLE_BADGE_VARIANT[user.role]}>{ROLE_LABELS[user.role]}</Badge>
               </div>
             </div>
-            <div className="space-y-3 text-sm border-t border-border pt-4">
+            <div className="space-y-3 text-sm border-t border-white/5 pt-4">
               <div className="flex justify-between">
-                <span className="text-text-muted">Joined</span>
-                <span className="text-text-primary">{user.joined}</span>
+                <span className="text-outline">Joined</span>
+                <span className="text-on-surface">{user.joined}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-muted">Status</span>
+                <span className="text-outline">Status</span>
                 <span className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${user.status === 'active' ? 'bg-success' : 'bg-error'}`} />
-                  <span className="text-text-primary capitalize">{user.status}</span>
+                  <span className="text-on-surface capitalize">{user.status}</span>
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-muted">User ID</span>
-                <span className="text-text-primary font-mono text-xs">#{user.id}</span>
+                <span className="text-outline">User ID</span>
+                <span className="text-on-surface font-mono text-xs">#{user.id}</span>
               </div>
             </div>
           </Card>
@@ -154,29 +154,29 @@ export default function AdminUserDetailPage() {
           {/* Activity Stats */}
           <div className="grid grid-cols-3 gap-4">
             <Card className="p-4 text-center">
-              <div className="font-display font-bold text-xl text-orange">{user.eventsAttended}</div>
-              <div className="text-xs text-text-muted mt-1">Events Attended</div>
+              <div className="font-headline font-bold text-xl text-primary-container">{user.eventsAttended}</div>
+              <div className="text-xs text-outline mt-1">Events Attended</div>
             </Card>
             <Card className="p-4 text-center">
-              <div className="font-display font-bold text-xl text-teal">{user.tipsSent}</div>
-              <div className="text-xs text-text-muted mt-1">Tips Sent</div>
+              <div className="font-headline font-bold text-xl text-secondary-container">{user.tipsSent}</div>
+              <div className="text-xs text-outline mt-1">Tips Sent</div>
             </Card>
             <Card className="p-4 text-center">
-              <div className="font-display font-bold text-xl text-purple-400">{user.bookingsMade}</div>
-              <div className="text-xs text-text-muted mt-1">Bookings Made</div>
+              <div className="font-headline font-bold text-xl text-purple-400">{user.bookingsMade}</div>
+              <div className="text-xs text-outline mt-1">Bookings Made</div>
             </Card>
           </div>
 
           {/* Role-specific content */}
           {user.role === 'organizer' && user.eventsCreated && (
             <Card className="p-5">
-              <h3 className="font-display font-bold text-base mb-4">Events Created</h3>
+              <h3 className="font-headline font-bold text-base mb-4">Events Created</h3>
               <div className="space-y-2">
                 {user.eventsCreated.map((event, i) => (
-                  <div key={i} className="flex items-center justify-between py-2.5 border-b border-border last:border-0">
+                  <div key={i} className="flex items-center justify-between py-2.5 border-b border-white/5 last:border-0">
                     <div>
-                      <p className="text-sm font-medium text-text-primary">{event.name}</p>
-                      <p className="text-xs text-text-muted">{event.date}</p>
+                      <p className="text-sm font-medium text-on-surface">{event.name}</p>
+                      <p className="text-xs text-outline">{event.date}</p>
                     </div>
                     <Badge variant={event.status === 'Published' ? 'success' : event.status === 'Draft' ? 'default' : 'error'}>
                       {event.status}
@@ -189,15 +189,15 @@ export default function AdminUserDetailPage() {
 
           {user.role === 'artist' && (
             <Card className="p-5">
-              <h3 className="font-display font-bold text-base mb-4">Artist Stats</h3>
+              <h3 className="font-headline font-bold text-base mb-4">Artist Stats</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-surface-alt rounded-xl p-4">
-                  <div className="font-display font-bold text-xl text-success">${user.tipsReceived?.toLocaleString()}</div>
-                  <div className="text-xs text-text-muted mt-1">Tips Received</div>
+                <div className="bg-surface-container-high rounded-xl p-4">
+                  <div className="font-headline font-bold text-xl text-success">${user.tipsReceived?.toLocaleString()}</div>
+                  <div className="text-xs text-outline mt-1">Tips Received</div>
                 </div>
-                <div className="bg-surface-alt rounded-xl p-4">
-                  <div className="font-display font-bold text-xl text-teal">{user.streamsCount}</div>
-                  <div className="text-xs text-text-muted mt-1">Streams</div>
+                <div className="bg-surface-container-high rounded-xl p-4">
+                  <div className="font-headline font-bold text-xl text-secondary-container">{user.streamsCount}</div>
+                  <div className="text-xs text-outline mt-1">Streams</div>
                 </div>
               </div>
             </Card>
@@ -205,23 +205,23 @@ export default function AdminUserDetailPage() {
 
           {user.role === 'venue_owner' && (
             <Card className="p-5">
-              <h3 className="font-display font-bold text-base mb-4">Venue Details</h3>
+              <h3 className="font-headline font-bold text-base mb-4">Venue Details</h3>
               <div className="space-y-3 text-sm">
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-text-muted">Venue Name</span>
-                  <span className="text-text-primary font-medium">{user.venueName}</span>
+                <div className="flex justify-between py-2 border-b border-white/5">
+                  <span className="text-outline">Venue Name</span>
+                  <span className="text-on-surface font-medium">{user.venueName}</span>
                 </div>
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-text-muted">Type</span>
-                  <span className="text-text-primary">{user.venueType}</span>
+                <div className="flex justify-between py-2 border-b border-white/5">
+                  <span className="text-outline">Type</span>
+                  <span className="text-on-surface">{user.venueType}</span>
                 </div>
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-text-muted">Capacity</span>
-                  <span className="text-text-primary">{user.venueCapacity}</span>
+                <div className="flex justify-between py-2 border-b border-white/5">
+                  <span className="text-outline">Capacity</span>
+                  <span className="text-on-surface">{user.venueCapacity}</span>
                 </div>
                 <div className="flex justify-between py-2">
-                  <span className="text-text-muted">Bookings Received</span>
-                  <span className="text-text-primary font-semibold text-teal">{user.bookingsReceived}</span>
+                  <span className="text-outline">Bookings Received</span>
+                  <span className="text-on-surface font-semibold text-secondary-container">{user.bookingsReceived}</span>
                 </div>
               </div>
             </Card>
@@ -229,7 +229,7 @@ export default function AdminUserDetailPage() {
 
           {/* Action Buttons */}
           <Card className="p-5">
-            <h3 className="font-display font-bold text-base mb-4">Actions</h3>
+            <h3 className="font-headline font-bold text-base mb-4">Actions</h3>
             <div className="flex flex-wrap items-center gap-3">
               <Button
                 size="sm"
@@ -239,11 +239,11 @@ export default function AdminUserDetailPage() {
                 {user.status === 'active' ? 'Ban User' : 'Unban User'}
               </Button>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-text-muted">Change Role:</span>
+                <span className="text-xs text-outline">Change Role:</span>
                 <select
                   value={user.role}
                   onChange={(e) => changeRole(e.target.value as Role)}
-                  className="bg-surface border border-border rounded-lg px-3 py-2 text-xs text-text-primary font-body focus:outline-none focus:border-orange transition-colors"
+                  className="bg-surface-container border border-white/5 rounded-lg px-3 py-2 text-xs text-on-surface font-body focus:outline-none focus:border-primary-container transition-colors"
                 >
                   <option value="guest">Guest</option>
                   <option value="organizer">Organizer</option>
@@ -261,7 +261,7 @@ export default function AdminUserDetailPage() {
             </div>
             {showDeleteConfirm && (
               <div className="mt-4 p-4 bg-error/5 border border-error/20 rounded-xl">
-                <p className="text-sm text-text-primary mb-3">Are you sure you want to delete this account? This action cannot be undone.</p>
+                <p className="text-sm text-on-surface mb-3">Are you sure you want to delete this account? This action cannot be undone.</p>
                 <div className="flex gap-2">
                   <Button size="sm" variant="danger">Confirm Delete</Button>
                   <Button size="sm" variant="ghost" onClick={() => setShowDeleteConfirm(false)}>Cancel</Button>
@@ -272,16 +272,16 @@ export default function AdminUserDetailPage() {
 
           {/* Audit Log */}
           <Card className="p-5">
-            <h3 className="font-display font-bold text-base mb-4">Audit Log</h3>
+            <h3 className="font-headline font-bold text-base mb-4">Audit Log</h3>
             <div className="space-y-1">
               {AUDIT_LOG.map((entry, i) => (
-                <div key={i} className="flex items-center gap-3 py-2.5 border-b border-border last:border-0">
+                <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/5 last:border-0">
                   <span className="w-2 h-2 rounded-full bg-border-light shrink-0" />
                   <div className="flex-1">
-                    <p className="text-sm text-text-primary">{entry.action}</p>
-                    <p className="text-xs text-text-muted">by {entry.admin}</p>
+                    <p className="text-sm text-on-surface">{entry.action}</p>
+                    <p className="text-xs text-outline">by {entry.admin}</p>
                   </div>
-                  <span className="text-xs text-text-muted whitespace-nowrap">{entry.time}</span>
+                  <span className="text-xs text-outline whitespace-nowrap">{entry.time}</span>
                 </div>
               ))}
             </div>

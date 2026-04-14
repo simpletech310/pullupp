@@ -175,7 +175,7 @@ export default function BookingRequestPage() {
       <div className="px-4 space-y-5">
         {/* Booking Type Toggle */}
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+          <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Type
           </label>
           <div className="flex bg-surface-container rounded-xl p-1">
@@ -219,7 +219,7 @@ export default function BookingRequestPage() {
 
         {/* Provider Select */}
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+          <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Select {bookingType === 'venue' ? 'Venue' : 'Artist'}
           </label>
           <div className="relative">
@@ -296,7 +296,7 @@ export default function BookingRequestPage() {
 
         {/* Event Name */}
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+          <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Event Name
           </label>
           <Input
@@ -308,7 +308,7 @@ export default function BookingRequestPage() {
 
         {/* Date Picker Calendar */}
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+          <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Date
           </label>
           <div className="glass-card rounded-xl border border-white/5 p-4">
@@ -338,7 +338,7 @@ export default function BookingRequestPage() {
             {/* Day of Week Headers */}
             <div className="grid grid-cols-7 gap-1 mb-1">
               {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-                <div key={day} className="text-center text-[10px] font-semibold text-outline py-1">
+                <div key={day} className="text-center text-xs font-semibold text-outline py-1">
                   {day}
                 </div>
               ))}
@@ -382,7 +382,7 @@ export default function BookingRequestPage() {
 
         {/* Hours */}
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+          <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Hours
           </label>
           <Input
@@ -396,7 +396,7 @@ export default function BookingRequestPage() {
 
         {/* Budget / Offer Amount */}
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+          <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Budget / Offer Amount
           </label>
           <div className="relative">
@@ -433,7 +433,7 @@ export default function BookingRequestPage() {
 
         {/* Notes */}
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
+          <label className="text-xs uppercase tracking-widest text-on-surface-variant font-bold font-body mb-2 block">
             Notes
           </label>
           <textarea

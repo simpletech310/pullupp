@@ -66,35 +66,35 @@ const ALERTS = [
 
 function activityIcon(type: string) {
   switch (type) {
-    case 'user': return <span className="w-8 h-8 rounded-full bg-teal/15 text-teal flex items-center justify-center text-sm shrink-0">U</span>;
-    case 'event': return <span className="w-8 h-8 rounded-full bg-orange/15 text-orange flex items-center justify-center text-sm shrink-0">E</span>;
+    case 'user': return <span className="w-8 h-8 rounded-full bg-teal/15 text-secondary-container flex items-center justify-center text-sm shrink-0">U</span>;
+    case 'event': return <span className="w-8 h-8 rounded-full bg-primary-container/15 text-primary-container flex items-center justify-center text-sm shrink-0">E</span>;
     case 'tip': return <span className="w-8 h-8 rounded-full bg-purple-500/15 text-purple-400 flex items-center justify-center text-sm shrink-0">$</span>;
     case 'booking': return <span className="w-8 h-8 rounded-full bg-success/15 text-success flex items-center justify-center text-sm shrink-0">B</span>;
     case 'venue': return <span className="w-8 h-8 rounded-full bg-warning/15 text-warning flex items-center justify-center text-sm shrink-0">V</span>;
-    case 'ticket': return <span className="w-8 h-8 rounded-full bg-teal/15 text-teal flex items-center justify-center text-sm shrink-0">T</span>;
-    default: return <span className="w-8 h-8 rounded-full bg-surface-alt text-text-muted flex items-center justify-center text-sm shrink-0">?</span>;
+    case 'ticket': return <span className="w-8 h-8 rounded-full bg-teal/15 text-secondary-container flex items-center justify-center text-sm shrink-0">T</span>;
+    default: return <span className="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center text-sm shrink-0">?</span>;
   }
 }
 
 export default function AdminOverviewPage() {
   return (
     <div className="p-8 max-w-7xl">
-      <h1 className="font-display font-bold text-2xl mb-6">Overview</h1>
+      <h1 className="font-headline font-bold text-2xl mb-6">Overview</h1>
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {STATS.map((stat) => (
           <Card key={stat.label} className="p-5">
             <div className="flex items-start justify-between mb-3">
-              <div className="w-10 h-10 rounded-xl bg-orange/10 text-orange flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center">
                 {stat.icon}
               </div>
               <span className="text-xs font-semibold text-success bg-success/10 px-2 py-0.5 rounded-full">
                 {stat.change}
               </span>
             </div>
-            <div className="font-display font-bold text-2xl text-text-primary">{stat.value}</div>
-            <div className="text-xs text-text-secondary mt-1">{stat.label}</div>
+            <div className="font-headline font-bold text-2xl text-on-surface">{stat.value}</div>
+            <div className="text-xs text-on-surface-variant mt-1">{stat.label}</div>
           </Card>
         ))}
       </div>
@@ -103,16 +103,16 @@ export default function AdminOverviewPage() {
         {/* Recent Activity */}
         <div className="lg:col-span-2">
           <Card className="p-5">
-            <h2 className="font-display font-bold text-lg mb-4">Recent Activity</h2>
+            <h2 className="font-headline font-bold text-lg mb-4">Recent Activity</h2>
             <div className="space-y-1">
               {ACTIVITY.map((item, i) => (
-                <div key={i} className="flex items-center gap-3 py-2.5 border-b border-border last:border-0">
+                <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/5 last:border-0">
                   {activityIcon(item.type)}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-text-primary font-medium">{item.text}</p>
-                    <p className="text-xs text-text-muted truncate">{item.detail}</p>
+                    <p className="text-sm text-on-surface font-medium">{item.text}</p>
+                    <p className="text-xs text-outline truncate">{item.detail}</p>
                   </div>
-                  <span className="text-xs text-text-muted whitespace-nowrap">{item.time}</span>
+                  <span className="text-xs text-outline whitespace-nowrap">{item.time}</span>
                 </div>
               ))}
             </div>
@@ -122,7 +122,7 @@ export default function AdminOverviewPage() {
         {/* Alerts */}
         <div>
           <Card className="p-5">
-            <h2 className="font-display font-bold text-lg mb-4">Quick Alerts</h2>
+            <h2 className="font-headline font-bold text-lg mb-4">Quick Alerts</h2>
             <div className="space-y-3">
               {ALERTS.map((alert, i) => (
                 <div
@@ -136,7 +136,7 @@ export default function AdminOverviewPage() {
                   <span className={`w-2 h-2 rounded-full shrink-0 ${
                     alert.severity === 'error' ? 'bg-error' : 'bg-warning'
                   }`} />
-                  <span className="text-sm text-text-primary">{alert.text}</span>
+                  <span className="text-sm text-on-surface">{alert.text}</span>
                 </div>
               ))}
             </div>

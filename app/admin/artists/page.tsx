@@ -35,28 +35,28 @@ export default function AdminArtistsPage() {
 
   return (
     <div className="p-8 max-w-7xl">
-      <h1 className="font-display font-bold text-2xl mb-6">Artist Management</h1>
+      <h1 className="font-headline font-bold text-2xl mb-6">Artist Management</h1>
 
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border">
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Artist</th>
-                <th className="text-left px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Genre</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Followers</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Tips Earned</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Streams</th>
-                <th className="text-center px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Verified</th>
-                <th className="text-right px-5 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide">Actions</th>
+              <tr className="border-b border-white/5">
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Artist</th>
+                <th className="text-left px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Genre</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Followers</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Tips Earned</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Streams</th>
+                <th className="text-center px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Verified</th>
+                <th className="text-right px-5 py-3.5 text-xs font-semibold text-outline uppercase tracking-wide">Actions</th>
               </tr>
             </thead>
             <tbody>
               {artists.map((artist, i) => (
                 <tr
                   key={artist.id}
-                  className={`border-b border-border last:border-0 hover:bg-surface-hover transition-colors ${
-                    i % 2 === 1 ? 'bg-surface-alt/30' : ''
+                  className={`border-b border-white/5 last:border-0 hover:bg-surface-container-high transition-colors ${
+                    i % 2 === 1 ? 'bg-surface-container-high/30' : ''
                   }`}
                 >
                   <td className="px-5 py-3.5">
@@ -64,18 +64,18 @@ export default function AdminArtistsPage() {
                       <span className="w-8 h-8 rounded-full bg-purple-500/15 text-purple-400 flex items-center justify-center text-xs font-bold shrink-0">
                         {artist.name.charAt(0)}
                       </span>
-                      <span className="font-medium text-text-primary">{artist.name}</span>
+                      <span className="font-medium text-on-surface">{artist.name}</span>
                     </div>
                   </td>
-                  <td className="px-5 py-3.5 text-text-secondary">{artist.genre}</td>
-                  <td className="px-5 py-3.5 text-right text-text-primary">{artist.followers.toLocaleString()}</td>
-                  <td className="px-5 py-3.5 text-right text-text-primary font-medium">${artist.tipsEarned.toLocaleString()}</td>
-                  <td className="px-5 py-3.5 text-right text-text-primary">{artist.streams}</td>
+                  <td className="px-5 py-3.5 text-on-surface-variant">{artist.genre}</td>
+                  <td className="px-5 py-3.5 text-right text-on-surface">{artist.followers.toLocaleString()}</td>
+                  <td className="px-5 py-3.5 text-right text-on-surface font-medium">${artist.tipsEarned.toLocaleString()}</td>
+                  <td className="px-5 py-3.5 text-right text-on-surface">{artist.streams}</td>
                   <td className="px-5 py-3.5 text-center">
                     <button
                       onClick={() => toggleVerified(artist.id)}
                       className={`w-10 h-5 rounded-full relative transition-colors cursor-pointer ${
-                        artist.verified ? 'bg-teal' : 'bg-border-light'
+                        artist.verified ? 'bg-secondary-container' : 'bg-border-light'
                       }`}
                     >
                       <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${

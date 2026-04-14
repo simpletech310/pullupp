@@ -49,7 +49,7 @@ function MenuItem({ icon, label, sublabel, onClick, danger }: MenuItemProps) {
 function MenuSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="px-4 mb-3">
-      <p className="text-[10px] font-black uppercase tracking-[0.15em] text-outline mb-2 px-1">{title}</p>
+      <p className="text-xs font-black uppercase tracking-[0.15em] text-outline mb-2 px-1">{title}</p>
       <div className="glass-card rounded-2xl border border-white/5 overflow-hidden divide-y divide-white/5">
         {children}
       </div>

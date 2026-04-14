@@ -86,15 +86,15 @@ export default function CategoryPage() {
       <div className="flex items-center gap-3 px-4 pt-4 pb-1">
         <button
           onClick={() => router.back()}
-          className="p-1.5 -ml-1.5 rounded-lg hover:bg-surface-hover transition-colors"
+          className="p-1.5 -ml-1.5 rounded-lg hover:bg-surface-container-high transition-colors"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
         <div>
-          <h2 className="font-display font-bold text-xl">{categoryName}</h2>
-          <p className="text-text-secondary text-xs">{filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}</p>
+          <h2 className="font-headline font-bold text-xl">{categoryName}</h2>
+          <p className="text-on-surface-variant text-xs font-body">{filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''}</p>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ export default function CategoryPage() {
       <div className="px-4 pt-3 pb-2 space-y-3">
         {/* Date filter */}
         <div>
-          <label className="text-[10px] font-semibold text-text-muted uppercase tracking-wide mb-1.5 block">Date</label>
+          <label className="text-xs font-semibold text-outline uppercase tracking-wide mb-1.5 block">Date</label>
           <div className="flex gap-2">
             {dateFilterOptions.map((opt) => (
               <button
@@ -110,8 +110,8 @@ export default function CategoryPage() {
                 onClick={() => setDateFilter(opt.value)}
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                   dateFilter === opt.value
-                    ? 'bg-orange text-white shadow-[0_0_12px_rgba(255,107,53,0.25)]'
-                    : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                    ? 'bg-primary-container text-white shadow-[0_0_12px_rgba(255,107,53,0.25)]'
+                    : 'bg-surface-container border border-white/5 text-on-surface-variant hover:border-white/10'
                 }`}
               >
                 {opt.label}
@@ -121,7 +121,7 @@ export default function CategoryPage() {
         </div>
         {/* Sort */}
         <div>
-          <label className="text-[10px] font-semibold text-text-muted uppercase tracking-wide mb-1.5 block">Sort by</label>
+          <label className="text-xs font-semibold text-outline uppercase tracking-wide mb-1.5 block">Sort by</label>
           <div className="flex gap-2">
             {sortOptions.map((opt) => (
               <button
@@ -130,7 +130,7 @@ export default function CategoryPage() {
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                   sortBy === opt.value
                     ? 'bg-teal text-white shadow-[0_0_12px_rgba(20,184,166,0.25)]'
-                    : 'bg-surface border border-border text-text-secondary hover:border-border-light'
+                    : 'bg-surface-container border border-white/5 text-on-surface-variant hover:border-white/10'
                 }`}
               >
                 {opt.label}
@@ -144,13 +144,13 @@ export default function CategoryPage() {
       <div className="px-4 pt-2">
         {filteredEvents.length === 0 ? (
           <div className="flex flex-col items-center justify-center pt-16 text-center">
-            <div className="w-16 h-16 rounded-full bg-surface border border-border flex items-center justify-center mb-4">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
+            <div className="w-16 h-16 rounded-full glass-card rounded-2xl border border-white/5 flex items-center justify-center mb-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-outline">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
               </svg>
             </div>
-            <h3 className="font-display font-bold text-base mb-1">No events found</h3>
-            <p className="text-text-secondary text-sm max-w-[240px]">
+            <h3 className="font-headline font-bold text-base mb-1">No events found</h3>
+            <p className="text-on-surface-variant text-sm max-w-[240px] font-body">
               There are no {categoryName.toLowerCase()} events matching your filters. Try broadening your search.
             </p>
           </div>
@@ -164,7 +164,7 @@ export default function CategoryPage() {
               >
                 <div
                   className="h-[140px] p-4 flex flex-col justify-end relative"
-                  style={{ background: EVENT_GRADIENTS[event.gradient % EVENT_GRADIENTS.length] }}
+                  style={{ background: EVENT_GRADIENTS[(event.gradient ?? 0) % EVENT_GRADIENTS.length] }}
                 >
                   <Badge variant="default" className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm border-0 text-white">
                     {categoryName}
@@ -180,19 +180,19 @@ export default function CategoryPage() {
                 </div>
                 <div className="p-4">
                   <h4 className="font-semibold text-sm mb-1">{event.title}</h4>
-                  <div className="flex items-center gap-1.5 text-text-secondary text-xs mb-2">
+                  <div className="flex items-center gap-1.5 text-on-surface-variant text-xs mb-2">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     {formatDate(event.date)} at {event.time}
                   </div>
-                  <div className="flex items-center gap-1.5 text-text-secondary text-xs mb-3">
+                  <div className="flex items-center gap-1.5 text-on-surface-variant text-xs mb-3">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     {event.venue}
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-orange font-semibold text-sm">
+                    <span className="text-primary-container font-semibold text-sm">
                       {event.price === 0 ? 'Free' : `From ${formatCurrency(event.price)}`}
                     </span>
-                    <span className="text-text-muted text-xs">
+                    <span className="text-outline text-xs">
                       {event.attendees} attending
                     </span>
                   </div>

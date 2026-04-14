@@ -207,16 +207,16 @@ export default function SearchPage() {
                 >
                   <div
                     className="aspect-[4/3] relative w-full"
-                    style={{ background: EVENT_GRADIENTS[(event.gradient ?? i) % EVENT_GRADIENTS.length] }}
+                    style={{ background: EVENT_GRADIENTS[(event.gradient_index ?? i) % EVENT_GRADIENTS.length] }}
                   >
-                    <span className="absolute top-2 left-2 bg-secondary-container text-white px-2.5 py-0.5 rounded-full font-body text-[10px] font-black uppercase tracking-wide">
+                    <span className="absolute top-2 left-2 bg-secondary-container text-white px-2.5 py-0.5 rounded-full font-body text-xs font-black uppercase tracking-wide">
                       {event.category}
                     </span>
                   </div>
                   <div className="p-3">
                     <h4 className="font-headline font-semibold text-xs text-on-surface mb-1 line-clamp-1">{event.title}</h4>
-                    <p className="text-on-surface-variant text-[11px] font-body mb-0.5">{formatDate(event.date)}</p>
-                    <p className="text-on-surface-variant text-[11px] font-body line-clamp-1">{event.venue?.name || event.venue}</p>
+                    <p className="text-on-surface-variant text-xs font-body mb-0.5">{formatDate(event.date)}</p>
+                    <p className="text-on-surface-variant text-xs font-body line-clamp-1">{event.venue?.name || event.venue}</p>
                     {event.ticket_tiers?.[0]?.price != null && (
                       <p className="text-primary-container text-xs font-body font-bold mt-1.5">{formatCurrency(event.ticket_tiers[0].price)}</p>
                     )}
@@ -253,20 +253,20 @@ export default function SearchPage() {
                   >
                     <div
                       className="aspect-[4/3] relative w-full"
-                      style={{ background: EVENT_GRADIENTS[(event.gradient ?? i) % EVENT_GRADIENTS.length] }}
+                      style={{ background: EVENT_GRADIENTS[(event.gradient_index ?? i) % EVENT_GRADIENTS.length] }}
                     >
-                      <span className="absolute top-2 left-2 glass-panel text-white text-[10px] font-body font-black px-2.5 py-0.5 rounded-full border border-white/10">
+                      <span className="absolute top-2 left-2 glass-panel text-white text-xs font-body font-black px-2.5 py-0.5 rounded-full border border-white/10">
                         #{i + 1}
                       </span>
                       {event.category && (
-                        <span className="absolute bottom-2 left-2 bg-secondary-container text-white px-2.5 py-0.5 rounded-full font-body text-[10px] font-black uppercase tracking-wide">
+                        <span className="absolute bottom-2 left-2 bg-secondary-container text-white px-2.5 py-0.5 rounded-full font-body text-xs font-black uppercase tracking-wide">
                           {event.category}
                         </span>
                       )}
                     </div>
                     <div className="p-3">
                       <h4 className="font-headline font-semibold text-xs text-on-surface mb-1 line-clamp-1">{event.title}</h4>
-                      <p className="text-on-surface-variant text-[11px] font-body mb-0.5">{formatDate(event.date)}</p>
+                      <p className="text-on-surface-variant text-xs font-body mb-0.5">{formatDate(event.date)}</p>
                       <p className="text-primary-container text-xs font-body font-bold">{formatCurrency(event.price ?? 0)}</p>
                     </div>
                   </div>
@@ -292,9 +292,9 @@ export default function SearchPage() {
                     />
                     <div className="p-3">
                       <h4 className="font-headline font-semibold text-xs text-on-surface mb-0.5 line-clamp-1">{venue.name}</h4>
-                      <p className="text-on-surface-variant text-[11px] font-body mb-2">{venue.type}</p>
+                      <p className="text-on-surface-variant text-xs font-body mb-2">{venue.type}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-on-surface-variant text-[11px] font-body">
+                        <span className="text-on-surface-variant text-xs font-body">
                           {formatCompactNumber(venue.capacity ?? 0)} cap
                         </span>
                         <span className="flex items-center gap-0.5 text-warning text-xs font-body">
@@ -331,8 +331,8 @@ export default function SearchPage() {
                       </span>
                     </div>
                     <h4 className="font-headline font-semibold text-xs text-on-surface text-center line-clamp-1 w-full">{artist.name}</h4>
-                    <p className="text-on-surface-variant text-[11px] font-body text-center -mt-1">{artist.genre}</p>
-                    <p className="text-on-surface-variant text-[11px] font-body text-center -mt-1">
+                    <p className="text-on-surface-variant text-xs font-body text-center -mt-1">{artist.genre}</p>
+                    <p className="text-on-surface-variant text-xs font-body text-center -mt-1">
                       {formatCompactNumber(artist.followers ?? 0)} followers
                     </p>
                   </div>

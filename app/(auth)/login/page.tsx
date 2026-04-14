@@ -49,15 +49,15 @@ function LoginForm() {
     <div className="min-h-dvh flex flex-col px-6 pt-16 pb-8">
       <button
         onClick={() => router.back()}
-        className="self-start p-2 -ml-2 mb-6 rounded-lg hover:bg-surface-hover transition-colors"
+        className="self-start p-2 -ml-2 mb-6 rounded-lg hover:bg-surface-container-high transition-colors"
       >
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="15 18 9 12 15 6" />
         </svg>
       </button>
 
-      <h1 className="font-display font-bold text-3xl mb-2">Welcome back</h1>
-      <p className="text-text-secondary text-sm mb-8">Sign in to your PullUpp account</p>
+      <h1 className="font-headline font-bold text-3xl mb-2">Welcome back</h1>
+      <p className="font-body text-on-surface-variant text-sm mb-8">Sign in to your PullUpp account</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input
@@ -85,9 +85,9 @@ function LoginForm() {
       </form>
 
       <div className="flex items-center gap-3 my-6">
-        <div className="flex-1 h-px bg-border" />
-        <span className="text-xs text-text-muted">or</span>
-        <div className="flex-1 h-px bg-border" />
+        <div className="flex-1 h-px bg-white/5" />
+        <span className="text-xs text-outline">or</span>
+        <div className="flex-1 h-px bg-white/5" />
       </div>
 
       <Button variant="secondary" size="lg" fullWidth onClick={handleGoogleSignIn}>
@@ -100,9 +100,9 @@ function LoginForm() {
         Continue with Google
       </Button>
 
-      <p className="text-center text-sm text-text-secondary mt-8">
+      <p className="text-center text-sm text-on-surface-variant mt-8">
         Don&apos;t have an account?{' '}
-        <Link href="/register" className="text-orange font-semibold hover:text-orange-light">
+        <Link href="/register" className="text-primary-container font-semibold hover:text-orange-light">
           Sign Up
         </Link>
       </p>

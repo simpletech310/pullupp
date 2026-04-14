@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { EVENT_GRADIENTS } from '@/lib/utils/constants';
 import { formatDateTime, getEventCountdown } from '@/lib/utils/format';
@@ -16,78 +16,6 @@ interface Ticket {
   confirmationCode: string;
   gradientIndex: number;
 }
-
-const UPCOMING_TICKETS: Ticket[] = [
-  {
-    id: 't1',
-    eventTitle: 'Midnight Groove',
-    date: '2026-05-15',
-    time: '9:00 PM',
-    venueName: 'The Velvet Room',
-    venueAddress: '245 Peachtree St NE, Atlanta, GA',
-    tierName: 'VIP',
-    confirmationCode: 'PU-MG-7291',
-    gradientIndex: 0,
-  },
-  {
-    id: 't2',
-    eventTitle: 'Laugh Factory Live',
-    date: '2026-05-18',
-    time: '8:00 PM',
-    venueName: 'Skyline Rooftop',
-    venueAddress: '100 Marietta St NW, Atlanta, GA',
-    tierName: 'General',
-    confirmationCode: 'PU-LF-4058',
-    gradientIndex: 1,
-  },
-  {
-    id: 't3',
-    eventTitle: 'Canvas & Cocktails',
-    date: '2026-05-20',
-    time: '7:00 PM',
-    venueName: 'Creative Co-Op',
-    venueAddress: '550 Edgewood Ave SE, Atlanta, GA',
-    tierName: 'Early Bird',
-    confirmationCode: 'PU-CC-1634',
-    gradientIndex: 2,
-  },
-  {
-    id: 't4',
-    eventTitle: 'Summer Vibes Festival',
-    date: '2026-06-01',
-    time: '3:00 PM',
-    venueName: 'The Grand Hall',
-    venueAddress: '800 Whitehall St SW, Atlanta, GA',
-    tierName: 'VIP',
-    confirmationCode: 'PU-SV-8823',
-    gradientIndex: 5,
-  },
-];
-
-const PAST_TICKETS: Ticket[] = [
-  {
-    id: 'p1',
-    eventTitle: 'Jazz Under the Stars',
-    date: '2026-03-20',
-    time: '8:00 PM',
-    venueName: 'Skyline Rooftop',
-    venueAddress: '100 Marietta St NW, Atlanta, GA',
-    tierName: 'General',
-    confirmationCode: 'PU-JS-3190',
-    gradientIndex: 6,
-  },
-  {
-    id: 'p2',
-    eventTitle: 'Hip Hop Showcase',
-    date: '2026-02-14',
-    time: '9:00 PM',
-    venueName: 'Warehouse 22',
-    venueAddress: '22 MLK Jr Dr SW, Atlanta, GA',
-    tierName: 'VIP',
-    confirmationCode: 'PU-HH-5547',
-    gradientIndex: 7,
-  },
-];
 
 function DigitalPassCard({ ticket, isPast }: { ticket: Ticket; isPast: boolean }) {
   const [expanded, setExpanded] = useState(false);
@@ -112,7 +40,7 @@ function DigitalPassCard({ ticket, isPast }: { ticket: Ticket; isPast: boolean }
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-secondary-container">
             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor" />
           </svg>
-          <span className="text-[10px] font-bold text-on-surface tracking-wide">PullUpp Verified</span>
+          <span className="text-xs font-bold text-on-surface tracking-wide">PullUpp Verified</span>
         </div>
 
         {/* Countdown overlay */}
@@ -134,7 +62,7 @@ function DigitalPassCard({ ticket, isPast }: { ticket: Ticket; isPast: boolean }
 
       {/* Event info */}
       <div className="px-8 pt-6 pb-2 text-center">
-        <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-outline mb-1">
+        <p className="text-xs uppercase font-bold tracking-[0.2em] text-outline mb-1">
           {ticket.tierName} · {ticket.venueName}
         </p>
         <h3 className="text-3xl font-headline font-extrabold text-primary-container leading-none mb-3">
@@ -174,22 +102,22 @@ function DigitalPassCard({ ticket, isPast }: { ticket: Ticket; isPast: boolean }
             level="M"
           />
         </div>
-        <p className="text-[10px] font-bold text-outline tracking-widest uppercase mt-4">Scan at Entrance</p>
+        <p className="text-xs font-bold text-outline tracking-widest uppercase mt-4">Scan at Entrance</p>
         <p className="font-mono text-sm text-on-surface tracking-wider mt-1">{ticket.confirmationCode}</p>
       </div>
 
       {/* Ticket details grid */}
       <div className="bg-surface-container-high/50 p-8 grid grid-cols-3 gap-4 border-t border-white/5">
         <div className="text-center">
-          <p className="text-[9px] uppercase font-bold text-outline tracking-wider mb-1">Tier</p>
+          <p className="text-xs uppercase font-bold text-outline tracking-wider mb-1">Tier</p>
           <p className="text-lg font-headline font-bold text-on-surface">{ticket.tierName}</p>
         </div>
         <div className="text-center">
-          <p className="text-[9px] uppercase font-bold text-outline tracking-wider mb-1">Venue</p>
+          <p className="text-xs uppercase font-bold text-outline tracking-wider mb-1">Venue</p>
           <p className="text-sm font-headline font-bold text-on-surface leading-tight">{ticket.venueName}</p>
         </div>
         <div className="text-center">
-          <p className="text-[9px] uppercase font-bold text-outline tracking-wider mb-1">Time</p>
+          <p className="text-xs uppercase font-bold text-outline tracking-wider mb-1">Time</p>
           <p className="text-lg font-headline font-bold text-on-surface">{ticket.time}</p>
         </div>
       </div>
@@ -214,11 +142,68 @@ function DigitalPassCard({ ticket, isPast }: { ticket: Ticket; isPast: boolean }
   );
 }
 
+function mapTicketToCard(t: any): Ticket {
+  const event = t.event || {};
+  const venue = event.venue || {};
+  return {
+    id: t.id,
+    eventTitle: event.title || 'Untitled Event',
+    date: event.date || '',
+    time: event.start_time || '',
+    venueName: event.manual_venue_name || venue.name || 'TBA',
+    venueAddress: [venue.address, venue.city, venue.state].filter(Boolean).join(', ') || '',
+    tierName: t.tier?.name || 'General',
+    confirmationCode: t.qr_code || t.id,
+    gradientIndex: event.gradient_index ?? 0,
+  };
+}
+
 export default function TicketsPage() {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [allTickets, setAllTickets] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const tickets = activeTab === 'upcoming' ? UPCOMING_TICKETS : PAST_TICKETS;
+  useEffect(() => {
+    fetch('/api/user/tickets')
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setAllTickets(Array.isArray(data) ? data : []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const upcomingTickets = useMemo(
+    () => allTickets.filter(t => (t.event?.date || '') >= today).map(mapTicketToCard),
+    [allTickets, today]
+  );
+
+  const pastTickets = useMemo(
+    () => allTickets.filter(t => (t.event?.date || '') < today).map(mapTicketToCard),
+    [allTickets, today]
+  );
+
+  const tickets = activeTab === 'upcoming' ? upcomingTickets : pastTickets;
   const isPast = activeTab === 'past';
+
+  if (loading) {
+    return (
+      <div className="pb-32">
+        <div className="px-4 pt-5 pb-4">
+          <div className="h-10 w-48 rounded-lg bg-surface-container animate-shimmer" />
+          <div className="h-4 w-32 rounded-lg bg-surface-container animate-shimmer mt-2" />
+        </div>
+        <div className="px-4 mb-6">
+          <div className="h-12 rounded-xl bg-surface-container animate-shimmer" />
+        </div>
+        <div className="px-4 flex flex-col gap-6">
+          {[1, 2].map(i => (
+            <div key={i} className="rounded-[32px] bg-surface-container animate-shimmer h-96" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pb-32">
@@ -229,10 +214,10 @@ export default function TicketsPage() {
           <p className="text-on-surface-variant text-sm mt-0.5 font-body">Your event wallet</p>
         </div>
         {/* Live Now badge */}
-        {UPCOMING_TICKETS.length > 0 && (
+        {upcomingTickets.length > 0 && (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-container/15 border border-primary-container/30">
             <div className="w-2 h-2 rounded-full bg-primary-container animate-pulse-dot" />
-            <span className="text-[10px] font-bold text-primary-container uppercase tracking-wide">Live Now</span>
+            <span className="text-xs font-bold text-primary-container uppercase tracking-wide">Live Now</span>
           </div>
         )}
       </div>
@@ -250,7 +235,7 @@ export default function TicketsPage() {
                   : 'text-on-surface-variant'
               }`}
             >
-              {tab === 'upcoming' ? `Upcoming (${UPCOMING_TICKETS.length})` : `Past (${PAST_TICKETS.length})`}
+              {tab === 'upcoming' ? `Upcoming (${upcomingTickets.length})` : `Past (${pastTickets.length})`}
             </button>
           ))}
         </div>

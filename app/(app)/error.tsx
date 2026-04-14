@@ -27,25 +27,25 @@ export default function AppError({
         </svg>
       </div>
 
-      <h2 className="font-display text-xl font-bold text-text-primary mb-2">
+      <h2 className="font-headline text-xl font-bold text-on-surface mb-2">
         Something went wrong
       </h2>
 
-      <p className="text-text-secondary text-sm mb-8 max-w-xs">
+      <p className="text-on-surface-variant text-sm mb-8 max-w-xs">
         {error.message || 'An unexpected error occurred. Please try again.'}
       </p>
 
       <div className="flex flex-col gap-3 w-full max-w-xs">
         <button
           onClick={reset}
-          className="h-12 rounded-lg bg-orange text-white font-semibold text-sm hover:bg-orange-dark transition-colors"
+          className="h-12 rounded-lg bg-primary-container text-white font-semibold text-sm hover:bg-primary-container-dark transition-colors"
         >
           Try Again
         </button>
 
         <Link
           href="/home"
-          className="h-12 rounded-lg border border-border flex items-center justify-center text-text-secondary text-sm hover:bg-surface-hover transition-colors"
+          className="h-12 rounded-lg border border-white/5 flex items-center justify-center text-on-surface-variant text-sm hover:bg-surface-container-high transition-colors"
         >
           Go Home
         </Link>

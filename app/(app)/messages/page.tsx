@@ -89,12 +89,12 @@ const MOCK_CONVERSATIONS: Conversation[] = [
 function ContextBadge({ context }: { context: ContextType }) {
   const config = CONTEXT_CONFIG[context];
   const colorClasses: Record<string, string> = {
-    teal: 'bg-teal/15 text-teal',
-    orange: 'bg-orange/15 text-orange',
-    default: 'bg-surface-alt text-text-muted',
+    teal: 'bg-secondary-container/15 text-secondary-container',
+    orange: 'bg-primary-container/15 text-primary-container',
+    default: 'bg-surface-container-high text-outline',
   };
   return (
-    <span className={`text-[9px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full ${colorClasses[config.variant]}`}>
+    <span className={`text-xs font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full ${colorClasses[config.variant]}`}>
       {config.label}
     </span>
   );
@@ -106,13 +106,13 @@ export default function MessagesPage() {
   if (MOCK_CONVERSATIONS.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center px-6 pt-20 text-center">
-        <div className="w-16 h-16 rounded-full bg-surface border border-border flex items-center justify-center mb-4">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted">
+        <div className="w-16 h-16 rounded-full glass-card rounded-2xl border border-white/5 flex items-center justify-center mb-4">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-outline">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
         </div>
-        <h3 className="font-display font-bold text-base mb-1">No messages yet</h3>
-        <p className="text-text-secondary text-sm max-w-[240px]">
+        <h3 className="font-headline font-bold text-base mb-1">No messages yet</h3>
+        <p className="text-on-surface-variant text-sm max-w-[240px] font-body">
           Start a conversation by booking a venue or artist, or message someone directly.
         </p>
       </div>
@@ -122,7 +122,7 @@ export default function MessagesPage() {
   return (
     <div className="pb-4">
       <div className="px-4 pt-4 pb-3">
-        <h2 className="font-display font-bold text-xl">Messages</h2>
+        <h2 className="font-headline font-bold text-xl">Messages</h2>
       </div>
 
       <div className="flex flex-col">
@@ -132,7 +132,7 @@ export default function MessagesPage() {
             <button
               key={conv.id}
               onClick={() => router.push(`/messages/${conv.id}`)}
-              className="flex items-start gap-3 px-4 py-3.5 hover:bg-surface-hover active:bg-surface transition-colors text-left w-full border-b border-border/40 last:border-b-0"
+              className="flex items-start gap-3 px-4 py-3.5 hover:bg-surface-container-high active:bg-surface-container transition-colors text-left w-full border-b border-white/5 last:border-b-0"
             >
               {/* Avatar */}
               <div className="relative shrink-0">
@@ -143,27 +143,27 @@ export default function MessagesPage() {
                   {getInitials(conv.contactName)}
                 </div>
                 {conv.online && (
-                  <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-success border-2 border-bg" />
+                  <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-success border-2 border-background" />
                 )}
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2 mb-0.5">
-                  <span className={`font-semibold text-sm truncate ${conv.unread > 0 ? 'text-text-primary' : 'text-text-secondary'}`}>
+                  <span className={`font-semibold text-sm truncate ${conv.unread > 0 ? 'text-on-surface' : 'text-on-surface-variant'}`}>
                     {conv.contactName}
                   </span>
-                  <span className="text-[11px] text-text-muted shrink-0">
+                  <span className="text-xs text-outline shrink-0">
                     {formatTimeAgo(conv.timestamp)}
                   </span>
                 </div>
-                <p className={`text-xs truncate mb-1.5 ${conv.unread > 0 ? 'text-text-primary font-medium' : 'text-text-muted'}`}>
+                <p className={`text-xs truncate mb-1.5 font-body ${conv.unread > 0 ? 'text-on-surface font-medium' : 'text-outline'}`}>
                   {conv.lastMessage}
                 </p>
                 <div className="flex items-center justify-between">
                   <ContextBadge context={conv.context} />
                   {conv.unread > 0 && (
-                    <span className="min-w-[20px] h-5 rounded-full bg-orange text-white text-[10px] font-bold flex items-center justify-center px-1.5">
+                    <span className="min-w-[20px] h-5 rounded-full bg-primary-container text-white text-xs font-bold flex items-center justify-center px-1.5">
                       {conv.unread}
                     </span>
                   )}

@@ -153,13 +153,13 @@ export default function HomePage() {
           {featuredEvent && (
             <section className="relative mb-12 px-4 group">
               <div
-                className="kinetic-gradient w-full aspect-[4/5] rounded-[32px] p-8 flex flex-col justify-end relative overflow-hidden shadow-[0_0_40px_rgba(255,107,53,0.2)] cursor-pointer"
+                className="kinetic-gradient w-full aspect-[4/5] rounded-[32px] p-5 sm:p-8 flex flex-col justify-end relative overflow-hidden shadow-[0_0_40px_rgba(255,107,53,0.2)] cursor-pointer"
                 onClick={() => router.push(`/events/${featuredEvent.id}`)}
               >
                 {/* image overlay */}
-                {featuredEvent.image_url && (
+                {featuredEvent.cover_images?.[0] && (
                   <img
-                    src={featuredEvent.image_url}
+                    src={featuredEvent.cover_images?.[0]}
                     alt={featuredEvent.title}
                     className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-60"
                   />
@@ -170,12 +170,12 @@ export default function HomePage() {
 
                 {/* Featured badge */}
                 <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full z-10">
-                  <span className="font-body text-[10px] font-bold uppercase tracking-widest text-white">Featured Event</span>
+                  <span className="font-body text-xs font-bold uppercase tracking-widest text-white">Featured Event</span>
                 </div>
 
                 {/* content */}
                 <div className="relative z-10">
-                  <h2 className="font-headline text-5xl font-extrabold leading-[0.9] tracking-tighter text-white mb-4 uppercase italic">
+                  <h2 className="font-headline text-3xl sm:text-5xl font-extrabold leading-[0.9] tracking-tighter text-white mb-4 uppercase italic break-words">
                     {featuredEvent.title}
                   </h2>
                   <div className="flex flex-wrap gap-3 items-center mt-6">
@@ -205,7 +205,7 @@ export default function HomePage() {
             <section className="mb-10">
               {/* section header */}
               <div className="px-4 mb-5">
-                <p className="font-body text-[10px] font-black uppercase tracking-[0.2em] text-primary-container mb-1">
+                <p className="font-body text-xs font-black uppercase tracking-[0.2em] text-primary-container mb-1">
                   Don&apos;t Miss Out
                 </p>
                 <h3 className="font-headline text-2xl font-extrabold text-on-surface">
@@ -219,23 +219,23 @@ export default function HomePage() {
                   <div
                     key={event.id}
                     onClick={() => router.push(`/events/${event.id}`)}
-                    className="flex-none w-64 glass-card rounded-[24px] overflow-hidden shadow-lg border border-white/5 cursor-pointer"
+                    className="flex-none w-[72vw] max-w-[280px] glass-card rounded-[24px] overflow-hidden shadow-lg border border-white/5 cursor-pointer"
                   >
                     {/* image area */}
                     <div className="relative h-40 bg-surface-container-high">
-                      {event.image_url ? (
-                        <img src={event.image_url} alt={event.title} className="w-full h-full object-cover" />
+                      {event.cover_images?.[0] ? (
+                        <img src={event.cover_images?.[0]} alt={event.title} className="w-full h-full object-cover" />
                       ) : (
                         <div
                           className="w-full h-full"
-                          style={{ background: EVENT_GRADIENTS[(event.gradient ?? i + 1) % EVENT_GRADIENTS.length] }}
+                          style={{ background: EVENT_GRADIENTS[(event.gradient_index ?? i + 1) % EVENT_GRADIENTS.length] }}
                         />
                       )}
                       {/* gradient scrim */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       {/* category badge */}
                       {event.category && (
-                        <div className="absolute top-3 left-3 bg-secondary-container text-white px-3 py-1 rounded-full font-body text-[9px] font-black uppercase tracking-wide">
+                        <div className="absolute top-3 left-3 bg-secondary-container text-white px-3 py-1 rounded-full font-body text-xs font-black uppercase tracking-wide">
                           {event.category}
                         </div>
                       )}
@@ -280,7 +280,7 @@ export default function HomePage() {
           {genres.length > 0 && (
             <section className="px-4 mb-10">
               <div className="mb-5">
-                <p className="font-body text-[10px] font-black uppercase tracking-[0.2em] text-secondary-container mb-1">
+                <p className="font-body text-xs font-black uppercase tracking-[0.2em] text-secondary-container mb-1">
                   Find Your Vibe
                 </p>
                 <h3 className="font-headline text-2xl font-extrabold text-on-surface">
@@ -299,7 +299,7 @@ export default function HomePage() {
                       className="h-32 rounded-3xl bg-surface-container-high flex flex-col justify-end p-4 relative overflow-hidden group text-left"
                     >
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                      {sample?.image_url ? (
+                      {sample?.cover_images?.[0] ? (
                         <img
                           src={sample.image_url}
                           alt={genre}

@@ -80,8 +80,8 @@ export default function GroupsPage() {
     <div className="pb-4">
       {/* Header */}
       <div className="px-4 pt-4 pb-3">
-        <h2 className="font-display font-bold text-xl">Communities</h2>
-        <p className="text-text-secondary text-sm">Find your people</p>
+        <h2 className="font-headline font-bold text-xl">Communities</h2>
+        <p className="text-on-surface-variant text-sm font-body">Find your people</p>
       </div>
 
       {/* Search */}
@@ -102,8 +102,8 @@ export default function GroupsPage() {
       <div className="px-4 grid grid-cols-1 gap-3">
         {filtered.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-text-secondary text-sm">No communities found</p>
-            <p className="text-text-muted text-xs mt-1">Try a different search</p>
+            <p className="text-on-surface-variant text-sm font-body">No communities found</p>
+            <p className="text-outline text-xs mt-1 font-body">Try a different search</p>
           </div>
         ) : (
           filtered.map(group => {
@@ -113,7 +113,7 @@ export default function GroupsPage() {
             return (
               <div
                 key={group.id}
-                className="bg-surface border border-border rounded-2xl overflow-hidden hover:border-border-light transition-colors"
+                className="glass-card rounded-2xl border border-white/5 overflow-hidden hover:border-white/10 transition-colors"
               >
                 {/* Gradient Strip */}
                 <div
@@ -125,8 +125,8 @@ export default function GroupsPage() {
                 <div className="p-4 -mt-3">
                   <div className="flex items-start justify-between gap-3 mb-2">
                     <div className="min-w-0">
-                      <h3 className="font-display font-bold text-sm">{group.name}</h3>
-                      <p className="text-text-secondary text-xs mt-1 line-clamp-2 leading-relaxed">
+                      <h3 className="font-headline font-bold text-sm">{group.name}</h3>
+                      <p className="text-on-surface-variant text-xs mt-1 line-clamp-2 leading-relaxed font-body">
                         {group.description}
                       </p>
                     </div>
@@ -135,7 +135,7 @@ export default function GroupsPage() {
                   <div className="flex items-center justify-between mt-3">
                     <div className="flex items-center gap-2">
                       <Badge variant={badgeVariant}>{group.category}</Badge>
-                      <span className="text-text-muted text-xs">
+                      <span className="text-outline text-xs">
                         {formatCompactNumber(group.memberCount)} members
                       </span>
                     </div>
