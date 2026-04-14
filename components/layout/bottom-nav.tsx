@@ -64,7 +64,7 @@ export function BottomNav() {
   const items = getNavItems(role);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-bg-elevated/95 backdrop-blur-xl border-t border-border/50">
+    <nav role="navigation" aria-label="Main navigation" className="fixed bottom-0 left-0 right-0 z-40 bg-bg-elevated/95 backdrop-blur-xl border-t border-border/50">
       <div className="max-w-[480px] mx-auto flex items-center justify-around h-16 pb-[env(safe-area-inset-bottom)]">
         {items.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
@@ -72,6 +72,8 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              aria-label={item.label}
+              aria-current={isActive ? 'page' : undefined}
               className={`
                 flex flex-col items-center gap-0.5 py-1.5 px-3 min-w-[56px]
                 transition-colors duration-200

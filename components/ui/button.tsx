@@ -31,6 +31,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         disabled={disabled || loading}
+        aria-disabled={disabled || loading || undefined}
+        aria-busy={loading || undefined}
         className={`
           inline-flex items-center justify-center font-semibold font-body
           transition-all duration-200 cursor-pointer
